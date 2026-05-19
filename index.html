@@ -438,32 +438,53 @@
         bottom: 18px;
         z-index: 2;
         width: min(270px, calc(100% - 44px));
-        border: 1px solid rgba(66, 215, 202, 0.28);
-        border-radius: 8px;
-        padding: 16px;
-        background: rgba(6, 12, 17, 0.9);
+        border: 2px solid var(--teal);
+        border-radius: 12px;
+        padding: 18px;
+        background: linear-gradient(135deg, rgba(9, 13, 18, 0.98), rgba(15, 25, 35, 0.98));
+        box-shadow: 0 12px 40px rgba(66, 215, 202, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        overflow: hidden;
+      }
+
+      .signal-card::before {
+        content: "";
+        position: absolute;
+        inset: -20px;
+        background: inherit;
+        filter: blur(16px);
+        z-index: -1;
+        opacity: 0.7;
       }
 
       .signal-card span {
         display: block;
         color: var(--teal);
-        font-size: 0.72rem;
+        font-size: 0.75rem;
         font-weight: 900;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
+        margin-bottom: 6px;
+        text-shadow: 0 2px 8px rgba(66, 215, 202, 0.3);
       }
 
       .signal-card strong {
         display: block;
-        margin: 8px 0;
-        font-size: 1.7rem;
+        margin: 10px 0;
+        font-size: 1.85rem;
+        color: #ffffff;
+        font-weight: 900;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+        line-height: 1.1;
       }
 
       .signal-card p {
         margin: 0;
-        color: var(--muted);
-        font-size: 0.9rem;
-        line-height: 1.5;
+        color: #e8eef4;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        font-weight: 500;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
       }
 
       .market-footer {
@@ -1086,6 +1107,13 @@
         font-size: 0.85rem;
         font-weight: 700;
         width: fit-content;
+      }
+
+      .signal-empty {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        padding: 8px 0;
       }
 
       .signal-row {
@@ -2646,7 +2674,7 @@
                 </div>
               </div>
               <div id="today-signal-card" class="signal-card">
-                <div class="signal-empty">No live signal has been posted yet. Check back soon for the latest trade setup.</div>
+                <div class="signal-empty">No signal posted today. Check back for the latest market setup.</div>
               </div>
             </section>
 
@@ -3646,7 +3674,7 @@
         const target = document.getElementById('today-signal-card');
         if (!target) return;
         if (!signal || !signal.pair) {
-          target.innerHTML = '<div class="signal-empty">No live signal has been posted yet. Check back soon for the latest trade setup.</div>';
+          target.innerHTML = '<div class="signal-empty">No signal posted today. Check back for the latest market setup.</div>';
           return;
         }
         target.innerHTML = `
