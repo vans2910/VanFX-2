@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>VanFX | Trading Confidence</title>
+    <title>VAN PIPS | Trading Confidence</title>
     <style>
       :root {
         color-scheme: dark;
@@ -29,6 +29,7 @@
 
       html {
         scroll-behavior: smooth;
+        overflow-x: hidden;
       }
 
       html,
@@ -39,6 +40,7 @@
       body {
         margin: 0;
         overflow: hidden;
+        overflow-x: hidden;
         background: linear-gradient(145deg, var(--bg) 0%, #15130f 42%, var(--bg-2) 100%);
         color: var(--ink);
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
@@ -62,10 +64,10 @@
       }
 
       .opening-screen {
-        min-height: 94vh;
+        min-height: 100svh;
         position: relative;
-        display: grid;
-        grid-template-rows: auto 1fr auto;
+        display: flex;
+        flex-direction: column;
         gap: clamp(22px, 4vh, 46px);
         padding: clamp(20px, 4vw, 48px);
         overflow: hidden;
@@ -100,13 +102,15 @@
       .step {
         position: fixed;
         inset: 0;
-        display: grid;
-        grid-auto-rows: min-content 1fr min-content;
+        display: flex;
+        flex-direction: column;
         gap: clamp(12px, 2vh, 28px);
         padding: clamp(20px, 4vw, 48px);
         background: transparent;
         z-index: 10;
         overflow: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
       }
 
       .step.hidden {
@@ -145,6 +149,8 @@
         align-items: center;
         justify-content: space-between;
         gap: 20px;
+        flex-wrap: wrap;
+        flex: 0 0 auto;
       }
 
       .brand-lockup {
@@ -179,6 +185,8 @@
       .topbar-actions {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
         gap: 10px;
       }
 
@@ -188,6 +196,7 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
+        max-width: 100%;
         border: 1px solid transparent;
         border-radius: 8px;
         padding: 0 18px;
@@ -228,13 +237,16 @@
       }
 
       .hero-content {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(360px, 0.82fr);
+        display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: clamp(32px, 6vw, 76px);
+        flex: 1 1 auto;
       }
 
       .hero-copy {
+        flex: 1 1 0;
+        min-width: 0;
         max-width: 680px;
       }
 
@@ -325,6 +337,8 @@
 
       .market-visual {
         position: relative;
+        flex: 0 1 500px;
+        width: min(500px, 100%);
         min-height: 530px;
         border: 1px solid rgba(255, 255, 255, 0.14);
         border-radius: 8px;
@@ -526,6 +540,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 18px;
+        flex: 0 0 auto;
         padding-top: 4px;
         color: var(--muted);
         font-size: 0.9rem;
@@ -2128,7 +2143,6 @@
       }
 
       @media (max-width: 1040px) {
-        .hero-content,
         .registration-page,
         .subscription-header,
         .plans-grid,
@@ -2137,61 +2151,228 @@
           grid-template-columns: 1fr;
         }
 
+        .hero-content {
+          flex-direction: column;
+          align-items: stretch;
+          justify-content: flex-start;
+        }
+
+        .hero-copy,
         .market-visual {
+          width: 100%;
+          max-width: none;
+        }
+
+        .market-visual {
+          flex-basis: auto;
           min-height: 470px;
         }
       }
 
       @media (max-width: 700px) {
+        body {
+          overflow: auto;
+        }
+
+        .step {
+          padding: 16px;
+          gap: 18px;
+        }
+
         .opening-screen {
-          min-height: 100vh;
-          padding: 18px;
+          min-height: 100svh;
+          padding: 16px;
+          gap: 18px;
         }
 
         .topbar {
-          align-items: flex-start;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .logo-mark {
+          width: 42px;
+          height: 42px;
+        }
+
+        .logo-mark svg {
+          width: 27px;
+          height: 27px;
+        }
+
+        .brand-name {
+          font-size: 0.95rem;
+          letter-spacing: 0.05em;
+        }
+
+        .topbar-actions {
+          margin-left: auto;
+          gap: 8px;
         }
 
         .topbar-actions .button.ghost {
           display: none;
         }
 
+        .button {
+          min-height: 44px;
+          padding-inline: 14px;
+          font-size: 0.9rem;
+          white-space: nowrap;
+        }
+
+        .hero-content {
+          gap: 24px;
+        }
+
+        .hero-copy {
+          max-width: none;
+        }
+
+        .eyebrow {
+          margin-bottom: 12px;
+          font-size: 0.68rem;
+          letter-spacing: 0.11em;
+        }
+
+        .eyebrow::before {
+          width: 24px;
+        }
+
         .hero-copy h1 {
-          font-size: clamp(4rem, 22vw, 7rem);
+          margin-bottom: 16px;
+          font-size: clamp(3.25rem, 17vw, 5.7rem);
+          line-height: 0.88;
+          overflow-wrap: anywhere;
+        }
+
+        .hero-copy .lead {
+          margin-bottom: 22px;
+          font-size: 1rem;
+          line-height: 1.58;
+        }
+
+        .hero-actions {
+          display: grid;
+          grid-template-columns: 1fr;
+          align-items: stretch;
+        }
+
+        .hero-actions .button {
+          width: 100%;
         }
 
         .hero-proof,
-        .market-footer,
         .insight-grid {
           grid-template-columns: 1fr;
         }
 
-        .market-stat {
-          border-right: 0;
-          border-bottom: 1px solid var(--line-soft);
+        .hero-proof {
+          margin-top: 24px;
         }
 
-        .market-stat:last-child {
+        .proof-item {
+          min-height: auto;
+          padding: 14px;
+        }
+
+        .market-footer {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .market-stat {
+          min-height: auto;
+          padding: 12px 10px;
           border-bottom: 0;
+          border-right: 0;
+        }
+
+        .market-stat:not(:last-child) {
+          border-right: 1px solid var(--line-soft);
+        }
+
+        .market-stat span {
+          font-size: 0.62rem;
+          letter-spacing: 0.08em;
+        }
+
+        .market-stat strong {
+          font-size: 0.82rem;
+          line-height: 1.25;
         }
 
         .market-visual {
-          min-height: 430px;
+          min-height: 0;
+          box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+        }
+
+        .terminal-header {
+          align-items: flex-start;
+          padding: 14px;
+        }
+
+        .terminal-title span {
+          font-size: 0.66rem;
+          letter-spacing: 0.08em;
+        }
+
+        .terminal-title strong {
+          font-size: 1rem;
+        }
+
+        .status-pill {
+          padding: 6px 8px;
+          font-size: 0.68rem;
+        }
+
+        .chart-area {
+          min-height: 240px;
+          padding: 18px 14px;
+        }
+
+        .trend-line {
+          inset: 42px 12px 68px;
         }
 
         .candle-row {
-          gap: 8px;
+          inset: 44px 14px 76px;
+          gap: 6px;
+        }
+
+        .candle {
+          width: min(100%, 13px);
+          justify-self: center;
         }
 
         .signal-card {
-          left: 18px;
-          right: 18px;
+          left: 14px;
+          right: 14px;
+          bottom: 14px;
           width: auto;
+          padding: 14px;
+          border-width: 1px;
+        }
+
+        .signal-card span {
+          font-size: 0.64rem;
+          letter-spacing: 0.12em;
+        }
+
+        .signal-card strong {
+          margin: 7px 0;
+          font-size: 1.22rem;
+        }
+
+        .signal-card p {
+          font-size: 0.82rem;
+          line-height: 1.45;
         }
 
         .scroll-hint {
           align-items: flex-start;
           flex-direction: column;
+          gap: 8px;
+          padding-bottom: 4px;
         }
 
         .registration-page {
@@ -2215,6 +2396,34 @@
         }
       }
 
+      @media (max-width: 380px) {
+        .topbar {
+          align-items: flex-start;
+        }
+
+        .topbar-actions {
+          width: 100%;
+          margin-left: 0;
+        }
+
+        .topbar-actions .button.secondary {
+          width: 100%;
+        }
+
+        .hero-copy h1 {
+          font-size: clamp(3rem, 16vw, 4.8rem);
+        }
+
+        .market-footer {
+          grid-template-columns: 1fr;
+        }
+
+        .market-stat:not(:last-child) {
+          border-right: 0;
+          border-bottom: 1px solid var(--line-soft);
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -2227,17 +2436,17 @@
     </style>
   </head>
   <body>
-    <main class="page-shell" aria-label="VanFX opening and registration page">
+    <main class="page-shell" aria-label="VAN PIPS opening and registration page">
       <section class="opening-screen step" id="opening" aria-labelledby="vanfx-title">
         <div class="video-wrapper" aria-hidden="true">
           <video id="branding-video" autoplay muted playsinline loop preload="auto" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:-2;">
             <source src="vanfx-intro.mp4" type="video/mp4" />
             <source src="vanfx-intro.webm" type="video/webm" />
-            <!-- Replace these with your high-quality VanFX opening videos -->
+            <!-- Replace these with your high-quality VAN PIPS opening videos -->
           </video>
         </div>
         <header class="topbar">
-          <a class="brand-lockup" href="#top" aria-label="VanFX home">
+          <a class="brand-lockup" href="#top" aria-label="VAN PIPS home">
             <span class="logo-mark" aria-hidden="true">
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -2251,7 +2460,7 @@
                 <path d="M46 36L93 82" stroke="#f0c56a" stroke-width="10" stroke-linecap="round" />
               </svg>
             </span>
-            <span class="brand-name">VanFX</span>
+            <span class="brand-name">VAN PIPS</span>
           </a>
           <nav class="topbar-actions" aria-label="Opening navigation">
             <a class="button ghost" href="#start">Login</a>
@@ -2263,16 +2472,16 @@
         <div class="hero-content">
           <div class="hero-copy">
             <p class="eyebrow">Consistency leads to profit</p>
-            <h1 id="vanfx-title">Van<span>FX</span></h1>
+            <h1 id="vanfx-title">VAN<span>PIPS</span></h1>
             <p class="lead">
               A focused trading home for clear signals, calm psychology, and practical market understanding.
               Start with the habit that matters most: one disciplined decision at a time.
             </p>
             <div class="hero-actions" aria-label="Opening actions">
-              <a class="button primary" href="#start">Enter VanFX</a>
+              <a class="button primary" href="#start">Enter VAN PIPS</a>
               <a class="button secondary" href="#learn">Explore the method</a>
             </div>
-            <div class="hero-proof" aria-label="VanFX focus areas">
+            <div class="hero-proof" aria-label="VAN PIPS focus areas">
               <div class="proof-item">
                 <strong>Signals</strong>
                 <span>Entries, exits, and risk framed in plain language.</span>
@@ -2288,10 +2497,10 @@
             </div>
           </div>
 
-          <aside class="market-visual" aria-label="VanFX market preview">
+          <aside class="market-visual" aria-label="VAN PIPS market preview">
             <div class="terminal-header">
               <div class="terminal-title">
-                <span>VanFX Signal Desk</span>
+                <span>VAN PIPS Signal Desk</span>
                 <strong>EUR/USD Session Plan</strong>
               </div>
               <div class="status-pill">Active</div>
