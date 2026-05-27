@@ -5,7 +5,7 @@ Dependency-free Node.js REST API with a WebSocket feed for web and mobile client
 ## Run
 
 ```powershell
-cd "C:\Users\user\OneDrive\Documents\VanFX 2"
+cd "C:\Users\user\OneDrive\Documents\Van Pips 2"
 npm start
 ```
 
@@ -21,14 +21,14 @@ Copy `backend/.env.example` to `.env` and change the secrets before deployment.
 - `POST /api/auth/register`
 - `POST /api/auth/login`
 - `GET /api/me`
-- `GET /api/signals`
+- `GET /api/signals` active subscription required
 - `POST /api/signals` admin only
-- `GET /api/free-content`
+- `GET /api/free-content` active subscription required
 - `POST /api/free-content` admin only
-- `GET /api/videos`
+- `GET /api/videos` active subscription required
 - `POST /api/videos` admin only
 - `GET /api/notifications`
-- `POST /api/subscriptions/request`
+- `POST /api/subscriptions/request` accepts `plan`, optional `usdAmount`, `localAmount`, `currency`, `currencyCountry`, `exchangeRate`, and `paymentReference`
 - `GET /api/admin/users` admin only
 - `PATCH /api/admin/users/:id/subscription` admin only
 

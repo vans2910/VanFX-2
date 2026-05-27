@@ -6,9 +6,9 @@ Once your repository is created and pushed, the public link will use this format
 
 ## Example
 
-If your GitHub username is `vans2910` and the repository is named `VanFX-2`, the public URL will be:
+If your GitHub username is `vans2910` and the repository is named `Van-Pips-2`, the public URL will be:
 
-`https://vans2910.github.io/VanFX-2/`
+`https://vans2910.github.io/Van-Pips-2/`
 
 ## How to use it
 

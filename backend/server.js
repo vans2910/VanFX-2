@@ -66,6 +66,7 @@ const server = http.createServer(async (req, res) => {
         passwordHash: hashPassword(body.password),
         role: email === ADMIN_EMAIL ? 'admin' : 'user',
         subscribed: false,
+        paymentStatus: 'not_requested',
         subscriptionPlan: null,
         subscriptionStart: null,
         subscriptionEnd: null,
@@ -112,6 +113,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && url.pathname === '/api/signals') {
+      requireActiveSubscription(auth);
       return send(res, 200, db.signals);
     }
 
@@ -139,6 +141,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && url.pathname === '/api/free-content') {
+      requireActiveSubscription(auth);
       return send(res, 200, db.freeContent || {});
     }
 
@@ -159,6 +162,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && url.pathname === '/api/videos') {
+      requireActiveSubscription(auth);
       return send(res, 200, db.videos);
     }
 
@@ -193,11 +197,25 @@ const server = http.createServer(async (req, res) => {
         id: crypto.randomUUID(),
         userId: auth.user.id,
         plan: clean(body.plan),
+        usdAmount: Number(body.usdAmount || 0),
+        localAmount: Number(body.localAmount || 0),
+        currency: clean(body.currency || ''),
+        currencyCountry: clean(body.currencyCountry || ''),
+        exchangeRate: Number(body.exchangeRate || 0),
         paymentReference: clean(body.paymentReference || ''),
         status: 'pending',
         createdAt: new Date().toISOString()
       };
       db.subscriptionRequests.unshift(request);
+      auth.user.paymentStatus = 'pending_admin_approval';
+      auth.user.pendingPlan = request.plan;
+      auth.user.pendingUsdAmount = request.usdAmount;
+      auth.user.pendingLocalAmount = request.localAmount;
+      auth.user.pendingCurrency = request.currency;
+      auth.user.pendingCurrencyCountry = request.currencyCountry;
+      auth.user.pendingExchangeRate = request.exchangeRate;
+      auth.user.paymentReference = request.paymentReference;
+      auth.user.paymentRequestedAt = request.createdAt;
       await writeDb(db);
       broadcast('subscription.requested', request);
       return send(res, 201, request);
@@ -218,6 +236,8 @@ const server = http.createServer(async (req, res) => {
       user.subscriptionPlan = clean(body.plan || user.subscriptionPlan || '');
       user.subscriptionStart = body.start || new Date().toISOString();
       user.subscriptionEnd = body.end || user.subscriptionEnd || null;
+      user.paymentStatus = user.subscribed ? 'approved' : 'revoked';
+      user.approvedAt = user.subscribed ? new Date().toISOString() : user.approvedAt || null;
       await writeDb(db);
       broadcast('subscription.updated', publicUser(user));
       return send(res, 200, publicUser(user));
@@ -379,6 +399,21 @@ function requireAdmin(auth) {
   if (auth.user.role !== 'admin') {
     const error = new Error('Admin access required');
     error.status = 403;
+    throw error;
+  }
+}
+
+function requireActiveSubscription(auth) {
+  requireAuth(auth);
+  if (auth.user.role === 'admin') return;
+  if (!auth.user.subscribed) {
+    const error = new Error('Active subscription required');
+    error.status = 402;
+    throw error;
+  }
+  if (auth.user.subscriptionEnd && auth.user.subscriptionEnd !== 'Lifetime' && new Date(auth.user.subscriptionEnd) < new Date()) {
+    const error = new Error('Subscription expired');
+    error.status = 402;
     throw error;
   }
 }
