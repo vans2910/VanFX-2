@@ -24,6 +24,20 @@
         --shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
       }
 
+      body.light-mode {
+        color-scheme: light;
+        --bg: #f5f7fb;
+        --bg-2: #ffffff;
+        --panel: rgba(255, 255, 255, 0.92);
+        --panel-strong: rgba(255, 255, 255, 0.98);
+        --line: rgba(12, 18, 26, 0.14);
+        --line-soft: rgba(12, 18, 26, 0.08);
+        --ink: #101723;
+        --muted: #647084;
+        --shadow: 0 22px 60px rgba(31, 44, 64, 0.14);
+        background: linear-gradient(145deg, #f5f7fb 0%, #ffffff 52%, #eef7f6 100%);
+      }
+
       * {
         box-sizing: border-box;
       }
@@ -766,22 +780,109 @@
         padding: 40px;
       }
 
+      body.light-mode .panel,
+      body.light-mode .step .panel {
+        background: rgba(255, 255, 255, 0.9);
+        border-color: rgba(12, 18, 26, 0.1);
+      }
+
       .profile-grid {
         display: grid;
-        grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.9fr);
+        grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
         gap: 22px;
         align-items: start;
       }
 
-      .profile-summary,
-      .profile-actions-panel {
+      .profile-card,
+      .profile-settings-card,
+      .profile-support-card,
+      .profile-edit-card,
+      .profile-policy-card,
+      .profile-logout-card {
         display: grid;
         gap: 16px;
+        padding: 20px;
+        border: 1px solid var(--line-soft);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      body.light-mode .profile-card,
+      body.light-mode .profile-settings-card,
+      body.light-mode .profile-support-card,
+      body.light-mode .profile-edit-card,
+      body.light-mode .profile-policy-card,
+      body.light-mode .profile-logout-card,
+      body.light-mode .support-panel,
+      body.light-mode .policy-panel {
+        background: rgba(255, 255, 255, 0.72);
       }
 
       .profile-meta {
         display: grid;
         gap: 10px;
+      }
+
+      .profile-card-header,
+      .profile-section-header,
+      .settings-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .profile-avatar {
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        color: #12100b;
+        background: linear-gradient(135deg, var(--gold), var(--teal));
+        font-size: 1.25rem;
+        font-weight: 1000;
+      }
+
+      .profile-status-pill {
+        width: fit-content;
+        border: 1px solid rgba(66, 215, 202, 0.24);
+        border-radius: 999px;
+        padding: 7px 10px;
+        color: var(--teal);
+        background: rgba(66, 215, 202, 0.08);
+        font-size: 0.78rem;
+        font-weight: 900;
+      }
+
+      .profile-status-pill.expired {
+        border-color: rgba(255, 104, 104, 0.28);
+        color: var(--red);
+        background: rgba(255, 104, 104, 0.08);
+      }
+
+      .profile-status-pill.pending {
+        border-color: rgba(240, 197, 106, 0.28);
+        color: var(--gold);
+        background: rgba(240, 197, 106, 0.08);
+      }
+
+      .renewal-banner {
+        display: none;
+        padding: 14px;
+        border: 1px solid rgba(255, 104, 104, 0.25);
+        border-radius: 8px;
+        color: #ffd8d8;
+        background: rgba(255, 104, 104, 0.08);
+      }
+
+      .renewal-banner.active {
+        display: grid;
+        gap: 10px;
+      }
+
+      body.light-mode .renewal-banner {
+        color: #8f1f1f;
       }
 
       .profile-label {
@@ -804,6 +905,33 @@
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
+      }
+
+      .theme-toggle {
+        position: relative;
+        width: 58px;
+        height: 32px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        cursor: pointer;
+      }
+
+      .theme-toggle::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        background: var(--gold);
+        transition: transform 180ms ease;
+      }
+
+      .theme-toggle.active::after {
+        transform: translateX(26px);
+        background: var(--teal);
       }
 
       .support-panel,
@@ -1250,6 +1378,24 @@
         background: rgba(255, 255, 255, 0.04);
         color: var(--ink);
         font-size: 1rem;
+      }
+
+      .field select,
+      .field textarea {
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--ink);
+        font-size: 1rem;
+      }
+
+      body.light-mode .field input,
+      body.light-mode .field select,
+      body.light-mode .field textarea {
+        border-color: rgba(12, 18, 26, 0.14);
+        background: rgba(255, 255, 255, 0.86);
       }
 
       .field input::placeholder {
@@ -2264,8 +2410,31 @@
         }
 
         .hero-proof,
-        .insight-grid {
+        .insight-grid,
+        .profile-grid {
           grid-template-columns: 1fr;
+        }
+
+        .profile-card-header,
+        .profile-section-header,
+        .settings-row {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .profile-card,
+        .profile-settings-card,
+        .profile-support-card,
+        .profile-edit-card,
+        .profile-policy-card,
+        .profile-logout-card {
+          padding: 16px;
+        }
+
+        .profile-section-header .button,
+        .profile-form-actions .button,
+        .policy-links .button {
+          width: 100%;
         }
 
         .hero-proof {
@@ -2936,103 +3105,154 @@
         </div>
       </section>
 
-      <section class="step hidden" id="profile" aria-labelledby="profile-heading" aria-hidden="true">
+            <section class="step hidden" id="profile" aria-labelledby="profile-heading" aria-hidden="true">
         <div class="panel">
-          <h2 id="profile-heading">Account profile</h2>
-          <p class="intro-text">This section shows the registered user profile, including account details, subscription status, and support routing from the publisher and developer.</p>
-          <div id="whatsapp-access-panel" class="support-panel hidden">
-            <p><strong>WhatsApp group access</strong></p>
-            <p>Your payment has been confirmed. Use the group link below to join the premium Van Pips community.</p>
-            <p><a id="whatsapp-group-link" class="button primary" href="#" target="_blank" rel="noopener noreferrer">Join WhatsApp group</a></p>
-          </div>
+          <h2 id="profile-heading">My profile</h2>
+          <p class="intro-text">Manage your Van Pips account, subscription, support access, and website preferences.</p>
           <div id="profile-details" class="profile-grid">
-            <div class="profile-summary">
-              <div class="profile-meta">
-                <p class="profile-label">Name</p>
-                <p id="profile-name" class="profile-value">—</p>
-                <p class="profile-label">Email</p>
-                <p id="profile-email" class="profile-value muted">—</p>
-                <p class="profile-label">Phone</p>
-                <p id="profile-phone" class="profile-value muted">—</p>
-                <p class="profile-label">WhatsApp</p>
-                <p id="profile-whatsapp" class="profile-value muted">—</p>
-              </div>
+            <div class="profile-main-column" style="display:grid;gap:18px;">
+              <section class="profile-card">
+                <div class="profile-card-header">
+                  <div style="display:flex;align-items:center;gap:14px;">
+                    <div class="profile-avatar" id="profile-avatar">VP</div>
+                    <div>
+                      <p class="profile-label">My profile</p>
+                      <h3 id="profile-name" style="margin:0;">-</h3>
+                      <p id="profile-email" class="profile-value muted">-</p>
+                    </div>
+                  </div>
+                  <span id="profile-status-pill" class="profile-status-pill">Not subscribed</span>
+                </div>
+                <div class="profile-meta">
+                  <p class="profile-label">Phone</p>
+                  <p id="profile-phone" class="profile-value muted">-</p>
+                  <p class="profile-label">WhatsApp</p>
+                  <p id="profile-whatsapp" class="profile-value muted">-</p>
+                </div>
+              </section>
 
-              <div class="profile-subscription">
-                <p class="profile-label">Subscription</p>
-                <p id="profile-sub-status" class="profile-value">Not subscribed</p>
-                <p id="profile-sub-dates" class="profile-value muted">&nbsp;</p>
-              </div>
+              <section class="profile-card">
+                <div class="profile-section-header">
+                  <div>
+                    <p class="profile-label">Subscription</p>
+                    <p id="profile-sub-status" class="profile-value">Not subscribed</p>
+                    <p id="profile-sub-dates" class="profile-value muted">&nbsp;</p>
+                  </div>
+                  <button id="renew-sub" class="button primary">Subscribe or renew</button>
+                </div>
+                <div id="renewal-banner" class="renewal-banner">
+                  <strong>Subscription renewal required</strong>
+                  <span>Your access has expired or is not active. Renew to unlock signals, videos, history, and support.</span>
+                </div>
+                <div id="whatsapp-access-panel" class="support-panel hidden">
+                  <p><strong>WhatsApp group access</strong></p>
+                  <p>Your payment has been confirmed. Use the group link below to join the premium Van Pips community.</p>
+                  <p><a id="whatsapp-group-link" class="button primary" href="#" target="_blank" rel="noopener noreferrer">Join WhatsApp group</a></p>
+                </div>
+              </section>
+
+              <section class="profile-edit-card">
+                <div class="profile-section-header">
+                  <div>
+                    <p class="profile-label">Edit account</p>
+                    <h3 style="margin:0;">Update your details</h3>
+                  </div>
+                  <button id="edit-account" class="button secondary">Edit</button>
+                </div>
+                <form id="edit-account-form" class="form-grid hidden">
+                  <div class="field">
+                    <label for="edit-name">Full name</label>
+                    <input id="edit-name" type="text" />
+                  </div>
+                  <div class="field">
+                    <label for="edit-email">Email</label>
+                    <input id="edit-email" type="email" />
+                  </div>
+                  <div class="field">
+                    <label for="edit-phone">Phone</label>
+                    <input id="edit-phone" type="tel" />
+                  </div>
+                  <div class="field">
+                    <label for="edit-whatsapp">WhatsApp</label>
+                    <input id="edit-whatsapp" type="tel" />
+                  </div>
+                  <div class="form-actions profile-form-actions">
+                    <button type="button" id="save-account" class="button primary">Save changes</button>
+                    <button type="button" id="cancel-edit" class="button secondary">Cancel</button>
+                  </div>
+                </form>
+              </section>
             </div>
 
-            <div class="profile-actions-panel">
-              <div class="profile-action-buttons">
-                <button id="edit-account" class="button secondary">Edit account</button>
-                <button id="renew-sub" class="button primary">Subscribe or renew</button>
-                <button id="support-contact" class="button ghost">Support</button>
-              </div>
-              <div id="support-panel" class="support-panel hidden">
-                <p><strong>Support team</strong></p>
-                <p>The support help depends on the Van Pips team and is backed by the publisher and the developer of this website.</p>
-                <p><strong>Team:</strong> <span id="support-team-name">Van Pips Support Team</span></p>
-                <p><strong>Publisher:</strong> <a href="mailto:publisher@vanpips.com">publisher@vanpips.com</a></p>
-                <p><strong>Developer:</strong> <a href="mailto:dev@vanpips.com">dev@vanpips.com</a></p>
-              </div>
-            </div>
-          </div>
+            <div class="profile-side-column" style="display:grid;gap:18px;">
+              <section class="profile-settings-card">
+                <div>
+                  <p class="profile-label">Settings</p>
+                  <h3 style="margin:0;">Appearance</h3>
+                </div>
+                <div class="settings-row">
+                  <div>
+                    <strong>Dark mode</strong>
+                    <p class="profile-value muted" id="theme-mode-label">Dark mode is on</p>
+                  </div>
+                  <button id="theme-toggle" class="theme-toggle active" type="button" aria-label="Toggle dark mode" aria-pressed="true"></button>
+                </div>
+              </section>
 
-          <form id="edit-account-form" class="form-grid hidden">
-            <div class="field">
-              <label for="edit-name">Full name</label>
-              <input id="edit-name" type="text" />
-            </div>
-            <div class="field">
-              <label for="edit-email">Email</label>
-              <input id="edit-email" type="email" />
-            </div>
-            <div class="field">
-              <label for="edit-phone">Phone</label>
-              <input id="edit-phone" type="tel" />
-            </div>
-            <div class="form-actions profile-form-actions">
-              <button type="button" id="save-account" class="button primary">Save</button>
-              <button type="button" id="cancel-edit" class="button secondary">Cancel</button>
-            </div>
-          </form>
+              <section class="profile-support-card">
+                <div class="profile-section-header">
+                  <div>
+                    <p class="profile-label">Settings and support</p>
+                    <h3 style="margin:0;">Support and help</h3>
+                  </div>
+                  <button id="support-contact" class="button ghost">Open</button>
+                </div>
+                <div id="support-panel" class="support-panel hidden">
+                  <p><strong>Support team</strong></p>
+                  <p>The support help depends on the Van Pips team and is backed by the publisher and the developer of this website.</p>
+                  <p><strong>Team:</strong> <span id="support-team-name">Van Pips Support Team</span></p>
+                  <p><strong>Publisher:</strong> <a href="mailto:publisher@vanpips.com">publisher@vanpips.com</a></p>
+                  <p><strong>Developer:</strong> <a href="mailto:dev@vanpips.com">dev@vanpips.com</a></p>
+                </div>
+              </section>
 
-          <div id="policy-links" class="policy-links">
-            <button id="privacy-btn" class="button ghost">Privacy Policy</button>
-            <button id="terms-btn" class="button ghost">Terms of Service</button>
-            <button id="legal-btn" class="button ghost">Legal Disclaimer</button>
-          </div>
+              <section class="profile-policy-card">
+                <p class="profile-label">Legal</p>
+                <div id="policy-links" class="policy-links" style="margin-top:0;">
+                  <button id="privacy-btn" class="button ghost">Privacy Policy</button>
+                  <button id="terms-btn" class="button ghost">Terms of Service</button>
+                  <button id="legal-btn" class="button ghost">Legal Disclaimer</button>
+                </div>
+                <div id="policy-panel" class="policy-panel hidden">
+                  <div id="privacy-panel" class="policy-copy hidden">
+                    <h3>Privacy policy</h3>
+                    <p>Van Pips collects only the account information you provide for registration, authentication, and subscription management. Your email and phone number are retained for service updates and support.</p>
+                  </div>
+                  <div id="terms-panel" class="policy-copy hidden">
+                    <h3>Terms of service</h3>
+                    <p>By using Van Pips, you agree to the website terms, subscription billing rules, and the support model provided by the Van Pips team. Plans, renewals, and access rights are governed by the selected service plan.</p>
+                  </div>
+                  <div id="legal-panel" class="policy-copy hidden">
+                    <h3>Legal disclaimer</h3>
+                    <p>Van Pips provides educational trading support and signal guidance. The publisher and developer are not responsible for individual trading outcomes. Trade with proper risk management and verify all decisions independently.</p>
+                  </div>
+                </div>
+              </section>
 
-          <div id="policy-panel" class="policy-panel hidden">
-            <div id="privacy-panel" class="policy-copy hidden">
-              <h3>Privacy policy</h3>
-              <p>Van Pips collects only the account information you provide for registration, authentication, and subscription management. Your email and phone number are retained for service updates and support.</p>
+              <section class="profile-logout-card">
+                <p class="profile-label">Account actions</p>
+                <button id="logout-btn" class="button secondary" style="width: 100%; max-width: none;">Logout</button>
+              </section>
             </div>
-            <div id="terms-panel" class="policy-copy hidden">
-              <h3>Terms of service</h3>
-              <p>By using Van Pips, you agree to the website terms, subscription billing rules, and the support model provided by the Van Pips team. Plans, renewals, and access rights are governed by the selected service plan.</p>
-            </div>
-            <div id="legal-panel" class="policy-copy hidden">
-              <h3>Legal disclaimer</h3>
-              <p>Van Pips provides educational trading support and signal guidance. The publisher and developer are not responsible for individual trading outcomes. Trade with proper risk management and verify all decisions independently.</p>
-            </div>
-          </div>
-
-          <div class="account-actions-section" style="margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
-            <p class="profile-label" style="margin-bottom: 12px;">Account actions</p>
-            <button id="logout-btn" class="button secondary" style="width: 100%; max-width: none;">Logout</button>
           </div>
         </div>
       </section>
-
       <!-- Bottom navigation -->
       <section class="step hidden" id="admin" aria-labelledby="admin-heading" aria-hidden="true">
         <div class="panel">
           <h2 id="admin-heading">Admin dashboard</h2>
           <p class="intro-text">Only the admin can view registered customer details, upload video lessons, and manage site updates.</p>
+          <section id="admin-payment-requests" class="admin-users-list"></section>
           <div id="admin-users-list" class="admin-users-list"></div>
           <div id="admin-video-management" class="admin-video-management">
             <div class="admin-upload-panel">
@@ -3296,7 +3516,23 @@
       const navItems = document.querySelectorAll('.nav-item');
       const PROTECTED_STEPS = new Set(['home', 'videos', 'history', 'profile']);
       const ADMIN_SESSION_KEY = 'vanPipsAdminUnlocked';
+      const THEME_KEY = 'vanPipsTheme';
       const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/BpEajUuuoHlEo3YjG06wt6?mode=gi_t';
+
+      function applyTheme(theme) {
+        const isDark = theme !== 'light';
+        document.body.classList.toggle('light-mode', !isDark);
+        const toggle = document.getElementById('theme-toggle');
+        const label = document.getElementById('theme-mode-label');
+        if (toggle) {
+          toggle.classList.toggle('active', isDark);
+          toggle.setAttribute('aria-pressed', String(isDark));
+        }
+        if (label) label.textContent = isDark ? 'Dark mode is on' : 'Light mode is on';
+        localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+      }
+
+      applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
 
       function showStep(id) {
         const user = getUser();
@@ -3612,6 +3848,9 @@
         const renewBtn = document.getElementById('renew-sub');
         const whatsappAccessPanel = document.getElementById('whatsapp-access-panel');
         const whatsappGroupLink = document.getElementById('whatsapp-group-link');
+        const avatar = document.getElementById('profile-avatar');
+        const statusPill = document.getElementById('profile-status-pill');
+        const renewalBanner = document.getElementById('renewal-banner');
         if (!user) {
           if (nameEl) nameEl.textContent = 'Not signed in';
           if (emailEl) emailEl.textContent = '';
@@ -3621,11 +3860,20 @@
           if (supportTeamName) supportTeamName.textContent = supportInfo.teamName;
           if (supportPanel) supportPanel.classList.add('hidden');
           if (whatsappAccessPanel) whatsappAccessPanel.classList.add('hidden');
+          if (statusPill) {
+            statusPill.textContent = 'Not signed in';
+            statusPill.className = 'profile-status-pill expired';
+          }
+          if (renewalBanner) renewalBanner.classList.add('active');
           return;
         }
 
         if (nameEl) nameEl.textContent = user.name || 'Unknown user';
         if (emailEl) emailEl.textContent = user.email || 'No email';
+        if (avatar) {
+          const initials = String(user.name || user.email || 'VP').split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase();
+          avatar.textContent = initials || 'VP';
+        }
         const phoneEl = document.getElementById('profile-phone');
         const whatsappEl = document.getElementById('profile-whatsapp');
         if (phoneEl) phoneEl.textContent = user.phoneFull || 'No phone saved';
@@ -3642,6 +3890,10 @@
           if (statusEl) {
             statusEl.textContent = isExpired ? `Expired (${planName})` : `${planName} ${user.subscriptionEnd === 'Lifetime' ? '(Lifetime)' : ''}`;
           }
+          if (statusPill) {
+            statusPill.textContent = isExpired ? 'Expired' : 'Active';
+            statusPill.className = `profile-status-pill${isExpired ? ' expired' : ''}`;
+          }
 
           if (datesEl) {
             if (user.subscriptionStart) {
@@ -3654,7 +3906,8 @@
           }
 
           if (renewBtn) renewBtn.textContent = isExpired ? 'Renew subscription' : 'Renew / Change plan';
-          if (whatsappAccessPanel) whatsappAccessPanel.classList.remove('hidden');
+          if (whatsappAccessPanel) whatsappAccessPanel.classList.toggle('hidden', isExpired);
+          if (renewalBanner) renewalBanner.classList.toggle('active', isExpired);
         } else {
           const pending = user.paymentStatus === 'pending_admin_approval';
           if (statusEl) statusEl.textContent = pending ? 'Payment pending admin approval' : 'Not subscribed';
@@ -3663,6 +3916,11 @@
             : 'Subscribe to access premium trading signals, support, and account features.';
           if (renewBtn) renewBtn.textContent = 'Subscribe now';
           if (whatsappAccessPanel) whatsappAccessPanel.classList.add('hidden');
+          if (statusPill) {
+            statusPill.textContent = pending ? 'Pending' : 'Renew';
+            statusPill.className = `profile-status-pill ${pending ? 'pending' : 'expired'}`;
+          }
+          if (renewalBanner) renewalBanner.classList.add('active');
         }
       }
 
@@ -4754,18 +5012,24 @@
       const privacyBtn = document.getElementById('privacy-btn');
       const termsBtn = document.getElementById('terms-btn');
       const legalBtn = document.getElementById('legal-btn');
+      const themeToggleBtn = document.getElementById('theme-toggle');
       const adminAccessBtn = document.getElementById('admin-access');
       const editForm = document.getElementById('edit-account-form');
       const policyPanel = document.getElementById('policy-panel');
 
       function renderAdminPanel() {
         const list = document.getElementById('admin-users-list');
+        const paymentRequests = document.getElementById('admin-payment-requests');
         const users = getUsers();
         if (!list) return;
+        if (paymentRequests) {
+          paymentRequests.innerHTML = renderPendingPaymentRequests(users);
+        }
         if (users.length === 0) {
-          list.innerHTML = '<p>No registered users yet.</p>';
+          list.innerHTML = '<h3>Registered users</h3><p>No registered users yet.</p>';
         } else {
           list.innerHTML = `
+            <h3>Registered users</h3>
             <table class="admin-table">
               <thead>
                 <tr>
@@ -4800,6 +5064,57 @@
         }
         renderAdminVideoList();
         renderAdminContentPanel();
+      }
+
+      function renderPendingPaymentRequests(users) {
+        const pendingUsers = users.filter((user) => user.paymentStatus === 'pending_admin_approval');
+        if (!pendingUsers.length) {
+          return `
+            <h3>Pending payment requests</h3>
+            <p class="small-note">No payment requests are waiting for approval yet. When a user clicks "I have paid — Confirm", the request will appear here.</p>
+          `;
+        }
+
+        return `
+          <h3>Pending payment requests</h3>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Contact</th>
+                <th>Plan</th>
+                <th>Expected payment</th>
+                <th>Requested</th>
+                <th>Approve</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${pendingUsers.map((user) => `
+                <tr>
+                  <td><strong>${escapeHtml(user.name || '')}</strong><br><span class="small-note">${escapeHtml(user.email || '')}</span></td>
+                  <td>${escapeHtml(user.phoneFull || '')}<br><span class="small-note">WhatsApp: ${escapeHtml(user.whatsappFull || '')}</span></td>
+                  <td>${escapeHtml(user.pendingPlan || user.subscriptionPlan || 'Selected plan')}</td>
+                  <td>${renderPendingPaymentAmount(user)}</td>
+                  <td>${user.paymentRequestedAt ? escapeHtml(formatDate(new Date(user.paymentRequestedAt))) : '-'}</td>
+                  <td>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                      <button class="button primary admin-user-action" data-action="approve" data-email="${escapeHtml(user.email || '')}">Approve payment</button>
+                      <a class="button ghost" href="${buildWhatsAppChatLink(user.whatsappFull || user.whatsappNumber)}" target="_blank" rel="noopener noreferrer">Message</a>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+
+      function renderPendingPaymentAmount(user) {
+        const local = user.pendingCurrency && Number.isFinite(Number(user.pendingLocalAmount))
+          ? `${escapeHtml(user.pendingCurrency)} ${Number(user.pendingLocalAmount).toLocaleString()}`
+          : 'Local amount pending';
+        const usd = user.pendingUsdAmount ? `USD ${escapeHtml(user.pendingUsdAmount)}` : 'USD base pending';
+        return `${local}<br><span class="small-note">${usd}</span>`;
       }
 
       function renderAdminSubscriptionStatus(user) {
@@ -4900,6 +5215,12 @@
           }
         });
       }
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+          const nextTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
+          applyTheme(nextTheme);
+        });
+      }
 
       function showEditForm(show) {
         if (!editForm) return;
@@ -4910,6 +5231,8 @@
             document.getElementById('edit-name').value = user.name || '';
             document.getElementById('edit-email').value = user.email || '';
             document.getElementById('edit-phone').value = user.phone || '';
+            const whatsappInput = document.getElementById('edit-whatsapp');
+            if (whatsappInput) whatsappInput.value = user.whatsappNumber || user.whatsappFull || '';
           }
         }
       }
@@ -4926,14 +5249,29 @@
           const name = document.getElementById('edit-name').value;
           const email = document.getElementById('edit-email').value;
           const phone = document.getElementById('edit-phone').value;
+          const whatsapp = document.getElementById('edit-whatsapp').value;
           if (!name || !email) {
             alert('Name and email are required.');
             return;
           }
+          const users = getUsers();
+          const existing = users.find((item) => item.email === email && item.email !== user.email);
+          if (existing) {
+            alert('Another account already uses that email.');
+            return;
+          }
+          const oldEmail = user.email;
           user.name = name;
           user.email = email;
           user.phone = phone;
-          setUser(user);
+          user.phoneFull = phone;
+          user.whatsappNumber = whatsapp;
+          user.whatsappFull = whatsapp;
+          const index = users.findIndex((item) => item.email === oldEmail);
+          if (index >= 0) users[index] = user;
+          else users.push(user);
+          setUsers(users);
+          localStorage.setItem('vanPipsCurrentUser', JSON.stringify(user));
           showEditForm(false);
           renderProfile();
           alert('Account details updated.');
