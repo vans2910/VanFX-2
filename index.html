@@ -3539,6 +3539,7 @@
       const navItems = document.querySelectorAll('.nav-item');
       const PROTECTED_STEPS = new Set(['home', 'videos', 'history', 'profile']);
       const ADMIN_SESSION_KEY = 'vanPipsAdminUnlocked';
+      const ADMIN_TOKEN_KEY = 'vanPipsAdminToken';
       const THEME_KEY = 'vanPipsTheme';
       const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/BpEajUuuoHlEo3YjG06wt6?mode=gi_t';
 
@@ -3560,7 +3561,7 @@
       function showStep(id) {
         const user = getUser();
         if (id === 'admin' && !isAdminUnlocked()) {
-          requestAdminAccess();
+          showStep('opening');
           return;
         }
         if (PROTECTED_STEPS.has(id) && !isSubscriptionActive(user)) {
@@ -3593,17 +3594,6 @@
 
       function isAdminUnlocked() {
         return sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
-      }
-
-      function requestAdminAccess() {
-        const pass = window.prompt('Enter admin password');
-        if (pass === ADMIN_PASSWORD) {
-          sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
-          renderAdminPanel();
-          showStep('admin');
-        } else if (pass !== null) {
-          alert('Incorrect admin password.');
-        }
       }
 
       function isSubscriptionActive(user) {
@@ -3652,13 +3642,6 @@
       });
 
       // --- User and alerts storage ---
-      const ADMIN_PASSWORD = 'VanPipsAdmin2026';
-
-      window.addEventListener('hashchange', () => {
-        if (window.location.hash === '#admin') requestAdminAccess();
-      });
-      if (window.location.hash === '#admin') requestAdminAccess();
-
       function getUsers() { try { return JSON.parse(localStorage.getItem('vanPipsUsers') || '[]'); } catch { return []; } }
       function setUsers(users) { localStorage.setItem('vanPipsUsers', JSON.stringify(users)); }
       function getCurrentUser() { try { return JSON.parse(localStorage.getItem('vanPipsCurrentUser') || 'null'); } catch { return null; } }
@@ -4301,6 +4284,30 @@
         return response.json();
       }
 
+      async function tryBackendAdminLogin(email, password) {
+        try {
+          const result = await fetchJson('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({ email, password }),
+          });
+          if (!result || !result.token || !result.user || result.user.role !== 'admin') return false;
+
+          localStorage.setItem(ADMIN_TOKEN_KEY, result.token);
+          sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+          setCurrentUser({
+            ...result.user,
+            subscribed: true,
+            subscriptionPlan: result.user.subscriptionPlan || 'Admin',
+            subscriptionEnd: result.user.subscriptionEnd || 'Lifetime',
+          });
+          renderAdminPanel();
+          showStep('admin');
+          return true;
+        } catch {
+          return false;
+        }
+      }
+
       function escapeHtml(value) {
         return String(value ?? '').replace(/[&<>"']/g, (char) => ({
           '&': '&amp;',
@@ -4711,10 +4718,14 @@
       restoreRememberedLogin();
 
       if (loginForm) {
-        loginForm.addEventListener('submit', (event) => {
+        loginForm.addEventListener('submit', async (event) => {
           event.preventDefault();
           const email = document.getElementById('login-email').value.trim();
           const password = document.getElementById('login-password').value;
+          if (await tryBackendAdminLogin(email, password)) {
+            syncRememberedLogin(email);
+            return;
+          }
           const user = getUsers().find((u) => u.email === email && u.password === password);
           const warningDiv = document.getElementById('failed-attempts-warning');
           const forgotPasswordLink = document.getElementById('forgot-password-link-container');
@@ -5158,7 +5169,6 @@
       const termsBtn = document.getElementById('terms-btn');
       const legalBtn = document.getElementById('legal-btn');
       const themeToggleBtn = document.getElementById('theme-toggle');
-      const adminAccessBtn = document.getElementById('admin-access');
       const editForm = document.getElementById('edit-account-form');
       const policyPanel = document.getElementById('policy-panel');
 
@@ -5330,14 +5340,10 @@
 
       const adminCloseBtn = document.getElementById('admin-close');
       const logoutBtn = document.getElementById('logout-btn');
-      if (adminAccessBtn) {
-        adminAccessBtn.addEventListener('click', () => {
-          requestAdminAccess();
-        });
-      }
       if (adminCloseBtn) {
         adminCloseBtn.addEventListener('click', () => {
           sessionStorage.removeItem(ADMIN_SESSION_KEY);
+          localStorage.removeItem(ADMIN_TOKEN_KEY);
           const user = getUser();
           if (isSubscriptionActive(user)) {
             showStep('home');
