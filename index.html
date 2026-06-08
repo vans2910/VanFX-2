@@ -690,11 +690,14 @@
         border-radius: 8px;
         background: rgba(13, 18, 24, 0.88);
         box-shadow: 0 20px 62px rgba(0, 0, 0, 0.22);
+        transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
       }
 
-      .plan-card.featured {
+      .plan-card.selected {
         border-color: rgba(66, 215, 202, 0.4);
         background: linear-gradient(180deg, rgba(66, 215, 202, 0.12), rgba(13, 18, 24, 0.9));
+        box-shadow: 0 24px 72px rgba(66, 215, 202, 0.12), 0 20px 62px rgba(0, 0, 0, 0.22);
+        transform: translateY(-2px);
       }
 
       .plan-badge {
@@ -767,7 +770,7 @@
         width: 100%;
       }
 
-      .subscription-page.revealed .plan-card {
+      .subscription-page.revealed .plan-card.selected {
         border-color: rgba(240, 197, 106, 0.34);
       }
 
@@ -1330,7 +1333,7 @@
 
       .phone-input-grid {
         display: grid;
-        grid-template-columns: 110px 1fr;
+        grid-template-columns: minmax(150px, 0.45fr) minmax(0, 1fr);
         gap: 10px;
       }
 
@@ -1391,21 +1394,55 @@
         font-size: 1rem;
       }
 
+      .field select {
+        color-scheme: dark;
+        appearance: auto;
+        background-color: #111827;
+        color: #f8fafc;
+      }
+
+      .field select option {
+        background: #ffffff;
+        color: #111827;
+      }
+
       body.light-mode .field input,
       body.light-mode .field select,
       body.light-mode .field textarea {
         border-color: rgba(12, 18, 26, 0.14);
         background: rgba(255, 255, 255, 0.86);
+        color: #0f172a;
+      }
+
+      body.light-mode .field select {
+        color-scheme: light;
       }
 
       .field input::placeholder {
         color: rgba(247, 243, 234, 0.44);
       }
 
-      .field input:focus {
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
         outline: none;
         border-color: rgba(66, 215, 202, 0.72);
         box-shadow: 0 0 0 3px rgba(66, 215, 202, 0.1);
+      }
+
+      .remember-me {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+
+      .remember-me input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--gold);
       }
 
       .form-actions {
@@ -1638,10 +1675,12 @@
       .calendar-event-country {
         display: inline-block;
         padding: 2px 8px;
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(66, 215, 202, 0.18);
+        border: 1px solid rgba(66, 215, 202, 0.34);
         border-radius: 4px;
         font-size: 0.8rem;
-        color: var(--muted);
+        color: #eafffb;
+        font-weight: 800;
         margin-right: 8px;
       }
 
@@ -2783,15 +2822,19 @@
           </div>
 
           <div class="tab-panel active" id="login-panel" role="tabpanel" aria-labelledby="login-tab">
-            <form id="login-form" class="form-grid" novalidate>
+            <form id="login-form" class="form-grid" autocomplete="on" novalidate>
               <div class="field">
                 <label for="login-email">Email address</label>
-                <input id="login-email" type="email" placeholder="you@example.com" required />
+                <input id="login-email" name="email" type="email" inputmode="email" autocomplete="username email" placeholder="you@example.com" required />
               </div>
               <div class="field">
                 <label for="login-password">Password</label>
-                <input id="login-password" type="password" placeholder="Enter your password" required />
+                <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
               </div>
+              <label class="remember-me" for="remember-login">
+                <input id="remember-login" name="remember" type="checkbox" autocomplete="off" />
+                <span>Remember my email on this device</span>
+              </label>
               <div class="form-actions">
                 <button type="submit" class="button-submit">Login</button>
                 <p class="small-note">No account yet? Switch to Sign Up to register with email and phone.</p>
@@ -2804,54 +2847,34 @@
           </div>
 
           <div class="tab-panel" id="signup-panel" role="tabpanel" aria-labelledby="signup-tab">
-            <form id="signup-form" class="form-grid" novalidate>
+            <form id="signup-form" class="form-grid" autocomplete="on" novalidate>
               <div class="field">
                 <label for="signup-name">Full name</label>
-                <input id="signup-name" type="text" placeholder="Your full name" required />
+                <input id="signup-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required />
               </div>
               <div class="field">
                 <label for="signup-email">Email address</label>
-                <input id="signup-email" type="email" placeholder="you@example.com" required />
+                <input id="signup-email" name="email" type="email" inputmode="email" autocomplete="username email" placeholder="you@example.com" required />
               </div>
               <div class="field">
                 <label for="signup-phone-code">Phone number</label>
                 <div class="phone-input-grid">
-                  <select id="signup-phone-code" required>
-                    <option value="+1">+1 US/CA</option>
-                    <option value="+44">+44 UK</option>
-                    <option value="+61">+61 AU</option>
-                    <option value="+254">+254 KE</option>
-                    <option value="+255">+255 TZ</option>
-                    <option value="+234">+234 NG</option>
-                    <option value="+27">+27 ZA</option>
-                    <option value="+91">+91 IN</option>
-                    <option value="+81">+81 JP</option>
-                    <option value="+86">+86 CN</option>
+                  <select id="signup-phone-code" name="phone-country-code" autocomplete="tel-country-code" required>
                   </select>
-                  <input id="signup-phone" type="tel" placeholder="712 345 678" required />
+                  <input id="signup-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="712 345 678" required />
                 </div>
               </div>
               <div class="field">
                 <label for="signup-whatsapp-code">WhatsApp number</label>
                 <div class="phone-input-grid">
-                  <select id="signup-whatsapp-code" required>
-                    <option value="+1">+1 US/CA</option>
-                    <option value="+44">+44 UK</option>
-                    <option value="+61">+61 AU</option>
-                    <option value="+254">+254 KE</option>
-                    <option value="+255">+255 TZ</option>
-                    <option value="+234">+234 NG</option>
-                    <option value="+27">+27 ZA</option>
-                    <option value="+91">+91 IN</option>
-                    <option value="+81">+81 JP</option>
-                    <option value="+86">+86 CN</option>
+                  <select id="signup-whatsapp-code" name="whatsapp-country-code" autocomplete="tel-country-code" required>
                   </select>
-                  <input id="signup-whatsapp" type="tel" placeholder="712 345 678" required />
+                  <input id="signup-whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="712 345 678" required />
                 </div>
               </div>
               <div class="field">
                 <label for="signup-password">Password</label>
-                <input id="signup-password" type="password" placeholder="Create a password" required />
+                <input id="signup-password" name="new-password" type="password" autocomplete="new-password" placeholder="Create a password" required />
               </div>
               <div class="form-actions">
                 <button type="submit" class="button-submit">Create account</button>
@@ -2887,7 +2910,7 @@
           </header>
 
           <div class="plans-grid" aria-label="Van Pips subscription plans">
-            <article class="plan-card">
+            <article class="plan-card" data-plan-card="Monthly">
               <span class="plan-badge">Flexible</span>
               <div>
                 <h3>Monthly</h3>
@@ -2906,7 +2929,7 @@
               <a class="button secondary plan-action" href="#plans" data-plan="Monthly" data-duration="30" data-usd="10">Choose monthly</a>
             </article>
 
-            <article class="plan-card featured">
+            <article class="plan-card" data-plan-card="Yearly">
               <span class="plan-badge">Best value</span>
               <div>
                 <h3>Yearly</h3>
@@ -2925,7 +2948,7 @@
               <a class="button primary plan-action" href="#plans" data-plan="Yearly" data-duration="365" data-usd="50">Choose yearly</a>
             </article>
 
-            <article class="plan-card">
+            <article class="plan-card" data-plan-card="Lifetime">
               <span class="plan-badge">Special option</span>
               <div>
                 <h3>Lifetime</h3>
@@ -3750,18 +3773,88 @@
         Yearly: 50,
         Lifetime: 100,
       };
-      const PHONE_CURRENCY_MAP = {
-        '+1': { currency: 'USD', locale: 'en-US', country: 'United States/Canada' },
-        '+44': { currency: 'GBP', locale: 'en-GB', country: 'United Kingdom' },
-        '+61': { currency: 'AUD', locale: 'en-AU', country: 'Australia' },
-        '+254': { currency: 'KES', locale: 'en-KE', country: 'Kenya' },
-        '+255': { currency: 'TZS', locale: 'sw-TZ', country: 'Tanzania' },
-        '+234': { currency: 'NGN', locale: 'en-NG', country: 'Nigeria' },
-        '+27': { currency: 'ZAR', locale: 'en-ZA', country: 'South Africa' },
-        '+91': { currency: 'INR', locale: 'en-IN', country: 'India' },
-        '+81': { currency: 'JPY', locale: 'ja-JP', country: 'Japan' },
-        '+86': { currency: 'CNY', locale: 'zh-CN', country: 'China' },
-      };
+      const COUNTRY_PHONE_CODES = [
+        { code: '+255', label: 'Tanzania', currency: 'TZS', locale: 'sw-TZ' },
+        { code: '+254', label: 'Kenya', currency: 'KES', locale: 'en-KE' },
+        { code: '+256', label: 'Uganda', currency: 'UGX', locale: 'en-UG' },
+        { code: '+250', label: 'Rwanda', currency: 'RWF', locale: 'rw-RW' },
+        { code: '+257', label: 'Burundi', currency: 'BIF', locale: 'fr-BI' },
+        { code: '+211', label: 'South Sudan', currency: 'SSP', locale: 'en-SS' },
+        { code: '+251', label: 'Ethiopia', currency: 'ETB', locale: 'am-ET' },
+        { code: '+252', label: 'Somalia', currency: 'SOS', locale: 'so-SO' },
+        { code: '+20', label: 'Egypt', currency: 'EGP', locale: 'ar-EG' },
+        { code: '+27', label: 'South Africa', currency: 'ZAR', locale: 'en-ZA' },
+        { code: '+234', label: 'Nigeria', currency: 'NGN', locale: 'en-NG' },
+        { code: '+233', label: 'Ghana', currency: 'GHS', locale: 'en-GH' },
+        { code: '+237', label: 'Cameroon', currency: 'XAF', locale: 'fr-CM' },
+        { code: '+225', label: 'Cote d Ivoire', currency: 'XOF', locale: 'fr-CI' },
+        { code: '+212', label: 'Morocco', currency: 'MAD', locale: 'ar-MA' },
+        { code: '+213', label: 'Algeria', currency: 'DZD', locale: 'ar-DZ' },
+        { code: '+216', label: 'Tunisia', currency: 'TND', locale: 'ar-TN' },
+        { code: '+1', label: 'United States / Canada', currency: 'USD', locale: 'en-US' },
+        { code: '+52', label: 'Mexico', currency: 'MXN', locale: 'es-MX' },
+        { code: '+55', label: 'Brazil', currency: 'BRL', locale: 'pt-BR' },
+        { code: '+54', label: 'Argentina', currency: 'ARS', locale: 'es-AR' },
+        { code: '+56', label: 'Chile', currency: 'CLP', locale: 'es-CL' },
+        { code: '+57', label: 'Colombia', currency: 'COP', locale: 'es-CO' },
+        { code: '+51', label: 'Peru', currency: 'PEN', locale: 'es-PE' },
+        { code: '+58', label: 'Venezuela', currency: 'VES', locale: 'es-VE' },
+        { code: '+44', label: 'United Kingdom', currency: 'GBP', locale: 'en-GB' },
+        { code: '+353', label: 'Ireland', currency: 'EUR', locale: 'en-IE' },
+        { code: '+39', label: 'Italy', currency: 'EUR', locale: 'it-IT' },
+        { code: '+34', label: 'Spain', currency: 'EUR', locale: 'es-ES' },
+        { code: '+33', label: 'France', currency: 'EUR', locale: 'fr-FR' },
+        { code: '+49', label: 'Germany', currency: 'EUR', locale: 'de-DE' },
+        { code: '+31', label: 'Netherlands', currency: 'EUR', locale: 'nl-NL' },
+        { code: '+32', label: 'Belgium', currency: 'EUR', locale: 'nl-BE' },
+        { code: '+41', label: 'Switzerland', currency: 'CHF', locale: 'de-CH' },
+        { code: '+43', label: 'Austria', currency: 'EUR', locale: 'de-AT' },
+        { code: '+351', label: 'Portugal', currency: 'EUR', locale: 'pt-PT' },
+        { code: '+30', label: 'Greece', currency: 'EUR', locale: 'el-GR' },
+        { code: '+46', label: 'Sweden', currency: 'SEK', locale: 'sv-SE' },
+        { code: '+47', label: 'Norway', currency: 'NOK', locale: 'nb-NO' },
+        { code: '+45', label: 'Denmark', currency: 'DKK', locale: 'da-DK' },
+        { code: '+358', label: 'Finland', currency: 'EUR', locale: 'fi-FI' },
+        { code: '+48', label: 'Poland', currency: 'PLN', locale: 'pl-PL' },
+        { code: '+420', label: 'Czech Republic', currency: 'CZK', locale: 'cs-CZ' },
+        { code: '+36', label: 'Hungary', currency: 'HUF', locale: 'hu-HU' },
+        { code: '+40', label: 'Romania', currency: 'RON', locale: 'ro-RO' },
+        { code: '+90', label: 'Turkey', currency: 'TRY', locale: 'tr-TR' },
+        { code: '+380', label: 'Ukraine', currency: 'UAH', locale: 'uk-UA' },
+        { code: '+7', label: 'Russia / Kazakhstan', currency: 'RUB', locale: 'ru-RU' },
+        { code: '+971', label: 'United Arab Emirates', currency: 'AED', locale: 'ar-AE' },
+        { code: '+966', label: 'Saudi Arabia', currency: 'SAR', locale: 'ar-SA' },
+        { code: '+974', label: 'Qatar', currency: 'QAR', locale: 'ar-QA' },
+        { code: '+965', label: 'Kuwait', currency: 'KWD', locale: 'ar-KW' },
+        { code: '+973', label: 'Bahrain', currency: 'BHD', locale: 'ar-BH' },
+        { code: '+968', label: 'Oman', currency: 'OMR', locale: 'ar-OM' },
+        { code: '+972', label: 'Israel', currency: 'ILS', locale: 'he-IL' },
+        { code: '+91', label: 'India', currency: 'INR', locale: 'en-IN' },
+        { code: '+92', label: 'Pakistan', currency: 'PKR', locale: 'en-PK' },
+        { code: '+880', label: 'Bangladesh', currency: 'BDT', locale: 'bn-BD' },
+        { code: '+94', label: 'Sri Lanka', currency: 'LKR', locale: 'si-LK' },
+        { code: '+977', label: 'Nepal', currency: 'NPR', locale: 'ne-NP' },
+        { code: '+86', label: 'China', currency: 'CNY', locale: 'zh-CN' },
+        { code: '+852', label: 'Hong Kong', currency: 'HKD', locale: 'zh-HK' },
+        { code: '+886', label: 'Taiwan', currency: 'TWD', locale: 'zh-TW' },
+        { code: '+81', label: 'Japan', currency: 'JPY', locale: 'ja-JP' },
+        { code: '+82', label: 'South Korea', currency: 'KRW', locale: 'ko-KR' },
+        { code: '+65', label: 'Singapore', currency: 'SGD', locale: 'en-SG' },
+        { code: '+60', label: 'Malaysia', currency: 'MYR', locale: 'ms-MY' },
+        { code: '+62', label: 'Indonesia', currency: 'IDR', locale: 'id-ID' },
+        { code: '+63', label: 'Philippines', currency: 'PHP', locale: 'en-PH' },
+        { code: '+66', label: 'Thailand', currency: 'THB', locale: 'th-TH' },
+        { code: '+84', label: 'Vietnam', currency: 'VND', locale: 'vi-VN' },
+        { code: '+61', label: 'Australia', currency: 'AUD', locale: 'en-AU' },
+        { code: '+64', label: 'New Zealand', currency: 'NZD', locale: 'en-NZ' },
+      ];
+
+      const PHONE_CURRENCY_MAP = COUNTRY_PHONE_CODES.reduce((map, item) => {
+        if (!map[item.code]) {
+          map[item.code] = { currency: item.currency, locale: item.locale, country: item.label };
+        }
+        return map;
+      }, {});
       const supportInfo = {
         teamName: 'Van Pips Support Team',
         publisherEmail: 'publisher@vanpips.com',
@@ -4580,6 +4673,42 @@
       // Track failed login attempts
       let failedLoginAttempts = 0;
       const MAX_FAILED_ATTEMPTS = 3;
+      const REMEMBERED_LOGIN_EMAIL_KEY = 'vanPipsRememberedLoginEmail';
+
+      function populateCountryCodeSelects() {
+        const optionHtml = COUNTRY_PHONE_CODES
+          .map((item) => `<option value="${item.code}">${item.code} ${item.label}</option>`)
+          .join('');
+        ['signup-phone-code', 'signup-whatsapp-code'].forEach((id) => {
+          const select = document.getElementById(id);
+          if (!select) return;
+          const previousValue = select.value || '+255';
+          select.innerHTML = optionHtml;
+          select.value = COUNTRY_PHONE_CODES.some((item) => item.code === previousValue) ? previousValue : '+255';
+        });
+      }
+
+      function restoreRememberedLogin() {
+        const emailInput = document.getElementById('login-email');
+        const rememberInput = document.getElementById('remember-login');
+        const rememberedEmail = localStorage.getItem(REMEMBERED_LOGIN_EMAIL_KEY);
+        if (rememberedEmail && emailInput && !emailInput.value) {
+          emailInput.value = rememberedEmail;
+        }
+        if (rememberInput) rememberInput.checked = Boolean(rememberedEmail);
+      }
+
+      function syncRememberedLogin(email) {
+        const rememberInput = document.getElementById('remember-login');
+        if (rememberInput && rememberInput.checked && email) {
+          localStorage.setItem(REMEMBERED_LOGIN_EMAIL_KEY, email);
+        } else {
+          localStorage.removeItem(REMEMBERED_LOGIN_EMAIL_KEY);
+        }
+      }
+
+      populateCountryCodeSelects();
+      restoreRememberedLogin();
 
       if (loginForm) {
         loginForm.addEventListener('submit', (event) => {
@@ -4594,6 +4723,7 @@
             failedLoginAttempts = 0;
             if (warningDiv) warningDiv.classList.add('hidden');
             if (forgotPasswordLink) forgotPasswordLink.classList.add('hidden');
+            syncRememberedLogin(email);
             setCurrentUser(user);
             if (isSubscriptionActive(user)) {
               showStep('home');
@@ -4954,12 +5084,26 @@
         }
       }
 
+      function renderSelectedPlanState() {
+        document.querySelectorAll('.plan-card').forEach((card) => {
+          card.classList.toggle('selected', card.dataset.planCard === selectedPlan);
+        });
+
+        document.querySelectorAll('.plan-action').forEach((button) => {
+          const isSelected = button.dataset.plan === selectedPlan;
+          button.classList.toggle('primary', isSelected);
+          button.classList.toggle('secondary', !isSelected);
+          button.setAttribute('aria-pressed', String(isSelected));
+        });
+      }
+
       document.querySelectorAll('.plan-action').forEach((btn) => {
         btn.addEventListener('click', async (e) => {
           e.preventDefault();
           selectedPlan = btn.dataset.plan || null;
           selectedDuration = Number(btn.dataset.duration) || 0;
           selectedPlanUsd = Number(btn.dataset.usd || PLAN_USD_PRICES[selectedPlan] || 0);
+          renderSelectedPlanState();
           await updateSelectedPlanLabel();
           showStep('plans');
           const payment = document.querySelector('.payment-methods');
@@ -4974,6 +5118,7 @@
         });
       }
       updateLocalPlanPrices();
+      renderSelectedPlanState();
 
       const confirmBtn = document.getElementById('confirm-payment');
       if (confirmBtn) {
@@ -5412,6 +5557,18 @@
         { date: '2026-06-01', country: 'US', name: 'ISM Non-Manufacturing PMI', importance: 'high', time: '14:00 UTC', previous: '52.8', forecast: '53.0', actual: null },
         { date: '2026-06-02', country: 'US', name: 'ADP Employment Change', importance: 'medium', time: '12:15 UTC', previous: '156K', forecast: '160K', actual: null },
         { date: '2026-06-03', country: 'AU', name: 'RBA Interest Rate Decision', importance: 'high', time: '07:30 UTC', previous: '4.35%', forecast: '4.35%', actual: null },
+        { date: '2026-06-08', country: 'IT', name: 'Industrial Production (MoM)', importance: 'medium', time: '08:00 UTC', previous: '0.1%', forecast: '0.2%', actual: null },
+        { date: '2026-06-08', country: 'ES', name: 'Consumer Confidence', importance: 'medium', time: '09:00 UTC', previous: '84.5', forecast: '85.2', actual: null },
+        { date: '2026-06-09', country: 'DE', name: 'Trade Balance', importance: 'medium', time: '06:00 UTC', previous: 'EUR 21.6B', forecast: 'EUR 20.9B', actual: null },
+        { date: '2026-06-09', country: 'FR', name: 'Business Sentiment', importance: 'medium', time: '06:45 UTC', previous: '99', forecast: '100', actual: null },
+        { date: '2026-06-10', country: 'CN', name: 'CPI (YoY)', importance: 'high', time: '01:30 UTC', previous: '0.3%', forecast: '0.4%', actual: null },
+        { date: '2026-06-10', country: 'JP', name: 'GDP Growth Rate', importance: 'high', time: '23:50 UTC', previous: '0.0%', forecast: '0.1%', actual: null },
+        { date: '2026-06-11', country: 'GB', name: 'Monthly GDP', importance: 'high', time: '06:00 UTC', previous: '0.2%', forecast: '0.1%', actual: null },
+        { date: '2026-06-11', country: 'CA', name: 'Building Permits', importance: 'medium', time: '12:30 UTC', previous: '1.4%', forecast: '0.8%', actual: null },
+        { date: '2026-06-12', country: 'US', name: 'Producer Price Index (MoM)', importance: 'high', time: '12:30 UTC', previous: '0.2%', forecast: '0.2%', actual: null },
+        { date: '2026-06-12', country: 'AU', name: 'Consumer Inflation Expectations', importance: 'medium', time: '01:00 UTC', previous: '4.1%', forecast: '4.0%', actual: null },
+        { date: '2026-06-15', country: 'EU', name: 'Trade Balance', importance: 'medium', time: '09:00 UTC', previous: 'EUR 18.3B', forecast: 'EUR 18.8B', actual: null },
+        { date: '2026-06-15', country: 'ZA', name: 'Retail Sales (YoY)', importance: 'medium', time: '11:00 UTC', previous: '2.4%', forecast: '2.6%', actual: null },
       ];
 
       let calendarState = {
@@ -5422,6 +5579,7 @@
 
       function getCalendarDateRange() {
         const start = new Date(calendarState.currentDateStart);
+        start.setHours(0, 0, 0, 0);
         let end = new Date(start);
         if (calendarState.timerangeFilter === 'week') {
           end.setDate(end.getDate() + 7);
