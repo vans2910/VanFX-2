@@ -1,4 +1,4 @@
-# VanFX Trial Share Guide
+# Van Pips Trial Share Guide
 
 This workspace contains a single-page static web app in `index.html`.
 
@@ -26,7 +26,7 @@ This workspace contains a single-page static web app in `index.html`.
 
 Example with Python (if available):
 ```bash
-cd "C:\Users\user\OneDrive\Documents\VanFX 2"
+cd "C:\Users\user\OneDrive\Documents\Van Pips 2"
 python -m http.server 8000
 ```
 Then open on the phone using:

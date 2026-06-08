@@ -1,11 +1,11 @@
-# Deploy VanFX as a Public Website
+# Deploy Van Pips as a Public Website
 
 This guide shows how to publish your `index.html` app to GitHub Pages so anyone can open it from a public URL.
 
 ## Step 1: Create a GitHub repository
 
 1. Sign in to GitHub and create a new repository.
-2. Give it a name like `vanfx-trial`.
+2. Give it a name like `van-pips-trial`.
 3. Do not add a README or license if you already have local files.
 
 ## Step 2: Push this folder to GitHub
@@ -13,10 +13,10 @@ This guide shows how to publish your `index.html` app to GitHub Pages so anyone 
 From the project folder on your computer:
 
 ```powershell
-cd "C:\Users\user\OneDrive\Documents\VanFX 2"
+cd "C:\Users\user\OneDrive\Documents\Van Pips 2"
 git init
 git add .
-git commit -m "Add VanFX web app"
+git commit -m "Add Van Pips web app"
 # If your branch is master, push using master; the workflow supports both master and main
 # If you want, you can also rename the branch to main before pushing.
 git remote add origin https://github.com/<your-username>/<repo-name>.git

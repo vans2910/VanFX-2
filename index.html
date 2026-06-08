@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>VanFX | Trading Confidence</title>
+    <title>VAN PIPS | Trading Confidence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
       :root {
         color-scheme: dark;
@@ -23,12 +24,27 @@
         --shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
       }
 
+      body.light-mode {
+        color-scheme: light;
+        --bg: #f5f7fb;
+        --bg-2: #ffffff;
+        --panel: rgba(255, 255, 255, 0.92);
+        --panel-strong: rgba(255, 255, 255, 0.98);
+        --line: rgba(12, 18, 26, 0.14);
+        --line-soft: rgba(12, 18, 26, 0.08);
+        --ink: #101723;
+        --muted: #647084;
+        --shadow: 0 22px 60px rgba(31, 44, 64, 0.14);
+        background: linear-gradient(145deg, #f5f7fb 0%, #ffffff 52%, #eef7f6 100%);
+      }
+
       * {
         box-sizing: border-box;
       }
 
       html {
         scroll-behavior: smooth;
+        overflow-x: hidden;
       }
 
       html,
@@ -39,6 +55,7 @@
       body {
         margin: 0;
         overflow: hidden;
+        overflow-x: hidden;
         background: linear-gradient(145deg, var(--bg) 0%, #15130f 42%, var(--bg-2) 100%);
         color: var(--ink);
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
@@ -62,10 +79,10 @@
       }
 
       .opening-screen {
-        min-height: 94vh;
+        min-height: 100svh;
         position: relative;
-        display: grid;
-        grid-template-rows: auto 1fr auto;
+        display: flex;
+        flex-direction: column;
         gap: clamp(22px, 4vh, 46px);
         padding: clamp(20px, 4vw, 48px);
         overflow: hidden;
@@ -100,13 +117,15 @@
       .step {
         position: fixed;
         inset: 0;
-        display: grid;
-        grid-auto-rows: min-content 1fr min-content;
+        display: flex;
+        flex-direction: column;
         gap: clamp(12px, 2vh, 28px);
         padding: clamp(20px, 4vw, 48px);
         background: transparent;
         z-index: 10;
         overflow: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
       }
 
       .step.hidden {
@@ -145,6 +164,8 @@
         align-items: center;
         justify-content: space-between;
         gap: 20px;
+        flex-wrap: wrap;
+        flex: 0 0 auto;
       }
 
       .brand-lockup {
@@ -179,6 +200,8 @@
       .topbar-actions {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
         gap: 10px;
       }
 
@@ -188,6 +211,7 @@
         align-items: center;
         justify-content: center;
         gap: 10px;
+        max-width: 100%;
         border: 1px solid transparent;
         border-radius: 8px;
         padding: 0 18px;
@@ -228,13 +252,16 @@
       }
 
       .hero-content {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(360px, 0.82fr);
+        display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: clamp(32px, 6vw, 76px);
+        flex: 1 1 auto;
       }
 
       .hero-copy {
+        flex: 1 1 0;
+        min-width: 0;
         max-width: 680px;
       }
 
@@ -325,6 +352,8 @@
 
       .market-visual {
         position: relative;
+        flex: 0 1 500px;
+        width: min(500px, 100%);
         min-height: 530px;
         border: 1px solid rgba(255, 255, 255, 0.14);
         border-radius: 8px;
@@ -438,32 +467,53 @@
         bottom: 18px;
         z-index: 2;
         width: min(270px, calc(100% - 44px));
-        border: 1px solid rgba(66, 215, 202, 0.28);
-        border-radius: 8px;
-        padding: 16px;
-        background: rgba(6, 12, 17, 0.9);
+        border: 2px solid var(--teal);
+        border-radius: 12px;
+        padding: 18px;
+        background: linear-gradient(135deg, rgba(9, 13, 18, 0.98), rgba(15, 25, 35, 0.98));
+        box-shadow: 0 12px 40px rgba(66, 215, 202, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        overflow: hidden;
+      }
+
+      .signal-card::before {
+        content: "";
+        position: absolute;
+        inset: -20px;
+        background: inherit;
+        filter: blur(16px);
+        z-index: -1;
+        opacity: 0.7;
       }
 
       .signal-card span {
         display: block;
         color: var(--teal);
-        font-size: 0.72rem;
+        font-size: 0.75rem;
         font-weight: 900;
-        letter-spacing: 0.16em;
+        letter-spacing: 0.18em;
         text-transform: uppercase;
+        margin-bottom: 6px;
+        text-shadow: 0 2px 8px rgba(66, 215, 202, 0.3);
       }
 
       .signal-card strong {
         display: block;
-        margin: 8px 0;
-        font-size: 1.7rem;
+        margin: 10px 0;
+        font-size: 1.85rem;
+        color: #ffffff;
+        font-weight: 900;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+        line-height: 1.1;
       }
 
       .signal-card p {
         margin: 0;
-        color: var(--muted);
-        font-size: 0.9rem;
-        line-height: 1.5;
+        color: #e8eef4;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        font-weight: 500;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
       }
 
       .market-footer {
@@ -505,6 +555,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 18px;
+        flex: 0 0 auto;
         padding-top: 4px;
         color: var(--muted);
         font-size: 0.9rem;
@@ -639,11 +690,14 @@
         border-radius: 8px;
         background: rgba(13, 18, 24, 0.88);
         box-shadow: 0 20px 62px rgba(0, 0, 0, 0.22);
+        transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
       }
 
-      .plan-card.featured {
+      .plan-card.selected {
         border-color: rgba(66, 215, 202, 0.4);
         background: linear-gradient(180deg, rgba(66, 215, 202, 0.12), rgba(13, 18, 24, 0.9));
+        box-shadow: 0 24px 72px rgba(66, 215, 202, 0.12), 0 20px 62px rgba(0, 0, 0, 0.22);
+        transform: translateY(-2px);
       }
 
       .plan-badge {
@@ -716,7 +770,7 @@
         width: 100%;
       }
 
-      .subscription-page.revealed .plan-card {
+      .subscription-page.revealed .plan-card.selected {
         border-color: rgba(240, 197, 106, 0.34);
       }
 
@@ -729,22 +783,109 @@
         padding: 40px;
       }
 
+      body.light-mode .panel,
+      body.light-mode .step .panel {
+        background: rgba(255, 255, 255, 0.9);
+        border-color: rgba(12, 18, 26, 0.1);
+      }
+
       .profile-grid {
         display: grid;
-        grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.9fr);
+        grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.92fr);
         gap: 22px;
         align-items: start;
       }
 
-      .profile-summary,
-      .profile-actions-panel {
+      .profile-card,
+      .profile-settings-card,
+      .profile-support-card,
+      .profile-edit-card,
+      .profile-policy-card,
+      .profile-logout-card {
         display: grid;
         gap: 16px;
+        padding: 20px;
+        border: 1px solid var(--line-soft);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.04);
+      }
+
+      body.light-mode .profile-card,
+      body.light-mode .profile-settings-card,
+      body.light-mode .profile-support-card,
+      body.light-mode .profile-edit-card,
+      body.light-mode .profile-policy-card,
+      body.light-mode .profile-logout-card,
+      body.light-mode .support-panel,
+      body.light-mode .policy-panel {
+        background: rgba(255, 255, 255, 0.72);
       }
 
       .profile-meta {
         display: grid;
         gap: 10px;
+      }
+
+      .profile-card-header,
+      .profile-section-header,
+      .settings-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .profile-avatar {
+        width: 58px;
+        height: 58px;
+        display: grid;
+        place-items: center;
+        border-radius: 999px;
+        color: #12100b;
+        background: linear-gradient(135deg, var(--gold), var(--teal));
+        font-size: 1.25rem;
+        font-weight: 1000;
+      }
+
+      .profile-status-pill {
+        width: fit-content;
+        border: 1px solid rgba(66, 215, 202, 0.24);
+        border-radius: 999px;
+        padding: 7px 10px;
+        color: var(--teal);
+        background: rgba(66, 215, 202, 0.08);
+        font-size: 0.78rem;
+        font-weight: 900;
+      }
+
+      .profile-status-pill.expired {
+        border-color: rgba(255, 104, 104, 0.28);
+        color: var(--red);
+        background: rgba(255, 104, 104, 0.08);
+      }
+
+      .profile-status-pill.pending {
+        border-color: rgba(240, 197, 106, 0.28);
+        color: var(--gold);
+        background: rgba(240, 197, 106, 0.08);
+      }
+
+      .renewal-banner {
+        display: none;
+        padding: 14px;
+        border: 1px solid rgba(255, 104, 104, 0.25);
+        border-radius: 8px;
+        color: #ffd8d8;
+        background: rgba(255, 104, 104, 0.08);
+      }
+
+      .renewal-banner.active {
+        display: grid;
+        gap: 10px;
+      }
+
+      body.light-mode .renewal-banner {
+        color: #8f1f1f;
       }
 
       .profile-label {
@@ -767,6 +908,33 @@
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
+      }
+
+      .theme-toggle {
+        position: relative;
+        width: 58px;
+        height: 32px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        cursor: pointer;
+      }
+
+      .theme-toggle::after {
+        content: "";
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        background: var(--gold);
+        transition: transform 180ms ease;
+      }
+
+      .theme-toggle.active::after {
+        transform: translateX(26px);
+        background: var(--teal);
       }
 
       .support-panel,
@@ -1088,6 +1256,13 @@
         width: fit-content;
       }
 
+      .signal-empty {
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        padding: 8px 0;
+      }
+
       .signal-row {
         display: grid;
         gap: 10px;
@@ -1158,7 +1333,7 @@
 
       .phone-input-grid {
         display: grid;
-        grid-template-columns: 110px 1fr;
+        grid-template-columns: minmax(150px, 0.45fr) minmax(0, 1fr);
         gap: 10px;
       }
 
@@ -1208,14 +1383,66 @@
         font-size: 1rem;
       }
 
+      .field select,
+      .field textarea {
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 8px;
+        padding: 14px 16px;
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--ink);
+        font-size: 1rem;
+      }
+
+      .field select {
+        color-scheme: dark;
+        appearance: auto;
+        background-color: #111827;
+        color: #f8fafc;
+      }
+
+      .field select option {
+        background: #ffffff;
+        color: #111827;
+      }
+
+      body.light-mode .field input,
+      body.light-mode .field select,
+      body.light-mode .field textarea {
+        border-color: rgba(12, 18, 26, 0.14);
+        background: rgba(255, 255, 255, 0.86);
+        color: #0f172a;
+      }
+
+      body.light-mode .field select {
+        color-scheme: light;
+      }
+
       .field input::placeholder {
         color: rgba(247, 243, 234, 0.44);
       }
 
-      .field input:focus {
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
         outline: none;
         border-color: rgba(66, 215, 202, 0.72);
         box-shadow: 0 0 0 3px rgba(66, 215, 202, 0.1);
+      }
+
+      .remember-me {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+
+      .remember-me input {
+        width: 18px;
+        height: 18px;
+        accent-color: var(--gold);
       }
 
       .form-actions {
@@ -1448,10 +1675,12 @@
       .calendar-event-country {
         display: inline-block;
         padding: 2px 8px;
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(66, 215, 202, 0.18);
+        border: 1px solid rgba(66, 215, 202, 0.34);
         border-radius: 4px;
         font-size: 0.8rem;
-        color: var(--muted);
+        color: #eafffb;
+        font-weight: 800;
         margin-right: 8px;
       }
 
@@ -2100,7 +2329,6 @@
       }
 
       @media (max-width: 1040px) {
-        .hero-content,
         .registration-page,
         .subscription-header,
         .plans-grid,
@@ -2109,61 +2337,251 @@
           grid-template-columns: 1fr;
         }
 
+        .hero-content {
+          flex-direction: column;
+          align-items: stretch;
+          justify-content: flex-start;
+        }
+
+        .hero-copy,
         .market-visual {
+          width: 100%;
+          max-width: none;
+        }
+
+        .market-visual {
+          flex-basis: auto;
           min-height: 470px;
         }
       }
 
       @media (max-width: 700px) {
+        body {
+          overflow: auto;
+        }
+
+        .step {
+          padding: 16px;
+          gap: 18px;
+        }
+
         .opening-screen {
-          min-height: 100vh;
-          padding: 18px;
+          min-height: 100svh;
+          padding: 16px;
+          gap: 18px;
         }
 
         .topbar {
-          align-items: flex-start;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .logo-mark {
+          width: 42px;
+          height: 42px;
+        }
+
+        .logo-mark svg {
+          width: 27px;
+          height: 27px;
+        }
+
+        .brand-name {
+          font-size: 0.95rem;
+          letter-spacing: 0.05em;
+        }
+
+        .topbar-actions {
+          margin-left: auto;
+          gap: 8px;
         }
 
         .topbar-actions .button.ghost {
           display: none;
         }
 
+        .button {
+          min-height: 44px;
+          padding-inline: 14px;
+          font-size: 0.9rem;
+          white-space: nowrap;
+        }
+
+        .hero-content {
+          gap: 24px;
+        }
+
+        .hero-copy {
+          max-width: none;
+        }
+
+        .eyebrow {
+          margin-bottom: 12px;
+          font-size: 0.68rem;
+          letter-spacing: 0.11em;
+        }
+
+        .eyebrow::before {
+          width: 24px;
+        }
+
         .hero-copy h1 {
-          font-size: clamp(4rem, 22vw, 7rem);
+          margin-bottom: 16px;
+          font-size: clamp(3.25rem, 17vw, 5.7rem);
+          line-height: 0.88;
+          overflow-wrap: anywhere;
+        }
+
+        .hero-copy .lead {
+          margin-bottom: 22px;
+          font-size: 1rem;
+          line-height: 1.58;
+        }
+
+        .hero-actions {
+          display: grid;
+          grid-template-columns: 1fr;
+          align-items: stretch;
+        }
+
+        .hero-actions .button {
+          width: 100%;
         }
 
         .hero-proof,
-        .market-footer,
-        .insight-grid {
+        .insight-grid,
+        .profile-grid {
           grid-template-columns: 1fr;
         }
 
-        .market-stat {
-          border-right: 0;
-          border-bottom: 1px solid var(--line-soft);
+        .profile-card-header,
+        .profile-section-header,
+        .settings-row {
+          align-items: flex-start;
+          flex-direction: column;
         }
 
-        .market-stat:last-child {
+        .profile-card,
+        .profile-settings-card,
+        .profile-support-card,
+        .profile-edit-card,
+        .profile-policy-card,
+        .profile-logout-card {
+          padding: 16px;
+        }
+
+        .profile-section-header .button,
+        .profile-form-actions .button,
+        .policy-links .button {
+          width: 100%;
+        }
+
+        .hero-proof {
+          margin-top: 24px;
+        }
+
+        .proof-item {
+          min-height: auto;
+          padding: 14px;
+        }
+
+        .market-footer {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .market-stat {
+          min-height: auto;
+          padding: 12px 10px;
           border-bottom: 0;
+          border-right: 0;
+        }
+
+        .market-stat:not(:last-child) {
+          border-right: 1px solid var(--line-soft);
+        }
+
+        .market-stat span {
+          font-size: 0.62rem;
+          letter-spacing: 0.08em;
+        }
+
+        .market-stat strong {
+          font-size: 0.82rem;
+          line-height: 1.25;
         }
 
         .market-visual {
-          min-height: 430px;
+          min-height: 0;
+          box-shadow: 0 18px 44px rgba(0, 0, 0, 0.28);
+        }
+
+        .terminal-header {
+          align-items: flex-start;
+          padding: 14px;
+        }
+
+        .terminal-title span {
+          font-size: 0.66rem;
+          letter-spacing: 0.08em;
+        }
+
+        .terminal-title strong {
+          font-size: 1rem;
+        }
+
+        .status-pill {
+          padding: 6px 8px;
+          font-size: 0.68rem;
+        }
+
+        .chart-area {
+          min-height: 240px;
+          padding: 18px 14px;
+        }
+
+        .trend-line {
+          inset: 42px 12px 68px;
         }
 
         .candle-row {
-          gap: 8px;
+          inset: 44px 14px 76px;
+          gap: 6px;
+        }
+
+        .candle {
+          width: min(100%, 13px);
+          justify-self: center;
         }
 
         .signal-card {
-          left: 18px;
-          right: 18px;
+          left: 14px;
+          right: 14px;
+          bottom: 14px;
           width: auto;
+          padding: 14px;
+          border-width: 1px;
+        }
+
+        .signal-card span {
+          font-size: 0.64rem;
+          letter-spacing: 0.12em;
+        }
+
+        .signal-card strong {
+          margin: 7px 0;
+          font-size: 1.22rem;
+        }
+
+        .signal-card p {
+          font-size: 0.82rem;
+          line-height: 1.45;
         }
 
         .scroll-hint {
           align-items: flex-start;
           flex-direction: column;
+          gap: 8px;
+          padding-bottom: 4px;
         }
 
         .registration-page {
@@ -2187,6 +2605,34 @@
         }
       }
 
+      @media (max-width: 380px) {
+        .topbar {
+          align-items: flex-start;
+        }
+
+        .topbar-actions {
+          width: 100%;
+          margin-left: 0;
+        }
+
+        .topbar-actions .button.secondary {
+          width: 100%;
+        }
+
+        .hero-copy h1 {
+          font-size: clamp(3rem, 16vw, 4.8rem);
+        }
+
+        .market-footer {
+          grid-template-columns: 1fr;
+        }
+
+        .market-stat:not(:last-child) {
+          border-right: 0;
+          border-bottom: 1px solid var(--line-soft);
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -2199,17 +2645,17 @@
     </style>
   </head>
   <body>
-    <main class="page-shell" aria-label="VanFX opening and registration page">
-      <section class="opening-screen step" id="opening" aria-labelledby="vanfx-title">
+    <main class="page-shell" aria-label="VAN PIPS opening and registration page">
+      <section class="opening-screen step" id="opening" aria-labelledby="vanPips-title">
         <div class="video-wrapper" aria-hidden="true">
           <video id="branding-video" autoplay muted playsinline loop preload="auto" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:-2;">
-            <source src="vanfx-intro.mp4" type="video/mp4" />
-            <source src="vanfx-intro.webm" type="video/webm" />
-            <!-- Replace these with your high-quality VanFX opening videos -->
+            <source src="vanPips-intro.mp4" type="video/mp4" />
+            <source src="vanPips-intro.webm" type="video/webm" />
+            <!-- Replace these with your high-quality VAN PIPS opening videos -->
           </video>
         </div>
         <header class="topbar">
-          <a class="brand-lockup" href="#top" aria-label="VanFX home">
+          <a class="brand-lockup" href="#top" aria-label="VAN PIPS home">
             <span class="logo-mark" aria-hidden="true">
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -2223,28 +2669,27 @@
                 <path d="M46 36L93 82" stroke="#f0c56a" stroke-width="10" stroke-linecap="round" />
               </svg>
             </span>
-            <span class="brand-name">VanFX</span>
+            <span class="brand-name">VAN PIPS</span>
           </a>
           <nav class="topbar-actions" aria-label="Opening navigation">
             <a class="button ghost" href="#start">Login</a>
             <a class="button secondary" href="#start">Get Started</a>
-            <button type="button" id="admin-access" class="button ghost">Admin</button>
           </nav>
         </header>
 
         <div class="hero-content">
           <div class="hero-copy">
             <p class="eyebrow">Consistency leads to profit</p>
-            <h1 id="vanfx-title">Van<span>FX</span></h1>
+            <h1 id="vanPips-title">VAN<span>PIPS</span></h1>
             <p class="lead">
               A focused trading home for clear signals, calm psychology, and practical market understanding.
               Start with the habit that matters most: one disciplined decision at a time.
             </p>
             <div class="hero-actions" aria-label="Opening actions">
-              <a class="button primary" href="#start">Enter VanFX</a>
+              <a class="button primary" href="#start">Enter VAN PIPS</a>
               <a class="button secondary" href="#learn">Explore the method</a>
             </div>
-            <div class="hero-proof" aria-label="VanFX focus areas">
+            <div class="hero-proof" aria-label="VAN PIPS focus areas">
               <div class="proof-item">
                 <strong>Signals</strong>
                 <span>Entries, exits, and risk framed in plain language.</span>
@@ -2260,10 +2705,10 @@
             </div>
           </div>
 
-          <aside class="market-visual" aria-label="VanFX market preview">
+          <aside class="market-visual" aria-label="VAN PIPS market preview">
             <div class="terminal-header">
               <div class="terminal-title">
-                <span>VanFX Signal Desk</span>
+                <span>VAN PIPS Signal Desk</span>
                 <strong>EUR/USD Session Plan</strong>
               </div>
               <div class="status-pill">Active</div>
@@ -2338,7 +2783,7 @@
           </div>
 
           <p class="intro-text">
-            VanFX is a trading gateway designed for people who want trading explained in plain language.
+            Van Pips is a trading gateway designed for people who want trading explained in plain language.
             Sign up with email and phone, track your progress, and learn how psychology and signals work
             together to make consistency real.
           </p>
@@ -2362,7 +2807,7 @@
             </article>
           </div>
 
-          <div class="stripe">VanFX supports both new traders and experienced traders who want a professional roadmap with honest insight.</div>
+          <div class="stripe">Van Pips supports both new traders and experienced traders who want a professional roadmap with honest insight.</div>
         </section>
 
         <section class="panel auth" aria-labelledby="auth-heading">
@@ -2377,15 +2822,19 @@
           </div>
 
           <div class="tab-panel active" id="login-panel" role="tabpanel" aria-labelledby="login-tab">
-            <form id="login-form" class="form-grid" novalidate>
+            <form id="login-form" class="form-grid" autocomplete="on" novalidate>
               <div class="field">
                 <label for="login-email">Email address</label>
-                <input id="login-email" type="email" placeholder="you@example.com" required />
+                <input id="login-email" name="email" type="email" inputmode="email" autocomplete="username email" placeholder="you@example.com" required />
               </div>
               <div class="field">
                 <label for="login-password">Password</label>
-                <input id="login-password" type="password" placeholder="Enter your password" required />
+                <input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
               </div>
+              <label class="remember-me" for="remember-login">
+                <input id="remember-login" name="remember" type="checkbox" autocomplete="off" />
+                <span>Remember my email on this device</span>
+              </label>
               <div class="form-actions">
                 <button type="submit" class="button-submit">Login</button>
                 <p class="small-note">No account yet? Switch to Sign Up to register with email and phone.</p>
@@ -2398,60 +2847,40 @@
           </div>
 
           <div class="tab-panel" id="signup-panel" role="tabpanel" aria-labelledby="signup-tab">
-            <form id="signup-form" class="form-grid" novalidate>
+            <form id="signup-form" class="form-grid" autocomplete="on" novalidate>
               <div class="field">
                 <label for="signup-name">Full name</label>
-                <input id="signup-name" type="text" placeholder="Your full name" required />
+                <input id="signup-name" name="name" type="text" autocomplete="name" placeholder="Your full name" required />
               </div>
               <div class="field">
                 <label for="signup-email">Email address</label>
-                <input id="signup-email" type="email" placeholder="you@example.com" required />
+                <input id="signup-email" name="email" type="email" inputmode="email" autocomplete="username email" placeholder="you@example.com" required />
               </div>
               <div class="field">
                 <label for="signup-phone-code">Phone number</label>
                 <div class="phone-input-grid">
-                  <select id="signup-phone-code" required>
-                    <option value="+1">+1 US/CA</option>
-                    <option value="+44">+44 UK</option>
-                    <option value="+61">+61 AU</option>
-                    <option value="+254">+254 KE</option>
-                    <option value="+255">+255 TZ</option>
-                    <option value="+234">+234 NG</option>
-                    <option value="+27">+27 ZA</option>
-                    <option value="+91">+91 IN</option>
-                    <option value="+81">+81 JP</option>
-                    <option value="+86">+86 CN</option>
+                  <select id="signup-phone-code" name="phone-country-code" autocomplete="tel-country-code" required>
                   </select>
-                  <input id="signup-phone" type="tel" placeholder="712 345 678" required />
+                  <input id="signup-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="712 345 678" required />
                 </div>
               </div>
               <div class="field">
                 <label for="signup-whatsapp-code">WhatsApp number</label>
                 <div class="phone-input-grid">
-                  <select id="signup-whatsapp-code" required>
-                    <option value="+1">+1 US/CA</option>
-                    <option value="+44">+44 UK</option>
-                    <option value="+61">+61 AU</option>
-                    <option value="+254">+254 KE</option>
-                    <option value="+255">+255 TZ</option>
-                    <option value="+234">+234 NG</option>
-                    <option value="+27">+27 ZA</option>
-                    <option value="+91">+91 IN</option>
-                    <option value="+81">+81 JP</option>
-                    <option value="+86">+86 CN</option>
+                  <select id="signup-whatsapp-code" name="whatsapp-country-code" autocomplete="tel-country-code" required>
                   </select>
-                  <input id="signup-whatsapp" type="tel" placeholder="712 345 678" required />
+                  <input id="signup-whatsapp" name="whatsapp" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="712 345 678" required />
                 </div>
               </div>
               <div class="field">
                 <label for="signup-password">Password</label>
-                <input id="signup-password" type="password" placeholder="Create a password" required />
+                <input id="signup-password" name="new-password" type="password" autocomplete="new-password" placeholder="Create a password" required />
               </div>
               <div class="form-actions">
                 <button type="submit" class="button-submit">Create account</button>
                 <p class="small-note">We use phone and email to keep your trading account secure and easy to recover.</p>
               </div>
-              <p class="small-note">Want faster support? <a href="https://chat.whatsapp.com/your-group-link" target="_blank" rel="noopener noreferrer">Join the WhatsApp group</a>.</p>
+              <p class="small-note">After payment is confirmed by admin, your WhatsApp group link will appear inside your account.</p>
             </form>
           </div>
 
@@ -2472,7 +2901,7 @@
               <p class="eyebrow">Choose your access</p>
               <h2 id="plans-heading">Subscription plans for your trading journey</h2>
               <p>
-                After creating your VanFX account, choose the billing option that fits your pace.
+                After creating your Van Pips account, choose the billing option that fits your pace.
                 Monthly is flexible, yearly rewards commitment, and lifetime gives permanent access
                 with one payment.
               </p>
@@ -2480,8 +2909,8 @@
             <div class="billing-note">Monthly, yearly, or lifetime</div>
           </header>
 
-          <div class="plans-grid" aria-label="VanFX subscription plans">
-            <article class="plan-card">
+          <div class="plans-grid" aria-label="Van Pips subscription plans">
+            <article class="plan-card" data-plan-card="Monthly">
               <span class="plan-badge">Flexible</span>
               <div>
                 <h3>Monthly</h3>
@@ -2489,6 +2918,7 @@
                   <strong>$10</strong>
                   <span>/ month</span>
                 </div>
+                <p class="small-note" id="plan-local-monthly">Local price estimate loading...</p>
               </div>
               <p>Best when you want to start small and keep full control of your subscription.</p>
               <ul class="plan-features">
@@ -2496,10 +2926,10 @@
                 <li>Psychology lessons and reminders</li>
                 <li>Cancel or upgrade any month</li>
               </ul>
-              <a class="button secondary plan-action" href="#plans" data-plan="Monthly" data-duration="30">Choose monthly</a>
+              <a class="button secondary plan-action" href="#plans" data-plan="Monthly" data-duration="30" data-usd="10">Choose monthly</a>
             </article>
 
-            <article class="plan-card featured">
+            <article class="plan-card" data-plan-card="Yearly">
               <span class="plan-badge">Best value</span>
               <div>
                 <h3>Yearly</h3>
@@ -2507,6 +2937,7 @@
                   <strong>$50</strong>
                   <span>/ year</span>
                 </div>
+                <p class="small-note" id="plan-local-yearly">Local price estimate loading...</p>
               </div>
               <p>Designed for traders who are ready to build consistency over a longer season.</p>
               <ul class="plan-features">
@@ -2514,10 +2945,10 @@
                 <li>Priority updates for new lessons</li>
                 <li>Save compared with monthly billing</li>
               </ul>
-              <a class="button primary plan-action" href="#plans" data-plan="Yearly" data-duration="365">Choose yearly</a>
+              <a class="button primary plan-action" href="#plans" data-plan="Yearly" data-duration="365" data-usd="50">Choose yearly</a>
             </article>
 
-            <article class="plan-card">
+            <article class="plan-card" data-plan-card="Lifetime">
               <span class="plan-badge">Special option</span>
               <div>
                 <h3>Lifetime</h3>
@@ -2525,26 +2956,28 @@
                   <strong>$100</strong>
                   <span>one time</span>
                 </div>
+                <p class="small-note" id="plan-local-lifetime">Local price estimate loading...</p>
               </div>
-              <p>Permanent VanFX access for traders who want the full roadmap without recurring bills.</p>
+              <p>Permanent Van Pips access for traders who want the full roadmap without recurring bills.</p>
               <ul class="plan-features">
-                <li>Lifetime access to VanFX learning</li>
+                <li>Lifetime access to Van Pips learning</li>
                 <li>Future trading resources included</li>
                 <li>No monthly or yearly renewal</li>
               </ul>
-              <a class="button secondary plan-action" href="#plans" data-plan="Lifetime" data-duration="0">Choose lifetime</a>
+              <a class="button secondary plan-action" href="#plans" data-plan="Lifetime" data-duration="0" data-usd="100">Choose lifetime</a>
             </article>
           </div>
 
           <section class="payment-methods" aria-labelledby="payment-heading">
             <div>
               <p class="eyebrow">Payment methods</p>
-              <h3 id="payment-heading">Pay for your selected VanFX plan</h3>
+              <h3 id="payment-heading">Pay for your selected Van Pips plan</h3>
               <p>
                 After choosing Monthly, Yearly, or Lifetime access, use one of the payment methods
                 below and keep your payment confirmation for account activation.
               </p>
               <div id="selected-plan-label" class="selected-plan-label">No plan selected yet.</div>
+              <div id="local-payment-estimate" class="selected-plan-label" style="margin-top:10px;">Local currency will be detected from your phone country.</div>
             </div>
             <div class="payment-list">
               <div class="payment-card">
@@ -2566,7 +2999,7 @@
         <section class="step hidden" id="confirmation" aria-labelledby="confirmation-heading" aria-hidden="true">
           <div class="panel">
             <h2 id="confirmation-heading">Thank you</h2>
-            <p class="intro-text">We received your subscription request. Please keep your payment confirmation and contact support to activate your account. Welcome to VanFX — consistency leads to profit.</p>
+            <p class="intro-text">We received your payment request. Please keep your payment confirmation. Your account will unlock after admin approval.</p>
             <div style="margin-top:18px;">
               <button id="go-to-start" class="button secondary">Back to start</button>
             </div>
@@ -2638,6 +3071,8 @@
               </div>
             </section>
 
+            <section id="api-trading-dashboard" class="w-full"></section>
+
             <section class="today-signal-panel">
               <div class="section-header">
                 <div>
@@ -2646,7 +3081,7 @@
                 </div>
               </div>
               <div id="today-signal-card" class="signal-card">
-                <div class="signal-empty">No live signal has been posted yet. Check back soon for the latest trade setup.</div>
+                <div class="signal-empty">No signal posted today. Check back for the latest market setup.</div>
               </div>
             </section>
 
@@ -2654,7 +3089,7 @@
               <div class="section-header">
                 <div>
                   <h3>Free content</h3>
-                  <p class="small-note">Motivation, mindset notes, or trading reminders for the VanFX community.</p>
+                  <p class="small-note">Motivation, mindset notes, or trading reminders for the Van Pips community.</p>
                 </div>
               </div>
               <div id="free-content-board" class="free-content-board">
@@ -2693,98 +3128,154 @@
         </div>
       </section>
 
-      <section class="step hidden" id="profile" aria-labelledby="profile-heading" aria-hidden="true">
+            <section class="step hidden" id="profile" aria-labelledby="profile-heading" aria-hidden="true">
         <div class="panel">
-          <h2 id="profile-heading">Account profile</h2>
-          <p class="intro-text">This section shows the registered user profile, including account details, subscription status, and support routing from the publisher and developer.</p>
+          <h2 id="profile-heading">My profile</h2>
+          <p class="intro-text">Manage your Van Pips account, subscription, support access, and website preferences.</p>
           <div id="profile-details" class="profile-grid">
-            <div class="profile-summary">
-              <div class="profile-meta">
-                <p class="profile-label">Name</p>
-                <p id="profile-name" class="profile-value">—</p>
-                <p class="profile-label">Email</p>
-                <p id="profile-email" class="profile-value muted">—</p>
-                <p class="profile-label">Phone</p>
-                <p id="profile-phone" class="profile-value muted">—</p>
-                <p class="profile-label">WhatsApp</p>
-                <p id="profile-whatsapp" class="profile-value muted">—</p>
-              </div>
+            <div class="profile-main-column" style="display:grid;gap:18px;">
+              <section class="profile-card">
+                <div class="profile-card-header">
+                  <div style="display:flex;align-items:center;gap:14px;">
+                    <div class="profile-avatar" id="profile-avatar">VP</div>
+                    <div>
+                      <p class="profile-label">My profile</p>
+                      <h3 id="profile-name" style="margin:0;">-</h3>
+                      <p id="profile-email" class="profile-value muted">-</p>
+                    </div>
+                  </div>
+                  <span id="profile-status-pill" class="profile-status-pill">Not subscribed</span>
+                </div>
+                <div class="profile-meta">
+                  <p class="profile-label">Phone</p>
+                  <p id="profile-phone" class="profile-value muted">-</p>
+                  <p class="profile-label">WhatsApp</p>
+                  <p id="profile-whatsapp" class="profile-value muted">-</p>
+                </div>
+              </section>
 
-              <div class="profile-subscription">
-                <p class="profile-label">Subscription</p>
-                <p id="profile-sub-status" class="profile-value">Not subscribed</p>
-                <p id="profile-sub-dates" class="profile-value muted">&nbsp;</p>
-              </div>
+              <section class="profile-card">
+                <div class="profile-section-header">
+                  <div>
+                    <p class="profile-label">Subscription</p>
+                    <p id="profile-sub-status" class="profile-value">Not subscribed</p>
+                    <p id="profile-sub-dates" class="profile-value muted">&nbsp;</p>
+                  </div>
+                  <button id="renew-sub" class="button primary">Subscribe or renew</button>
+                </div>
+                <div id="renewal-banner" class="renewal-banner">
+                  <strong>Subscription renewal required</strong>
+                  <span>Your access has expired or is not active. Renew to unlock signals, videos, history, and support.</span>
+                </div>
+                <div id="whatsapp-access-panel" class="support-panel hidden">
+                  <p><strong>WhatsApp group access</strong></p>
+                  <p>Your payment has been confirmed. Use the group link below to join the premium Van Pips community.</p>
+                  <p><a id="whatsapp-group-link" class="button primary" href="#" target="_blank" rel="noopener noreferrer">Join WhatsApp group</a></p>
+                </div>
+              </section>
+
+              <section class="profile-edit-card">
+                <div class="profile-section-header">
+                  <div>
+                    <p class="profile-label">Edit account</p>
+                    <h3 style="margin:0;">Update your details</h3>
+                  </div>
+                  <button id="edit-account" class="button secondary">Edit</button>
+                </div>
+                <form id="edit-account-form" class="form-grid hidden">
+                  <div class="field">
+                    <label for="edit-name">Full name</label>
+                    <input id="edit-name" type="text" />
+                  </div>
+                  <div class="field">
+                    <label for="edit-email">Email</label>
+                    <input id="edit-email" type="email" />
+                  </div>
+                  <div class="field">
+                    <label for="edit-phone">Phone</label>
+                    <input id="edit-phone" type="tel" />
+                  </div>
+                  <div class="field">
+                    <label for="edit-whatsapp">WhatsApp</label>
+                    <input id="edit-whatsapp" type="tel" />
+                  </div>
+                  <div class="form-actions profile-form-actions">
+                    <button type="button" id="save-account" class="button primary">Save changes</button>
+                    <button type="button" id="cancel-edit" class="button secondary">Cancel</button>
+                  </div>
+                </form>
+              </section>
             </div>
 
-            <div class="profile-actions-panel">
-              <div class="profile-action-buttons">
-                <button id="edit-account" class="button secondary">Edit account</button>
-                <button id="renew-sub" class="button primary">Subscribe or renew</button>
-                <button id="support-contact" class="button ghost">Support</button>
-              </div>
-              <div id="support-panel" class="support-panel hidden">
-                <p><strong>Support team</strong></p>
-                <p>The support help depends on the VanFX team and is backed by the publisher and the developer of this website.</p>
-                <p><strong>Team:</strong> <span id="support-team-name">VanFX Support Team</span></p>
-                <p><strong>Publisher:</strong> <a href="mailto:publisher@vanfx.com">publisher@vanfx.com</a></p>
-                <p><strong>Developer:</strong> <a href="mailto:dev@vanfx.com">dev@vanfx.com</a></p>
-              </div>
-            </div>
-          </div>
+            <div class="profile-side-column" style="display:grid;gap:18px;">
+              <section class="profile-settings-card">
+                <div>
+                  <p class="profile-label">Settings</p>
+                  <h3 style="margin:0;">Appearance</h3>
+                </div>
+                <div class="settings-row">
+                  <div>
+                    <strong>Dark mode</strong>
+                    <p class="profile-value muted" id="theme-mode-label">Dark mode is on</p>
+                  </div>
+                  <button id="theme-toggle" class="theme-toggle active" type="button" aria-label="Toggle dark mode" aria-pressed="true"></button>
+                </div>
+              </section>
 
-          <form id="edit-account-form" class="form-grid hidden">
-            <div class="field">
-              <label for="edit-name">Full name</label>
-              <input id="edit-name" type="text" />
-            </div>
-            <div class="field">
-              <label for="edit-email">Email</label>
-              <input id="edit-email" type="email" />
-            </div>
-            <div class="field">
-              <label for="edit-phone">Phone</label>
-              <input id="edit-phone" type="tel" />
-            </div>
-            <div class="form-actions profile-form-actions">
-              <button type="button" id="save-account" class="button primary">Save</button>
-              <button type="button" id="cancel-edit" class="button secondary">Cancel</button>
-            </div>
-          </form>
+              <section class="profile-support-card">
+                <div class="profile-section-header">
+                  <div>
+                    <p class="profile-label">Settings and support</p>
+                    <h3 style="margin:0;">Support and help</h3>
+                  </div>
+                  <button id="support-contact" class="button ghost">Open</button>
+                </div>
+                <div id="support-panel" class="support-panel hidden">
+                  <p><strong>Support team</strong></p>
+                  <p>The support help depends on the Van Pips team and is backed by the publisher and the developer of this website.</p>
+                  <p><strong>Team:</strong> <span id="support-team-name">Van Pips Support Team</span></p>
+                  <p><strong>Publisher:</strong> <a href="mailto:publisher@vanpips.com">publisher@vanpips.com</a></p>
+                  <p><strong>Developer:</strong> <a href="mailto:dev@vanpips.com">dev@vanpips.com</a></p>
+                </div>
+              </section>
 
-          <div id="policy-links" class="policy-links">
-            <button id="privacy-btn" class="button ghost">Privacy Policy</button>
-            <button id="terms-btn" class="button ghost">Terms of Service</button>
-            <button id="legal-btn" class="button ghost">Legal Disclaimer</button>
-          </div>
+              <section class="profile-policy-card">
+                <p class="profile-label">Legal</p>
+                <div id="policy-links" class="policy-links" style="margin-top:0;">
+                  <button id="privacy-btn" class="button ghost">Privacy Policy</button>
+                  <button id="terms-btn" class="button ghost">Terms of Service</button>
+                  <button id="legal-btn" class="button ghost">Legal Disclaimer</button>
+                </div>
+                <div id="policy-panel" class="policy-panel hidden">
+                  <div id="privacy-panel" class="policy-copy hidden">
+                    <h3>Privacy policy</h3>
+                    <p>Van Pips collects only the account information you provide for registration, authentication, and subscription management. Your email and phone number are retained for service updates and support.</p>
+                  </div>
+                  <div id="terms-panel" class="policy-copy hidden">
+                    <h3>Terms of service</h3>
+                    <p>By using Van Pips, you agree to the website terms, subscription billing rules, and the support model provided by the Van Pips team. Plans, renewals, and access rights are governed by the selected service plan.</p>
+                  </div>
+                  <div id="legal-panel" class="policy-copy hidden">
+                    <h3>Legal disclaimer</h3>
+                    <p>Van Pips provides educational trading support and signal guidance. The publisher and developer are not responsible for individual trading outcomes. Trade with proper risk management and verify all decisions independently.</p>
+                  </div>
+                </div>
+              </section>
 
-          <div id="policy-panel" class="policy-panel hidden">
-            <div id="privacy-panel" class="policy-copy hidden">
-              <h3>Privacy policy</h3>
-              <p>VanFX collects only the account information you provide for registration, authentication, and subscription management. Your email and phone number are retained for service updates and support.</p>
+              <section class="profile-logout-card">
+                <p class="profile-label">Account actions</p>
+                <button id="logout-btn" class="button secondary" style="width: 100%; max-width: none;">Logout</button>
+              </section>
             </div>
-            <div id="terms-panel" class="policy-copy hidden">
-              <h3>Terms of service</h3>
-              <p>By using VanFX, you agree to the website terms, subscription billing rules, and the support model provided by the VanFX team. Plans, renewals, and access rights are governed by the selected service plan.</p>
-            </div>
-            <div id="legal-panel" class="policy-copy hidden">
-              <h3>Legal disclaimer</h3>
-              <p>VanFX provides educational trading support and signal guidance. The publisher and developer are not responsible for individual trading outcomes. Trade with proper risk management and verify all decisions independently.</p>
-            </div>
-          </div>
-
-          <div class="account-actions-section" style="margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
-            <p class="profile-label" style="margin-bottom: 12px;">Account actions</p>
-            <button id="logout-btn" class="button secondary" style="width: 100%; max-width: none;">Logout</button>
           </div>
         </div>
       </section>
-
       <!-- Bottom navigation -->
       <section class="step hidden" id="admin" aria-labelledby="admin-heading" aria-hidden="true">
         <div class="panel">
           <h2 id="admin-heading">Admin dashboard</h2>
           <p class="intro-text">Only the admin can view registered customer details, upload video lessons, and manage site updates.</p>
+          <section id="admin-payment-requests" class="admin-users-list"></section>
           <div id="admin-users-list" class="admin-users-list"></div>
           <div id="admin-video-management" class="admin-video-management">
             <div class="admin-upload-panel">
@@ -3046,9 +3537,37 @@
       const steps = Array.from(document.querySelectorAll('.step'));
       const bottomNav = document.querySelector('.bottom-nav');
       const navItems = document.querySelectorAll('.nav-item');
+      const PROTECTED_STEPS = new Set(['home', 'videos', 'history', 'profile']);
+      const ADMIN_SESSION_KEY = 'vanPipsAdminUnlocked';
+      const ADMIN_TOKEN_KEY = 'vanPipsAdminToken';
+      const THEME_KEY = 'vanPipsTheme';
+      const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/BpEajUuuoHlEo3YjG06wt6?mode=gi_t';
+
+      function applyTheme(theme) {
+        const isDark = theme !== 'light';
+        document.body.classList.toggle('light-mode', !isDark);
+        const toggle = document.getElementById('theme-toggle');
+        const label = document.getElementById('theme-mode-label');
+        if (toggle) {
+          toggle.classList.toggle('active', isDark);
+          toggle.setAttribute('aria-pressed', String(isDark));
+        }
+        if (label) label.textContent = isDark ? 'Dark mode is on' : 'Light mode is on';
+        localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+      }
+
+      applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
 
       function showStep(id) {
         const user = getUser();
+        if (id === 'admin' && !isAdminUnlocked()) {
+          showStep('opening');
+          return;
+        }
+        if (PROTECTED_STEPS.has(id) && !isSubscriptionActive(user)) {
+          showStep(user ? 'plans' : 'start');
+          return;
+        }
         steps.forEach((s) => {
           if (s.id === id) {
             s.classList.remove('hidden');
@@ -3059,17 +3578,28 @@
           }
         });
         updateNavState(id);
-        const shouldHideNav = id === 'opening' || id === 'start' || id === 'plans' || id === 'confirmation' || !user || !user.subscribed;
+        const shouldHideNav = id === 'opening' || id === 'start' || id === 'plans' || id === 'confirmation' || id === 'admin' || !isSubscriptionActive(user);
         if (bottomNav) {
           bottomNav.style.display = shouldHideNav ? 'none' : 'flex';
         }
         if (id === 'home') renderHome();
+        if (id === 'plans') updateLocalPlanPrices();
         if (id === 'history') renderHistory();
         if (id === 'profile') renderProfile();
       }
 
       function updateNavState(activeId) {
         navItems.forEach((n) => n.classList.toggle('active', n.dataset.target === activeId));
+      }
+
+      function isAdminUnlocked() {
+        return sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
+      }
+
+      function isSubscriptionActive(user) {
+        if (!user || !user.subscribed) return false;
+        if (!user.subscriptionEnd || user.subscriptionEnd === 'Lifetime') return true;
+        return new Date(user.subscriptionEnd) >= new Date();
       }
 
       // Initialize
@@ -3112,14 +3642,12 @@
       });
 
       // --- User and alerts storage ---
-      const ADMIN_PASSWORD = 'VanFXAdmin2026';
-
-      function getUsers() { try { return JSON.parse(localStorage.getItem('vanfxUsers') || '[]'); } catch { return []; } }
-      function setUsers(users) { localStorage.setItem('vanfxUsers', JSON.stringify(users)); }
-      function getCurrentUser() { try { return JSON.parse(localStorage.getItem('vanfxCurrentUser') || 'null'); } catch { return null; } }
+      function getUsers() { try { return JSON.parse(localStorage.getItem('vanPipsUsers') || '[]'); } catch { return []; } }
+      function setUsers(users) { localStorage.setItem('vanPipsUsers', JSON.stringify(users)); }
+      function getCurrentUser() { try { return JSON.parse(localStorage.getItem('vanPipsCurrentUser') || 'null'); } catch { return null; } }
       function setCurrentUser(user) {
-        if (!user) { localStorage.removeItem('vanfxCurrentUser'); return; }
-        localStorage.setItem('vanfxCurrentUser', JSON.stringify(user));
+        if (!user) { localStorage.removeItem('vanPipsCurrentUser'); return; }
+        localStorage.setItem('vanPipsCurrentUser', JSON.stringify(user));
         const users = getUsers();
         const index = users.findIndex((u) => u.email === user.email);
         if (index >= 0) {
@@ -3134,12 +3662,12 @@
 
       function logout() {
         setCurrentUser(null);
-        localStorage.removeItem('vanfxCurrentUser');
+        localStorage.removeItem('vanPipsCurrentUser');
         showStep('opening');
       }
 
-      function getAlerts() { try { return JSON.parse(localStorage.getItem('vanfxAlerts') || '[]'); } catch { return []; } }
-      function setAlerts(a) { localStorage.setItem('vanfxAlerts', JSON.stringify(a)); }
+      function getAlerts() { try { return JSON.parse(localStorage.getItem('vanPipsAlerts') || '[]'); } catch { return []; } }
+      function setAlerts(a) { localStorage.setItem('vanPipsAlerts', JSON.stringify(a)); }
 
       function renderAlertsList() {
         const list = document.getElementById('alerts-list');
@@ -3205,7 +3733,7 @@
       function showAlertNotification(alertItem) {
         const body = alertItem.title ? `Time to ${alertItem.title.toLowerCase()}` : 'Your scheduled activity is due.';
         if (window.Notification && Notification.permission === 'granted') {
-          new Notification('VanFX alert', { body });
+          new Notification('Van Pips alert', { body });
         } else {
           window.alert(`Reminder: ${body}`);
         }
@@ -3220,16 +3748,106 @@
       // --- Home rendering and graph ---
       let selectedPlan = null;
       let selectedDuration = 0;
+      let selectedPlanUsd = 0;
+      let selectedPlanQuote = null;
+      let latestCurrencyRates = null;
+      const PLAN_USD_PRICES = {
+        Monthly: 10,
+        Yearly: 50,
+        Lifetime: 100,
+      };
+      const COUNTRY_PHONE_CODES = [
+        { code: '+255', label: 'Tanzania', currency: 'TZS', locale: 'sw-TZ' },
+        { code: '+254', label: 'Kenya', currency: 'KES', locale: 'en-KE' },
+        { code: '+256', label: 'Uganda', currency: 'UGX', locale: 'en-UG' },
+        { code: '+250', label: 'Rwanda', currency: 'RWF', locale: 'rw-RW' },
+        { code: '+257', label: 'Burundi', currency: 'BIF', locale: 'fr-BI' },
+        { code: '+211', label: 'South Sudan', currency: 'SSP', locale: 'en-SS' },
+        { code: '+251', label: 'Ethiopia', currency: 'ETB', locale: 'am-ET' },
+        { code: '+252', label: 'Somalia', currency: 'SOS', locale: 'so-SO' },
+        { code: '+20', label: 'Egypt', currency: 'EGP', locale: 'ar-EG' },
+        { code: '+27', label: 'South Africa', currency: 'ZAR', locale: 'en-ZA' },
+        { code: '+234', label: 'Nigeria', currency: 'NGN', locale: 'en-NG' },
+        { code: '+233', label: 'Ghana', currency: 'GHS', locale: 'en-GH' },
+        { code: '+237', label: 'Cameroon', currency: 'XAF', locale: 'fr-CM' },
+        { code: '+225', label: 'Cote d Ivoire', currency: 'XOF', locale: 'fr-CI' },
+        { code: '+212', label: 'Morocco', currency: 'MAD', locale: 'ar-MA' },
+        { code: '+213', label: 'Algeria', currency: 'DZD', locale: 'ar-DZ' },
+        { code: '+216', label: 'Tunisia', currency: 'TND', locale: 'ar-TN' },
+        { code: '+1', label: 'United States / Canada', currency: 'USD', locale: 'en-US' },
+        { code: '+52', label: 'Mexico', currency: 'MXN', locale: 'es-MX' },
+        { code: '+55', label: 'Brazil', currency: 'BRL', locale: 'pt-BR' },
+        { code: '+54', label: 'Argentina', currency: 'ARS', locale: 'es-AR' },
+        { code: '+56', label: 'Chile', currency: 'CLP', locale: 'es-CL' },
+        { code: '+57', label: 'Colombia', currency: 'COP', locale: 'es-CO' },
+        { code: '+51', label: 'Peru', currency: 'PEN', locale: 'es-PE' },
+        { code: '+58', label: 'Venezuela', currency: 'VES', locale: 'es-VE' },
+        { code: '+44', label: 'United Kingdom', currency: 'GBP', locale: 'en-GB' },
+        { code: '+353', label: 'Ireland', currency: 'EUR', locale: 'en-IE' },
+        { code: '+39', label: 'Italy', currency: 'EUR', locale: 'it-IT' },
+        { code: '+34', label: 'Spain', currency: 'EUR', locale: 'es-ES' },
+        { code: '+33', label: 'France', currency: 'EUR', locale: 'fr-FR' },
+        { code: '+49', label: 'Germany', currency: 'EUR', locale: 'de-DE' },
+        { code: '+31', label: 'Netherlands', currency: 'EUR', locale: 'nl-NL' },
+        { code: '+32', label: 'Belgium', currency: 'EUR', locale: 'nl-BE' },
+        { code: '+41', label: 'Switzerland', currency: 'CHF', locale: 'de-CH' },
+        { code: '+43', label: 'Austria', currency: 'EUR', locale: 'de-AT' },
+        { code: '+351', label: 'Portugal', currency: 'EUR', locale: 'pt-PT' },
+        { code: '+30', label: 'Greece', currency: 'EUR', locale: 'el-GR' },
+        { code: '+46', label: 'Sweden', currency: 'SEK', locale: 'sv-SE' },
+        { code: '+47', label: 'Norway', currency: 'NOK', locale: 'nb-NO' },
+        { code: '+45', label: 'Denmark', currency: 'DKK', locale: 'da-DK' },
+        { code: '+358', label: 'Finland', currency: 'EUR', locale: 'fi-FI' },
+        { code: '+48', label: 'Poland', currency: 'PLN', locale: 'pl-PL' },
+        { code: '+420', label: 'Czech Republic', currency: 'CZK', locale: 'cs-CZ' },
+        { code: '+36', label: 'Hungary', currency: 'HUF', locale: 'hu-HU' },
+        { code: '+40', label: 'Romania', currency: 'RON', locale: 'ro-RO' },
+        { code: '+90', label: 'Turkey', currency: 'TRY', locale: 'tr-TR' },
+        { code: '+380', label: 'Ukraine', currency: 'UAH', locale: 'uk-UA' },
+        { code: '+7', label: 'Russia / Kazakhstan', currency: 'RUB', locale: 'ru-RU' },
+        { code: '+971', label: 'United Arab Emirates', currency: 'AED', locale: 'ar-AE' },
+        { code: '+966', label: 'Saudi Arabia', currency: 'SAR', locale: 'ar-SA' },
+        { code: '+974', label: 'Qatar', currency: 'QAR', locale: 'ar-QA' },
+        { code: '+965', label: 'Kuwait', currency: 'KWD', locale: 'ar-KW' },
+        { code: '+973', label: 'Bahrain', currency: 'BHD', locale: 'ar-BH' },
+        { code: '+968', label: 'Oman', currency: 'OMR', locale: 'ar-OM' },
+        { code: '+972', label: 'Israel', currency: 'ILS', locale: 'he-IL' },
+        { code: '+91', label: 'India', currency: 'INR', locale: 'en-IN' },
+        { code: '+92', label: 'Pakistan', currency: 'PKR', locale: 'en-PK' },
+        { code: '+880', label: 'Bangladesh', currency: 'BDT', locale: 'bn-BD' },
+        { code: '+94', label: 'Sri Lanka', currency: 'LKR', locale: 'si-LK' },
+        { code: '+977', label: 'Nepal', currency: 'NPR', locale: 'ne-NP' },
+        { code: '+86', label: 'China', currency: 'CNY', locale: 'zh-CN' },
+        { code: '+852', label: 'Hong Kong', currency: 'HKD', locale: 'zh-HK' },
+        { code: '+886', label: 'Taiwan', currency: 'TWD', locale: 'zh-TW' },
+        { code: '+81', label: 'Japan', currency: 'JPY', locale: 'ja-JP' },
+        { code: '+82', label: 'South Korea', currency: 'KRW', locale: 'ko-KR' },
+        { code: '+65', label: 'Singapore', currency: 'SGD', locale: 'en-SG' },
+        { code: '+60', label: 'Malaysia', currency: 'MYR', locale: 'ms-MY' },
+        { code: '+62', label: 'Indonesia', currency: 'IDR', locale: 'id-ID' },
+        { code: '+63', label: 'Philippines', currency: 'PHP', locale: 'en-PH' },
+        { code: '+66', label: 'Thailand', currency: 'THB', locale: 'th-TH' },
+        { code: '+84', label: 'Vietnam', currency: 'VND', locale: 'vi-VN' },
+        { code: '+61', label: 'Australia', currency: 'AUD', locale: 'en-AU' },
+        { code: '+64', label: 'New Zealand', currency: 'NZD', locale: 'en-NZ' },
+      ];
+
+      const PHONE_CURRENCY_MAP = COUNTRY_PHONE_CODES.reduce((map, item) => {
+        if (!map[item.code]) {
+          map[item.code] = { currency: item.currency, locale: item.locale, country: item.label };
+        }
+        return map;
+      }, {});
       const supportInfo = {
-        teamName: 'VanFX Support Team',
-        publisherEmail: 'publisher@vanfx.com',
-        developerEmail: 'dev@vanfx.com',
+        teamName: 'Van Pips Support Team',
+        publisherEmail: 'publisher@vanpips.com',
+        developerEmail: 'dev@vanpips.com',
       };
 
       function renderHome() {
         const user = getUser();
         const welcome = document.getElementById('welcome-text');
-        if (welcome) welcome.textContent = user && user.name ? `Welcome back, ${user.name}` : 'Welcome to VanFX';
+        if (welcome) welcome.textContent = user && user.name ? `Welcome back, ${user.name}` : 'Welcome to Van Pips';
         const svg = document.getElementById('week-svg');
         if (svg) {
           const values = generateWeeklyData(user);
@@ -3304,6 +3922,11 @@
         const supportTeamName = document.getElementById('support-team-name');
         const supportPanel = document.getElementById('support-panel');
         const renewBtn = document.getElementById('renew-sub');
+        const whatsappAccessPanel = document.getElementById('whatsapp-access-panel');
+        const whatsappGroupLink = document.getElementById('whatsapp-group-link');
+        const avatar = document.getElementById('profile-avatar');
+        const statusPill = document.getElementById('profile-status-pill');
+        const renewalBanner = document.getElementById('renewal-banner');
         if (!user) {
           if (nameEl) nameEl.textContent = 'Not signed in';
           if (emailEl) emailEl.textContent = '';
@@ -3312,25 +3935,40 @@
           if (renewBtn) renewBtn.textContent = 'Subscribe now';
           if (supportTeamName) supportTeamName.textContent = supportInfo.teamName;
           if (supportPanel) supportPanel.classList.add('hidden');
+          if (whatsappAccessPanel) whatsappAccessPanel.classList.add('hidden');
+          if (statusPill) {
+            statusPill.textContent = 'Not signed in';
+            statusPill.className = 'profile-status-pill expired';
+          }
+          if (renewalBanner) renewalBanner.classList.add('active');
           return;
         }
 
         if (nameEl) nameEl.textContent = user.name || 'Unknown user';
         if (emailEl) emailEl.textContent = user.email || 'No email';
+        if (avatar) {
+          const initials = String(user.name || user.email || 'VP').split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase();
+          avatar.textContent = initials || 'VP';
+        }
         const phoneEl = document.getElementById('profile-phone');
         const whatsappEl = document.getElementById('profile-whatsapp');
         if (phoneEl) phoneEl.textContent = user.phoneFull || 'No phone saved';
         if (whatsappEl) whatsappEl.textContent = user.whatsappFull || 'No WhatsApp saved';
         if (supportTeamName) supportTeamName.textContent = supportInfo.teamName;
         if (supportPanel) supportPanel.classList.add('hidden');
+        if (whatsappGroupLink) whatsappGroupLink.href = WHATSAPP_GROUP_LINK;
 
-        if (user.subscribed) {
+        if (isSubscriptionActive(user)) {
           const now = new Date();
           const expiry = user.subscriptionEnd && user.subscriptionEnd !== 'Lifetime' ? new Date(user.subscriptionEnd) : null;
           const isExpired = expiry ? expiry < now : false;
           const planName = user.subscriptionPlan || 'Active plan';
           if (statusEl) {
             statusEl.textContent = isExpired ? `Expired (${planName})` : `${planName} ${user.subscriptionEnd === 'Lifetime' ? '(Lifetime)' : ''}`;
+          }
+          if (statusPill) {
+            statusPill.textContent = isExpired ? 'Expired' : 'Active';
+            statusPill.className = `profile-status-pill${isExpired ? ' expired' : ''}`;
           }
 
           if (datesEl) {
@@ -3344,22 +3982,33 @@
           }
 
           if (renewBtn) renewBtn.textContent = isExpired ? 'Renew subscription' : 'Renew / Change plan';
+          if (whatsappAccessPanel) whatsappAccessPanel.classList.toggle('hidden', isExpired);
+          if (renewalBanner) renewalBanner.classList.toggle('active', isExpired);
         } else {
-          if (statusEl) statusEl.textContent = 'Not subscribed';
-          if (datesEl) datesEl.textContent = 'Subscribe to access premium trading signals, support, and account features.';
+          const pending = user.paymentStatus === 'pending_admin_approval';
+          if (statusEl) statusEl.textContent = pending ? 'Payment pending admin approval' : 'Not subscribed';
+          if (datesEl) datesEl.textContent = pending
+            ? `Your ${user.pendingPlan || user.subscriptionPlan || 'selected'} plan is waiting for admin approval.`
+            : 'Subscribe to access premium trading signals, support, and account features.';
           if (renewBtn) renewBtn.textContent = 'Subscribe now';
+          if (whatsappAccessPanel) whatsappAccessPanel.classList.add('hidden');
+          if (statusPill) {
+            statusPill.textContent = pending ? 'Pending' : 'Renew';
+            statusPill.className = `profile-status-pill ${pending ? 'pending' : 'expired'}`;
+          }
+          if (renewalBanner) renewalBanner.classList.add('active');
         }
       }
 
       function getVideos() {
-        try { return JSON.parse(localStorage.getItem('vanfxVideos') || '[]'); } catch { return []; }
+        try { return JSON.parse(localStorage.getItem('vanPipsVideos') || '[]'); } catch { return []; }
       }
-      function setVideos(videos) { localStorage.setItem('vanfxVideos', JSON.stringify(videos)); }
+      function setVideos(videos) { localStorage.setItem('vanPipsVideos', JSON.stringify(videos)); }
 
       function getNotifications() {
-        try { return JSON.parse(localStorage.getItem('vanfxNotifications') || '[]'); } catch { return []; }
+        try { return JSON.parse(localStorage.getItem('vanPipsNotifications') || '[]'); } catch { return []; }
       }
-      function setNotifications(notes) { localStorage.setItem('vanfxNotifications', JSON.stringify(notes)); }
+      function setNotifications(notes) { localStorage.setItem('vanPipsNotifications', JSON.stringify(notes)); }
 
       function updateNotificationBadge() {
         const badge = document.getElementById('notif-count');
@@ -3602,7 +4251,7 @@
       function renderHome() {
         const user = getUser();
         const welcome = document.getElementById('welcome-text');
-        if (welcome) welcome.textContent = user && user.name ? `Welcome back, ${user.name}` : 'Welcome to VanFX';
+        if (welcome) welcome.textContent = user && user.name ? `Welcome back, ${user.name}` : 'Welcome to Van Pips';
         const svg = document.getElementById('week-svg');
         if (svg) {
           const values = generateWeeklyData(user);
@@ -3613,25 +4262,209 @@
         renderTodaySignal();
         renderFreeContent();
         renderVideos();
+        fetchAndRenderTradingDashboard();
         updateNotificationBadge();
       }
 
-      function getTradingSignal() {
-        try { return JSON.parse(localStorage.getItem('vanfxSignal') || 'null'); } catch { return null; }
+      const VAN_PIPS_API_BASE = window.VAN_PIPS_API_BASE || 'http://localhost:4000/api';
+
+      async function fetchJson(endpoint, options = {}) {
+        const response = await fetch(`${VAN_PIPS_API_BASE}${endpoint}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            ...(options.headers || {}),
+          },
+          ...options,
+        });
+
+        if (!response.ok) {
+          throw new Error(`Request failed: ${response.status}`);
+        }
+
+        return response.json();
       }
-      function setTradingSignal(signal) { localStorage.setItem('vanfxSignal', JSON.stringify(signal)); }
+
+      async function tryBackendAdminLogin(email, password) {
+        try {
+          const result = await fetchJson('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({ email, password }),
+          });
+          if (!result || !result.token || !result.user || result.user.role !== 'admin') return false;
+
+          localStorage.setItem(ADMIN_TOKEN_KEY, result.token);
+          sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+          setCurrentUser({
+            ...result.user,
+            subscribed: true,
+            subscriptionPlan: result.user.subscriptionPlan || 'Admin',
+            subscriptionEnd: result.user.subscriptionEnd || 'Lifetime',
+          });
+          renderAdminPanel();
+          showStep('admin');
+          return true;
+        } catch {
+          return false;
+        }
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;',
+        }[char]));
+      }
+
+      async function fetchAndRenderTradingDashboard() {
+        const target = document.getElementById('api-trading-dashboard');
+        if (!target) return;
+
+        target.innerHTML = `
+          <div class="rounded-lg border border-white/10 bg-slate-950/50 p-4 text-slate-200">
+            <div class="h-5 w-44 animate-pulse rounded bg-white/10"></div>
+            <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div class="h-28 animate-pulse rounded-lg bg-white/10"></div>
+              <div class="h-28 animate-pulse rounded-lg bg-white/10"></div>
+              <div class="h-28 animate-pulse rounded-lg bg-white/10"></div>
+            </div>
+          </div>
+        `;
+
+        try {
+          const [signalsResult, contentResult, videosResult] = await Promise.allSettled([
+            fetchJson('/signals'),
+            fetchJson('/free-content'),
+            fetchJson('/videos'),
+          ]);
+
+          const signals = signalsResult.status === 'fulfilled' && Array.isArray(signalsResult.value)
+            ? signalsResult.value
+            : [];
+          const freeContent = contentResult.status === 'fulfilled' ? contentResult.value : null;
+          const videos = videosResult.status === 'fulfilled' && Array.isArray(videosResult.value)
+            ? videosResult.value
+            : [];
+
+          renderApiTradingDashboard({ signals, freeContent, videos });
+        } catch (error) {
+          target.innerHTML = `
+            <div class="rounded-lg border border-amber-300/30 bg-amber-300/10 p-4 text-sm text-amber-100">
+              Backend dashboard data is unavailable. Start the API with <strong>npm start</strong>, then refresh this page.
+            </div>
+          `;
+        }
+      }
+
+      function renderApiTradingDashboard({ signals, freeContent, videos }) {
+        const target = document.getElementById('api-trading-dashboard');
+        if (!target) return;
+
+        const latestSignal = signals[0] || {};
+        const activeSignals = signals.filter((signal) => (signal.status || '').toLowerCase() === 'active').length;
+        const contentTitle = freeContent && (freeContent.title || freeContent.body || freeContent.message)
+          ? freeContent.title || 'Latest market note'
+          : 'No market note yet';
+        const contentBody = freeContent ? freeContent.body || freeContent.message || 'Admin content will appear here.' : 'Admin content will appear here.';
+
+        target.innerHTML = `
+          <div class="rounded-lg border border-white/10 bg-slate-950/60 p-4 text-slate-100 shadow-2xl shadow-black/20 sm:p-5">
+            <div class="flex flex-col gap-3 border-b border-white/10 pb-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-cyan-300">Live backend dashboard</p>
+                <h3 class="mt-1 text-2xl font-black tracking-normal text-white sm:text-3xl">Van Pips trading desk</h3>
+              </div>
+              <div class="rounded-md border border-emerald-300/20 bg-emerald-300/10 px-3 py-2 text-xs font-bold text-emerald-200">
+                API connected
+              </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <article class="rounded-lg border border-white/10 bg-white/[0.04] p-4">
+                <p class="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">Latest signal</p>
+                <div class="mt-3 flex items-start justify-between gap-3">
+                  <div>
+                    <strong class="block text-2xl text-white">${escapeHtml(latestSignal.pair || 'Waiting')}</strong>
+                    <span class="mt-1 block text-sm text-slate-300">${escapeHtml(latestSignal.title || 'No signal published yet')}</span>
+                  </div>
+                  <span class="rounded-full bg-cyan-300/10 px-3 py-1 text-xs font-black uppercase text-cyan-200">${escapeHtml(latestSignal.direction || 'N/A')}</span>
+                </div>
+                <div class="mt-4 grid grid-cols-2 gap-2 text-sm">
+                  <div class="rounded-md bg-black/20 p-3">
+                    <span class="block text-xs text-slate-400">Entry</span>
+                    <strong>${escapeHtml(latestSignal.entry || '-')}</strong>
+                  </div>
+                  <div class="rounded-md bg-black/20 p-3">
+                    <span class="block text-xs text-slate-400">Risk</span>
+                    <strong>${escapeHtml(latestSignal.risk || '-')}</strong>
+                  </div>
+                </div>
+              </article>
+
+              <article class="rounded-lg border border-white/10 bg-white/[0.04] p-4">
+                <p class="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">Activity</p>
+                <div class="mt-3 grid grid-cols-2 gap-3">
+                  <div>
+                    <strong class="block text-3xl text-white">${signals.length}</strong>
+                    <span class="text-sm text-slate-300">Total signals</span>
+                  </div>
+                  <div>
+                    <strong class="block text-3xl text-white">${activeSignals}</strong>
+                    <span class="text-sm text-slate-300">Active setups</span>
+                  </div>
+                </div>
+                <div class="mt-4 rounded-md border border-white/10 bg-black/20 p-3 text-sm text-slate-300">
+                  ${escapeHtml(videos.length)} video lesson${videos.length === 1 ? '' : 's'} available for mobile and web users.
+                </div>
+              </article>
+
+              <article class="rounded-lg border border-white/10 bg-white/[0.04] p-4 sm:col-span-2 lg:col-span-1">
+                <p class="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">Market note</p>
+                <strong class="mt-3 block text-xl text-white">${escapeHtml(contentTitle)}</strong>
+                <p class="mt-2 line-clamp-4 text-sm leading-6 text-slate-300">${escapeHtml(contentBody)}</p>
+              </article>
+            </div>
+
+            <div class="mt-4 overflow-hidden rounded-lg border border-white/10">
+              <div class="grid grid-cols-4 bg-white/[0.06] px-3 py-2 text-xs font-black uppercase tracking-[0.12em] text-slate-400">
+                <span>Pair</span>
+                <span>Direction</span>
+                <span>Status</span>
+                <span class="text-right">Created</span>
+              </div>
+              <div class="divide-y divide-white/10">
+                ${signals.slice(0, 4).map((signal) => `
+                  <div class="grid grid-cols-4 gap-2 px-3 py-3 text-sm text-slate-200">
+                    <strong>${escapeHtml(signal.pair || '-')}</strong>
+                    <span>${escapeHtml(signal.direction || '-')}</span>
+                    <span>${escapeHtml(signal.status || 'active')}</span>
+                    <span class="text-right text-slate-400">${signal.createdAt ? escapeHtml(new Date(signal.createdAt).toLocaleDateString()) : '-'}</span>
+                  </div>
+                `).join('') || '<div class="px-3 py-4 text-sm text-slate-400">No backend signals yet.</div>'}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function getTradingSignal() {
+        try { return JSON.parse(localStorage.getItem('vanPipsSignal') || 'null'); } catch { return null; }
+      }
+      function setTradingSignal(signal) { localStorage.setItem('vanPipsSignal', JSON.stringify(signal)); }
 
       function getFreeContent() {
-        try { return JSON.parse(localStorage.getItem('vanfxFreeContent') || 'null'); } catch { return null; }
+        try { return JSON.parse(localStorage.getItem('vanPipsFreeContent') || 'null'); } catch { return null; }
       }
-      function setFreeContent(content) { localStorage.setItem('vanfxFreeContent', JSON.stringify(content)); }
+      function setFreeContent(content) { localStorage.setItem('vanPipsFreeContent', JSON.stringify(content)); }
 
       function getHistoryRecords() {
-        try { return JSON.parse(localStorage.getItem('vanfxHistory') || '[]'); } catch { return []; }
+        try { return JSON.parse(localStorage.getItem('vanPipsHistory') || '[]'); } catch { return []; }
       }
       function setHistoryRecords(records) {
         const pruned = pruneHistoryRecords(records);
-        localStorage.setItem('vanfxHistory', JSON.stringify(pruned));
+        localStorage.setItem('vanPipsHistory', JSON.stringify(pruned));
         return pruned;
       }
       function pruneHistoryRecords(records) {
@@ -3646,7 +4479,7 @@
         const target = document.getElementById('today-signal-card');
         if (!target) return;
         if (!signal || !signal.pair) {
-          target.innerHTML = '<div class="signal-empty">No live signal has been posted yet. Check back soon for the latest trade setup.</div>';
+          target.innerHTML = '<div class="signal-empty">No signal posted today. Check back for the latest market setup.</div>';
           return;
         }
         target.innerHTML = `
@@ -3847,12 +4680,52 @@
       // Track failed login attempts
       let failedLoginAttempts = 0;
       const MAX_FAILED_ATTEMPTS = 3;
+      const REMEMBERED_LOGIN_EMAIL_KEY = 'vanPipsRememberedLoginEmail';
+
+      function populateCountryCodeSelects() {
+        const optionHtml = COUNTRY_PHONE_CODES
+          .map((item) => `<option value="${item.code}">${item.code} ${item.label}</option>`)
+          .join('');
+        ['signup-phone-code', 'signup-whatsapp-code'].forEach((id) => {
+          const select = document.getElementById(id);
+          if (!select) return;
+          const previousValue = select.value || '+255';
+          select.innerHTML = optionHtml;
+          select.value = COUNTRY_PHONE_CODES.some((item) => item.code === previousValue) ? previousValue : '+255';
+        });
+      }
+
+      function restoreRememberedLogin() {
+        const emailInput = document.getElementById('login-email');
+        const rememberInput = document.getElementById('remember-login');
+        const rememberedEmail = localStorage.getItem(REMEMBERED_LOGIN_EMAIL_KEY);
+        if (rememberedEmail && emailInput && !emailInput.value) {
+          emailInput.value = rememberedEmail;
+        }
+        if (rememberInput) rememberInput.checked = Boolean(rememberedEmail);
+      }
+
+      function syncRememberedLogin(email) {
+        const rememberInput = document.getElementById('remember-login');
+        if (rememberInput && rememberInput.checked && email) {
+          localStorage.setItem(REMEMBERED_LOGIN_EMAIL_KEY, email);
+        } else {
+          localStorage.removeItem(REMEMBERED_LOGIN_EMAIL_KEY);
+        }
+      }
+
+      populateCountryCodeSelects();
+      restoreRememberedLogin();
 
       if (loginForm) {
-        loginForm.addEventListener('submit', (event) => {
+        loginForm.addEventListener('submit', async (event) => {
           event.preventDefault();
           const email = document.getElementById('login-email').value.trim();
           const password = document.getElementById('login-password').value;
+          if (await tryBackendAdminLogin(email, password)) {
+            syncRememberedLogin(email);
+            return;
+          }
           const user = getUsers().find((u) => u.email === email && u.password === password);
           const warningDiv = document.getElementById('failed-attempts-warning');
           const forgotPasswordLink = document.getElementById('forgot-password-link-container');
@@ -3861,8 +4734,9 @@
             failedLoginAttempts = 0;
             if (warningDiv) warningDiv.classList.add('hidden');
             if (forgotPasswordLink) forgotPasswordLink.classList.add('hidden');
+            syncRememberedLogin(email);
             setCurrentUser(user);
-            if (user.subscribed) {
+            if (isSubscriptionActive(user)) {
               showStep('home');
             } else {
               showStep('plans');
@@ -4101,6 +4975,8 @@
             whatsappNumber: whatsapp.value.trim(),
             whatsappFull: `${whatsappCode.value}${whatsapp.value.trim()}`,
             subscribed: false,
+            paymentStatus: 'not_requested',
+            paymentRequestedAt: null,
             supportTeam: supportInfo.teamName,
             publisher: supportInfo.publisherEmail,
             developer: supportInfo.developerEmail,
@@ -4113,52 +4989,175 @@
         });
       }
 
-      function updateSelectedPlanLabel() {
-        const label = document.getElementById('selected-plan-label');
-        if (!label) return;
-        if (selectedPlan) {
-          label.textContent = `Selected plan: ${selectedPlan}${selectedDuration === 0 ? ' (Lifetime)' : ` — ${selectedDuration} days`}`;
-        } else {
-          label.textContent = 'No plan selected yet.';
+      function getPreferredPhoneCode() {
+        const user = getUser();
+        const phoneCodeInput = document.getElementById('signup-phone-code');
+        return (user && user.phoneCountryCode) || (phoneCodeInput && phoneCodeInput.value) || '+255';
+      }
+
+      function getCurrencyProfile() {
+        return PHONE_CURRENCY_MAP[getPreferredPhoneCode()] || PHONE_CURRENCY_MAP['+255'];
+      }
+
+      function formatMoney(amount, currencyProfile) {
+        return new Intl.NumberFormat(currencyProfile.locale, {
+          style: 'currency',
+          currency: currencyProfile.currency,
+          maximumFractionDigits: currencyProfile.currency === 'JPY' || currencyProfile.currency === 'TZS' ? 0 : 2,
+        }).format(amount);
+      }
+
+      async function getUsdRates() {
+        const cached = localStorage.getItem('vanPipsUsdRates');
+        if (cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            if (Date.now() - parsed.savedAt < 1000 * 60 * 60 * 6) return parsed.rates;
+          } catch {}
+        }
+
+        const response = await fetch('https://open.er-api.com/v6/latest/USD');
+        if (!response.ok) throw new Error('Unable to load exchange rates');
+        const data = await response.json();
+        if (!data || !data.rates) throw new Error('Exchange rate response is invalid');
+        localStorage.setItem('vanPipsUsdRates', JSON.stringify({ savedAt: Date.now(), rates: data.rates }));
+        return data.rates;
+      }
+
+      async function convertUsdToLocal(usdAmount) {
+        const currencyProfile = getCurrencyProfile();
+        if (currencyProfile.currency === 'USD') {
+          return {
+            usdAmount,
+            localAmount: usdAmount,
+            rate: 1,
+            ...currencyProfile,
+            source: 'base',
+          };
+        }
+
+        try {
+          latestCurrencyRates = latestCurrencyRates || await getUsdRates();
+          const rate = Number(latestCurrencyRates[currencyProfile.currency]);
+          if (!Number.isFinite(rate)) throw new Error(`No rate for ${currencyProfile.currency}`);
+          return {
+            usdAmount,
+            localAmount: usdAmount * rate,
+            rate,
+            ...currencyProfile,
+            source: 'live',
+          };
+        } catch {
+          return {
+            usdAmount,
+            localAmount: usdAmount,
+            rate: 1,
+            ...PHONE_CURRENCY_MAP['+1'],
+            source: 'fallback',
+          };
         }
       }
 
+      async function updateLocalPlanPrices() {
+        const targets = {
+          Monthly: document.getElementById('plan-local-monthly'),
+          Yearly: document.getElementById('plan-local-yearly'),
+          Lifetime: document.getElementById('plan-local-lifetime'),
+        };
+
+        await Promise.all(Object.entries(PLAN_USD_PRICES).map(async ([plan, usd]) => {
+          const target = targets[plan];
+          if (!target) return;
+          const quote = await convertUsdToLocal(usd);
+          const suffix = quote.source === 'fallback' ? 'USD fallback' : `${quote.country} estimate`;
+          target.textContent = `${formatMoney(quote.localAmount, quote)} (${suffix})`;
+        }));
+
+        updateSelectedPlanLabel();
+      }
+
+      async function updateSelectedPlanLabel() {
+        const label = document.getElementById('selected-plan-label');
+        const estimate = document.getElementById('local-payment-estimate');
+        if (!label) return;
+        if (selectedPlan) {
+          selectedPlanQuote = await convertUsdToLocal(selectedPlanUsd);
+          label.textContent = `Selected plan: ${selectedPlan}${selectedDuration === 0 ? ' (Lifetime)' : ` — ${selectedDuration} days`} — USD ${selectedPlanUsd}`;
+          if (estimate) {
+            const rateNote = selectedPlanQuote.source === 'live'
+              ? `Converted for ${selectedPlanQuote.country}. Final bank/mobile-money charges may vary.`
+              : 'Live conversion is unavailable, so USD is shown as the fallback.';
+            estimate.textContent = `Estimated local amount: ${formatMoney(selectedPlanQuote.localAmount, selectedPlanQuote)} ${selectedPlanQuote.currency}. ${rateNote}`;
+          }
+        } else {
+          label.textContent = 'No plan selected yet.';
+          if (estimate) estimate.textContent = 'Local currency will be detected from your phone country.';
+        }
+      }
+
+      function renderSelectedPlanState() {
+        document.querySelectorAll('.plan-card').forEach((card) => {
+          card.classList.toggle('selected', card.dataset.planCard === selectedPlan);
+        });
+
+        document.querySelectorAll('.plan-action').forEach((button) => {
+          const isSelected = button.dataset.plan === selectedPlan;
+          button.classList.toggle('primary', isSelected);
+          button.classList.toggle('secondary', !isSelected);
+          button.setAttribute('aria-pressed', String(isSelected));
+        });
+      }
+
       document.querySelectorAll('.plan-action').forEach((btn) => {
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', async (e) => {
           e.preventDefault();
           selectedPlan = btn.dataset.plan || null;
           selectedDuration = Number(btn.dataset.duration) || 0;
-          updateSelectedPlanLabel();
+          selectedPlanUsd = Number(btn.dataset.usd || PLAN_USD_PRICES[selectedPlan] || 0);
+          renderSelectedPlanState();
+          await updateSelectedPlanLabel();
           showStep('plans');
           const payment = document.querySelector('.payment-methods');
           if (payment) payment.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
       });
 
+      const signupPhoneCode = document.getElementById('signup-phone-code');
+      if (signupPhoneCode) {
+        signupPhoneCode.addEventListener('change', () => {
+          updateLocalPlanPrices();
+        });
+      }
+      updateLocalPlanPrices();
+      renderSelectedPlanState();
+
       const confirmBtn = document.getElementById('confirm-payment');
       if (confirmBtn) {
-        confirmBtn.addEventListener('click', () => {
+        confirmBtn.addEventListener('click', async () => {
           if (!selectedPlan) {
             alert('Please select a plan first.');
             return;
           }
           const u = getUser() || {};
-          const now = new Date();
-          u.subscribed = true;
+          selectedPlanQuote = selectedPlanQuote || await convertUsdToLocal(selectedPlanUsd);
+          u.subscribed = false;
+          u.paymentStatus = 'pending_admin_approval';
+          u.pendingPlan = selectedPlan;
+          u.pendingDuration = selectedDuration;
+          u.pendingUsdAmount = selectedPlanUsd;
+          u.pendingLocalAmount = selectedPlanQuote.localAmount;
+          u.pendingCurrency = selectedPlanQuote.currency;
+          u.pendingCurrencyCountry = selectedPlanQuote.country;
+          u.pendingExchangeRate = selectedPlanQuote.rate;
+          u.paymentRequestedAt = new Date().toISOString();
           u.subscriptionPlan = selectedPlan;
-          u.subscriptionStart = now.toISOString();
-          if (selectedDuration > 0) {
-            const end = new Date(now.getTime() + selectedDuration * 24 * 60 * 60 * 1000);
-            u.subscriptionEnd = end.toISOString();
-          } else {
-            u.subscriptionEnd = 'Lifetime';
-          }
+          u.subscriptionStart = null;
+          u.subscriptionEnd = null;
           u.supportTeam = supportInfo.teamName;
           u.publisher = supportInfo.publisherEmail;
           u.developer = supportInfo.developerEmail;
           setUser(u);
           showStep('confirmation');
-          setTimeout(() => showStep('home'), 1400);
         });
       }
 
@@ -4169,18 +5168,23 @@
       const privacyBtn = document.getElementById('privacy-btn');
       const termsBtn = document.getElementById('terms-btn');
       const legalBtn = document.getElementById('legal-btn');
-      const adminAccessBtn = document.getElementById('admin-access');
+      const themeToggleBtn = document.getElementById('theme-toggle');
       const editForm = document.getElementById('edit-account-form');
       const policyPanel = document.getElementById('policy-panel');
 
       function renderAdminPanel() {
         const list = document.getElementById('admin-users-list');
+        const paymentRequests = document.getElementById('admin-payment-requests');
         const users = getUsers();
         if (!list) return;
+        if (paymentRequests) {
+          paymentRequests.innerHTML = renderPendingPaymentRequests(users);
+        }
         if (users.length === 0) {
-          list.innerHTML = '<p>No registered users yet.</p>';
+          list.innerHTML = '<h3>Registered users</h3><p>No registered users yet.</p>';
         } else {
           list.innerHTML = `
+            <h3>Registered users</h3>
             <table class="admin-table">
               <thead>
                 <tr>
@@ -4189,16 +5193,24 @@
                   <th>Phone</th>
                   <th>WhatsApp</th>
                   <th>Subscription</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 ${users.map((user) => `
                   <tr>
-                    <td>${user.name || ''}</td>
-                    <td>${user.email || ''}</td>
-                    <td>${user.phoneFull || ''}</td>
-                    <td>${user.whatsappFull || ''}</td>
-                    <td>${user.subscribed ? `${user.subscriptionPlan || 'Active'}${user.subscriptionEnd === 'Lifetime' ? ' (Lifetime)' : ''}` : 'Not subscribed'}</td>
+                    <td>${escapeHtml(user.name || '')}</td>
+                    <td>${escapeHtml(user.email || '')}</td>
+                    <td>${escapeHtml(user.phoneFull || '')}</td>
+                    <td>${escapeHtml(user.whatsappFull || '')}</td>
+                    <td>${renderAdminSubscriptionStatus(user)}</td>
+                    <td>
+                      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <button class="button primary admin-user-action" data-action="approve" data-email="${escapeHtml(user.email || '')}">Approve</button>
+                        <button class="button secondary admin-user-action" data-action="revoke" data-email="${escapeHtml(user.email || '')}">Revoke</button>
+                        <a class="button ghost" href="${buildWhatsAppChatLink(user.whatsappFull || user.whatsappNumber)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                      </div>
+                    </td>
                   </tr>
                 `).join('')}
               </tbody>
@@ -4209,34 +5221,155 @@
         renderAdminContentPanel();
       }
 
+      function renderPendingPaymentRequests(users) {
+        const pendingUsers = users.filter((user) => user.paymentStatus === 'pending_admin_approval');
+        if (!pendingUsers.length) {
+          return `
+            <h3>Pending payment requests</h3>
+            <p class="small-note">No payment requests are waiting for approval yet. When a user clicks "I have paid — Confirm", the request will appear here.</p>
+          `;
+        }
+
+        return `
+          <h3>Pending payment requests</h3>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Contact</th>
+                <th>Plan</th>
+                <th>Expected payment</th>
+                <th>Requested</th>
+                <th>Approve</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${pendingUsers.map((user) => `
+                <tr>
+                  <td><strong>${escapeHtml(user.name || '')}</strong><br><span class="small-note">${escapeHtml(user.email || '')}</span></td>
+                  <td>${escapeHtml(user.phoneFull || '')}<br><span class="small-note">WhatsApp: ${escapeHtml(user.whatsappFull || '')}</span></td>
+                  <td>${escapeHtml(user.pendingPlan || user.subscriptionPlan || 'Selected plan')}</td>
+                  <td>${renderPendingPaymentAmount(user)}</td>
+                  <td>${user.paymentRequestedAt ? escapeHtml(formatDate(new Date(user.paymentRequestedAt))) : '-'}</td>
+                  <td>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                      <button class="button primary admin-user-action" data-action="approve" data-email="${escapeHtml(user.email || '')}">Approve payment</button>
+                      <a class="button ghost" href="${buildWhatsAppChatLink(user.whatsappFull || user.whatsappNumber)}" target="_blank" rel="noopener noreferrer">Message</a>
+                    </div>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+
+      function renderPendingPaymentAmount(user) {
+        const local = user.pendingCurrency && Number.isFinite(Number(user.pendingLocalAmount))
+          ? `${escapeHtml(user.pendingCurrency)} ${Number(user.pendingLocalAmount).toLocaleString()}`
+          : 'Local amount pending';
+        const usd = user.pendingUsdAmount ? `USD ${escapeHtml(user.pendingUsdAmount)}` : 'USD base pending';
+        return `${local}<br><span class="small-note">${usd}</span>`;
+      }
+
+      function renderAdminSubscriptionStatus(user) {
+        if (isSubscriptionActive(user)) {
+          return escapeHtml(`${user.subscriptionPlan || 'Active'}${user.subscriptionEnd === 'Lifetime' ? ' (Lifetime)' : ''}`);
+        }
+        if (user.paymentStatus === 'pending_admin_approval') {
+          const amount = user.pendingCurrency && Number.isFinite(Number(user.pendingLocalAmount))
+            ? `${escapeHtml(user.pendingCurrency)} ${Number(user.pendingLocalAmount).toLocaleString()}`
+            : 'Local amount pending';
+          return `<span style="color:var(--gold);font-weight:900;">Pending approval</span><br><span class="small-note">${escapeHtml(user.pendingPlan || user.subscriptionPlan || 'Selected plan')} · USD ${escapeHtml(user.pendingUsdAmount || '')} · ${amount}</span>`;
+        }
+        return 'Not subscribed';
+      }
+
+      function buildWhatsAppChatLink(phone) {
+        const digits = normalizeDigits(phone);
+        return digits ? `https://wa.me/${digits}` : WHATSAPP_GROUP_LINK;
+      }
+
+      function approveUserPayment(email) {
+        const users = getUsers();
+        const index = users.findIndex((user) => user.email === email);
+        if (index < 0) return;
+
+        const user = users[index];
+        const now = new Date();
+        const duration = Number(user.pendingDuration || selectedDuration || 0);
+        user.subscribed = true;
+        user.paymentStatus = 'approved';
+        user.subscriptionPlan = user.pendingPlan || user.subscriptionPlan || 'Active';
+        user.subscriptionStart = now.toISOString();
+        user.subscriptionEnd = duration > 0
+          ? new Date(now.getTime() + duration * 24 * 60 * 60 * 1000).toISOString()
+          : 'Lifetime';
+        user.whatsappGroupLink = WHATSAPP_GROUP_LINK;
+        user.approvedAt = now.toISOString();
+        user.approvedUsdAmount = user.pendingUsdAmount || null;
+        user.approvedLocalAmount = user.pendingLocalAmount || null;
+        user.approvedCurrency = user.pendingCurrency || null;
+        user.pendingPlan = null;
+        user.pendingDuration = null;
+        users[index] = user;
+        setUsers(users);
+
+        const current = getCurrentUser();
+        if (current && current.email === user.email) setCurrentUser(user);
+        renderAdminPanel();
+        alert(`${user.name || user.email} has been approved. They can now access member content and the WhatsApp group link.`);
+      }
+
+      function revokeUserAccess(email) {
+        const users = getUsers();
+        const index = users.findIndex((user) => user.email === email);
+        if (index < 0) return;
+
+        users[index].subscribed = false;
+        users[index].paymentStatus = 'revoked';
+        users[index].subscriptionEnd = null;
+        users[index].whatsappGroupLink = null;
+        setUsers(users);
+
+        const current = getCurrentUser();
+        if (current && current.email === users[index].email) setCurrentUser(users[index]);
+        renderAdminPanel();
+        alert(`${users[index].name || users[index].email}'s access has been revoked.`);
+      }
+
       const adminCloseBtn = document.getElementById('admin-close');
       const logoutBtn = document.getElementById('logout-btn');
-      if (adminAccessBtn) {
-        adminAccessBtn.addEventListener('click', () => {
-          const pass = window.prompt('Enter admin password');
-          if (pass === ADMIN_PASSWORD) {
-            renderAdminPanel();
-            showStep('admin');
-          } else {
-            alert('Incorrect admin password.');
-          }
-        });
-      }
       if (adminCloseBtn) {
         adminCloseBtn.addEventListener('click', () => {
+          sessionStorage.removeItem(ADMIN_SESSION_KEY);
+          localStorage.removeItem(ADMIN_TOKEN_KEY);
           const user = getUser();
-          if (user && user.subscribed) {
+          if (isSubscriptionActive(user)) {
             showStep('home');
           } else {
             showStep('opening');
           }
         });
       }
+      document.addEventListener('click', (event) => {
+        const actionBtn = event.target.closest('.admin-user-action');
+        if (!actionBtn || !isAdminUnlocked()) return;
+        const email = actionBtn.dataset.email;
+        if (actionBtn.dataset.action === 'approve') approveUserPayment(email);
+        if (actionBtn.dataset.action === 'revoke' && window.confirm('Revoke this user access?')) revokeUserAccess(email);
+      });
       if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
           if (window.confirm('Are you sure you want to logout?')) {
             logout();
           }
+        });
+      }
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+          const nextTheme = document.body.classList.contains('light-mode') ? 'dark' : 'light';
+          applyTheme(nextTheme);
         });
       }
 
@@ -4249,6 +5382,8 @@
             document.getElementById('edit-name').value = user.name || '';
             document.getElementById('edit-email').value = user.email || '';
             document.getElementById('edit-phone').value = user.phone || '';
+            const whatsappInput = document.getElementById('edit-whatsapp');
+            if (whatsappInput) whatsappInput.value = user.whatsappNumber || user.whatsappFull || '';
           }
         }
       }
@@ -4265,14 +5400,29 @@
           const name = document.getElementById('edit-name').value;
           const email = document.getElementById('edit-email').value;
           const phone = document.getElementById('edit-phone').value;
+          const whatsapp = document.getElementById('edit-whatsapp').value;
           if (!name || !email) {
             alert('Name and email are required.');
             return;
           }
+          const users = getUsers();
+          const existing = users.find((item) => item.email === email && item.email !== user.email);
+          if (existing) {
+            alert('Another account already uses that email.');
+            return;
+          }
+          const oldEmail = user.email;
           user.name = name;
           user.email = email;
           user.phone = phone;
-          setUser(user);
+          user.phoneFull = phone;
+          user.whatsappNumber = whatsapp;
+          user.whatsappFull = whatsapp;
+          const index = users.findIndex((item) => item.email === oldEmail);
+          if (index >= 0) users[index] = user;
+          else users.push(user);
+          setUsers(users);
+          localStorage.setItem('vanPipsCurrentUser', JSON.stringify(user));
           showEditForm(false);
           renderProfile();
           alert('Account details updated.');
@@ -4413,6 +5563,18 @@
         { date: '2026-06-01', country: 'US', name: 'ISM Non-Manufacturing PMI', importance: 'high', time: '14:00 UTC', previous: '52.8', forecast: '53.0', actual: null },
         { date: '2026-06-02', country: 'US', name: 'ADP Employment Change', importance: 'medium', time: '12:15 UTC', previous: '156K', forecast: '160K', actual: null },
         { date: '2026-06-03', country: 'AU', name: 'RBA Interest Rate Decision', importance: 'high', time: '07:30 UTC', previous: '4.35%', forecast: '4.35%', actual: null },
+        { date: '2026-06-08', country: 'IT', name: 'Industrial Production (MoM)', importance: 'medium', time: '08:00 UTC', previous: '0.1%', forecast: '0.2%', actual: null },
+        { date: '2026-06-08', country: 'ES', name: 'Consumer Confidence', importance: 'medium', time: '09:00 UTC', previous: '84.5', forecast: '85.2', actual: null },
+        { date: '2026-06-09', country: 'DE', name: 'Trade Balance', importance: 'medium', time: '06:00 UTC', previous: 'EUR 21.6B', forecast: 'EUR 20.9B', actual: null },
+        { date: '2026-06-09', country: 'FR', name: 'Business Sentiment', importance: 'medium', time: '06:45 UTC', previous: '99', forecast: '100', actual: null },
+        { date: '2026-06-10', country: 'CN', name: 'CPI (YoY)', importance: 'high', time: '01:30 UTC', previous: '0.3%', forecast: '0.4%', actual: null },
+        { date: '2026-06-10', country: 'JP', name: 'GDP Growth Rate', importance: 'high', time: '23:50 UTC', previous: '0.0%', forecast: '0.1%', actual: null },
+        { date: '2026-06-11', country: 'GB', name: 'Monthly GDP', importance: 'high', time: '06:00 UTC', previous: '0.2%', forecast: '0.1%', actual: null },
+        { date: '2026-06-11', country: 'CA', name: 'Building Permits', importance: 'medium', time: '12:30 UTC', previous: '1.4%', forecast: '0.8%', actual: null },
+        { date: '2026-06-12', country: 'US', name: 'Producer Price Index (MoM)', importance: 'high', time: '12:30 UTC', previous: '0.2%', forecast: '0.2%', actual: null },
+        { date: '2026-06-12', country: 'AU', name: 'Consumer Inflation Expectations', importance: 'medium', time: '01:00 UTC', previous: '4.1%', forecast: '4.0%', actual: null },
+        { date: '2026-06-15', country: 'EU', name: 'Trade Balance', importance: 'medium', time: '09:00 UTC', previous: 'EUR 18.3B', forecast: 'EUR 18.8B', actual: null },
+        { date: '2026-06-15', country: 'ZA', name: 'Retail Sales (YoY)', importance: 'medium', time: '11:00 UTC', previous: '2.4%', forecast: '2.6%', actual: null },
       ];
 
       let calendarState = {
@@ -4423,6 +5585,7 @@
 
       function getCalendarDateRange() {
         const start = new Date(calendarState.currentDateStart);
+        start.setHours(0, 0, 0, 0);
         let end = new Date(start);
         if (calendarState.timerangeFilter === 'week') {
           end.setDate(end.getDate() + 7);
