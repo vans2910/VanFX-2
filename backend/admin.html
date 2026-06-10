@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Van Pips Admin</title>
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; background: #07121d; color: #dff6f5; }
+    .page { max-width: 900px; margin: 0 auto; padding: 32px; }
+    .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(66,215,202,0.28); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+    h1, h2 { margin: 0 0 16px; }
+    p, li { line-height: 1.75; }
+    a { color: #7af1e4; text-decoration: none; }
+    code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; }
+    ul { padding-left: 20px; }
+    .notice { color: #9bd0cf; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>Van Pips Admin</h1>
+    <div class="card">
+      <h2>Secure backend admin</h2>
+      <p>This page is served from the backend only. Access is restricted to administrators via HTTP Basic authentication or admin API credentials.</p>
+      <p>Use your admin email and password to access this page.</p>
+    </div>
+    <div class="card">
+      <h2>Administrator actions</h2>
+      <ul>
+        <li><code>POST /api/auth/login</code> — obtain an access token</li>
+        <li><code>GET /api/admin/users</code> — list all registered users</li>
+        <li><code>PATCH /api/admin/users/:id/subscription</code> — approve or revoke subscriptions</li>
+        <li><code>POST /api/signals</code> — publish a new trading signal</li>
+        <li><code>POST /api/videos</code> — upload a new video lesson</li>
+        <li><code>POST /api/free-content</code> — publish free market content</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2>Notes</h2>
+      <p>Only authenticated admin users can open this page. If your access fails, refresh and re-enter your credentials.</p>
+      <p class="notice">This backend route is not linked to the public website and cannot be reached from the user-facing UI.</p>
+    </div>
+  </div>
+</body>
+</html>

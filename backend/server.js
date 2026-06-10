@@ -44,6 +44,15 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'OPTIONS') return send(res, 204);
 
     const url = new URL(req.url, `http://${req.headers.host}`);
+    if (req.method === 'GET' && (url.pathname === '/admin' || url.pathname === '/admin/')) {
+      const db = await readDb();
+      const authorized = await isAdminRouteAuthorized(req, db);
+      if (!authorized) {
+        res.setHeader('WWW-Authenticate', 'Basic realm="VanPips Admin"');
+        return send(res, 401, { error: 'Admin authentication required' });
+      }
+      return sendAdminPage(res);
+    }
     if (!url.pathname.startsWith('/api/')) return send(res, 404, { error: 'Not found' });
 
     const db = await readDb();
@@ -315,6 +324,42 @@ function setCors(res) {
   res.setHeader('Access-Control-Allow-Origin', PUBLIC_ORIGIN);
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
+}
+
+function parseBasicAuth(header) {
+  if (!header || typeof header !== 'string') return null;
+  const match = header.match(/^Basic\s+(.+)$/i);
+  if (!match) return null;
+  try {
+    const decoded = Buffer.from(match[1], 'base64').toString('utf8');
+    const index = decoded.indexOf(':');
+    if (index < 0) return null;
+    return {
+      email: decoded.slice(0, index),
+      password: decoded.slice(index + 1)
+    };
+  } catch {
+    return null;
+  }
+}
+
+function verifyAdminCredentials(email, password) {
+  return String(email || '').trim().toLowerCase() === ADMIN_EMAIL && String(password || '') === ADMIN_PASSWORD;
+}
+
+async function isAdminRouteAuthorized(req, db) {
+  const auth = authenticate(req, db);
+  if (auth.user && auth.user.role === 'admin') return true;
+  const basic = parseBasicAuth(req.headers.authorization);
+  if (basic && verifyAdminCredentials(basic.email, basic.password)) return true;
+  return false;
+}
+
+async function sendAdminPage(res) {
+  const page = await fs.readFile(path.join(__dirname, 'admin.html'), 'utf8');
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.end(page);
 }
 
 function send(res, status, payload) {
