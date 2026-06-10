@@ -78,6 +78,212 @@
         overflow: hidden;
       }
 
+      /* Grand Opening Splash Screen */
+      .grand-opening-splash {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(145deg, rgba(9, 13, 18, 0.98) 0%, rgba(21, 19, 15, 0.98) 42%, rgba(17, 23, 31, 0.98) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        overflow: hidden;
+        animation: splashFadeOut 0.8s ease-out 3.2s forwards;
+      }
+
+      .grand-opening-splash::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: 
+          radial-gradient(circle at 20% 50%, rgba(66, 215, 202, 0.15) 0%, transparent 50%),
+          radial-gradient(circle at 80% 80%, rgba(240, 197, 106, 0.15) 0%, transparent 50%);
+        animation: splashGlowShift 3s ease-in-out;
+      }
+
+      .grand-opening-splash::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+        background-size: 80px 80px;
+        opacity: 0.5;
+        animation: splashGridShift 8s linear infinite;
+      }
+
+      .splash-content {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+        text-align: center;
+      }
+
+      .splash-logo-container {
+        width: 140px;
+        height: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .splash-logo-wrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        animation: splashLogoScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0s;
+      }
+
+      .splash-logo-wrapper svg {
+        width: 100%;
+        height: 100%;
+        filter: drop-shadow(0 24px 64px rgba(66, 215, 202, 0.2)) drop-shadow(0 0 40px rgba(240, 197, 106, 0.15));
+      }
+
+      .splash-logo-wrapper .logo-gradient-circle {
+        animation: splashCircleStroke 2.5s ease-in-out 0.3s;
+      }
+
+      .splash-logo-wrapper .logo-accent-line {
+        animation: splashLineReveal 1.2s ease-out 1s;
+      }
+
+      .splash-logo-wrapper .logo-pips {
+        animation: splashPipsReveal 1.5s ease-out 1.2s;
+      }
+
+      .splash-tagline {
+        font-size: 0.95rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, #42d7ca, #f0c56a, #42d7ca);
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: splashTaglineGlow 3s ease-in-out 0.6s, splashTextFade 0.6s ease-out 2.6s forwards;
+      }
+
+      .splash-subtitle {
+        font-size: 0.85rem;
+        color: rgba(171, 180, 188, 0.8);
+        max-width: 260px;
+        line-height: 1.6;
+        animation: splashTextFade 0.8s ease-out 1.8s both;
+        letter-spacing: 0.03em;
+      }
+
+      @keyframes splashLogoScale {
+        from {
+          opacity: 0;
+          transform: scale(0.7) rotateZ(-15deg);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) rotateZ(0deg);
+        }
+      }
+
+      @keyframes splashCircleStroke {
+        from {
+          stroke-dasharray: 566;
+          stroke-dashoffset: 566;
+          opacity: 0;
+        }
+        to {
+          stroke-dasharray: 566;
+          stroke-dashoffset: 0;
+          opacity: 1;
+        }
+      }
+
+      @keyframes splashPipsReveal {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes splashLineReveal {
+        from {
+          opacity: 0;
+          stroke-dasharray: 120;
+          stroke-dashoffset: 120;
+        }
+        to {
+          opacity: 1;
+          stroke-dasharray: 120;
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes splashTaglineGlow {
+        0% {
+          background-position: 0% center;
+          opacity: 0;
+        }
+        50% {
+          background-position: 100% center;
+        }
+        100% {
+          background-position: 200% center;
+          opacity: 1;
+        }
+      }
+
+      @keyframes splashTextFade {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes splashGlowShift {
+        0%, 100% {
+          opacity: 0.7;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes splashGridShift {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(80px);
+        }
+      }
+
+      @keyframes splashFadeOut {
+        from {
+          opacity: 1;
+          pointer-events: auto;
+        }
+        to {
+          opacity: 0;
+          pointer-events: none;
+        }
+      }
+
       .opening-screen {
         min-height: 100svh;
         position: relative;
@@ -2745,6 +2951,60 @@
     </style>
   </head>
   <body>
+    <!-- Grand Opening Splash Screen -->
+    <div class="grand-opening-splash" id="grandOpeningSplash">
+      <div class="splash-content">
+        <div class="splash-logo-container">
+          <div class="splash-logo-wrapper">
+            <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="splashGradient1" x1="10" y1="10" x2="150" y2="150" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#42d7ca" />
+                  <stop offset="100%" stop-color="#f0c56a" />
+                </linearGradient>
+                <linearGradient id="splashGradient2" x1="80" y1="20" x2="80" y2="140" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#42d7ca" />
+                  <stop offset="100%" stop-color="#ff846f" />
+                </linearGradient>
+                <filter id="splashGlow">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <!-- Outer Glow Circle -->
+              <circle cx="80" cy="80" r="72" stroke="url(#splashGradient1)" stroke-width="3" opacity="0.4" />
+              <!-- Main Circle -->
+              <circle class="logo-gradient-circle" cx="80" cy="80" r="65" stroke="url(#splashGradient1)" stroke-width="8" fill="none" filter="url(#splashGlow)" />
+              <!-- Inner Accent -->
+              <circle cx="80" cy="80" r="58" stroke="rgba(66, 215, 202, 0.2)" stroke-width="1" />
+              <!-- Dynamic PIPS Chart Lines (Candlesticks) -->
+              <g class="logo-pips">
+                <!-- P1 -->
+                <line x1="45" y1="65" x2="45" y2="105" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" />
+                <line x1="35" y1="85" x2="55" y2="85" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" opacity="0.8" />
+                <!-- I -->
+                <line x1="70" y1="50" x2="70" y2="110" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" opacity="0.7" />
+                <!-- P2 -->
+                <line x1="90" y1="70" x2="90" y2="100" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" />
+                <line x1="80" y1="88" x2="100" y2="88" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" opacity="0.8" />
+                <!-- S -->
+                <path d="M 115 75 Q 110 65 120 60 Q 130 65 125 75 Q 120 85 130 90 Q 120 95 115 100" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" fill="none" />
+              </g>
+              <!-- Diagonal Energy Line -->
+              <line class="logo-accent-line" x1="35" y1="35" x2="125" y2="125" stroke="#f0c56a" stroke-width="4" stroke-linecap="round" opacity="0.7" />
+              <!-- Center Dot -->
+              <circle cx="80" cy="80" r="4" fill="url(#splashGradient1)" />
+            </svg>
+          </div>
+        </div>
+        <div class="splash-tagline">Trading Excellence</div>
+        <div class="splash-subtitle">Where discipline meets opportunity. Your path to consistent profits starts here.</div>
+      </div>
+    </div>
+
     <main class="page-shell" aria-label="VAN PIPS opening and registration page">
       <section class="opening-screen step" id="opening" aria-labelledby="vanPips-title">
         <div class="video-wrapper" aria-hidden="true">
@@ -2760,13 +3020,39 @@
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <linearGradient id="openGradient" x1="8" y1="12" x2="112" y2="108" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#f0c56a" />
-                    <stop offset="1" stop-color="#42d7ca" />
+                    <stop offset="0%" stop-color="#42d7ca" />
+                    <stop offset="100%" stop-color="#f0c56a" />
                   </linearGradient>
+                  <linearGradient id="openAccent" x1="60" y1="20" x2="60" y2="100" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#42d7ca" />
+                    <stop offset="100%" stop-color="#ff846f" />
+                  </linearGradient>
+                  <filter id="openGlow">
+                    <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
                 </defs>
-                <circle cx="60" cy="60" r="51" stroke="url(#openGradient)" stroke-width="10" />
-                <path d="M34 34L55 86L70 55L84 86L106 34" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M46 36L93 82" stroke="#f0c56a" stroke-width="10" stroke-linecap="round" />
+                <!-- Outer Circle -->
+                <circle cx="60" cy="60" r="54" stroke="url(#openGradient)" stroke-width="2" opacity="0.3" />
+                <!-- Main Circle -->
+                <circle cx="60" cy="60" r="50" stroke="url(#openGradient)" stroke-width="6" fill="none" filter="url(#openGlow)" />
+                <!-- Inner Accent -->
+                <circle cx="60" cy="60" r="45" stroke="rgba(66, 215, 202, 0.15)" stroke-width="1" />
+                <!-- PIPS Chart (simplified for small scale) -->
+                <g opacity="0.9">
+                  <line x1="35" y1="55" x2="35" y2="80" stroke="url(#openAccent)" stroke-width="4" stroke-linecap="round" />
+                  <line x1="48" y1="50" x2="48" y2="85" stroke="url(#openAccent)" stroke-width="4" stroke-linecap="round" opacity="0.8" />
+                  <line x1="61" y1="60" x2="61" y2="75" stroke="url(#openAccent)" stroke-width="4" stroke-linecap="round" opacity="0.7" />
+                  <line x1="74" y1="45" x2="74" y2="82" stroke="url(#openAccent)" stroke-width="4" stroke-linecap="round" opacity="0.8" />
+                  <line x1="87" y1="55" x2="87" y2="78" stroke="url(#openAccent)" stroke-width="4" stroke-linecap="round" />
+                </g>
+                <!-- Diagonal Energy Line -->
+                <line x1="30" y1="30" x2="90" y2="90" stroke="#f0c56a" stroke-width="2.5" stroke-linecap="round" opacity="0.6" />
+                <!-- Center Dot -->
+                <circle cx="60" cy="60" r="2.5" fill="url(#openGradient)" />
               </svg>
             </span>
             <span class="brand-name">VAN PIPS</span>
@@ -6097,6 +6383,37 @@ Trade with proper risk management and verify all decisions independently.</div>
         calendarModal.addEventListener('click', (e) => {
           if (e.target === calendarModal) closeCalendarModal();
         });
+      }
+
+      // Grand Opening Splash Screen Initialization
+      function initializeGrandOpening() {
+        const splash = document.getElementById('grandOpeningSplash');
+        if (!splash) return;
+        
+        // Check if splash has been seen before (stored in session)
+        const splashSeen = sessionStorage.getItem('vanPipsSplashSeen');
+        
+        if (splashSeen) {
+          // Hide splash immediately if already seen in this session
+          splash.style.display = 'none';
+          return;
+        }
+        
+        // Mark splash as seen for this session
+        sessionStorage.setItem('vanPipsSplashSeen', 'true');
+        
+        // Splash will automatically fade out after 4 seconds due to CSS animation
+        // Remove splash after animation completes
+        setTimeout(() => {
+          splash.style.display = 'none';
+        }, 4000);
+      }
+
+      // Initialize on document ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeGrandOpening);
+      } else {
+        initializeGrandOpening();
       }
 
       // On load, render alerts and update home/profile
