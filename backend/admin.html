@@ -5,41 +5,792 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Van Pips Admin</title>
   <style>
-    body { margin: 0; font-family: system-ui, sans-serif; background: #07121d; color: #dff6f5; }
-    .page { max-width: 900px; margin: 0 auto; padding: 32px; }
-    .card { background: rgba(255,255,255,0.05); border: 1px solid rgba(66,215,202,0.28); border-radius: 16px; padding: 24px; margin-bottom: 20px; }
-    h1, h2 { margin: 0 0 16px; }
-    p, li { line-height: 1.75; }
-    a { color: #7af1e4; text-decoration: none; }
-    code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; }
-    ul { padding-left: 20px; }
-    .notice { color: #9bd0cf; margin-top: 16px; }
+    :root {
+      color-scheme: dark;
+      --bg: #071018;
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel-strong: rgba(255, 255, 255, 0.1);
+      --line: rgba(255, 255, 255, 0.12);
+      --ink: #f7f3ea;
+      --muted: #9fb1bd;
+      --gold: #f0c56a;
+      --teal: #42d7ca;
+      --coral: #ff846f;
+      --green: #63dc93;
+      --red: #ff6868;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+        radial-gradient(circle at 18% 10%, rgba(66, 215, 202, 0.18), transparent 34%),
+        radial-gradient(circle at 86% 20%, rgba(240, 197, 106, 0.16), transparent 30%),
+        linear-gradient(145deg, #05080d, var(--bg) 52%, #151107);
+      background-size: 72px 72px, 72px 72px, auto, auto, auto;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .mark {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(240, 197, 106, 0.36);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--teal);
+      font-weight: 950;
+      letter-spacing: 0;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.24);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 3px;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      letter-spacing: 0;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .status {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 12px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.06);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(7, 16, 24, 0.82);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.26);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .panel-header h2 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .panel-body {
+      padding: 18px;
+    }
+
+    .stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .metric span {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      font-size: 1.55rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 820px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 999px;
+      padding: 0 10px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .pill.pending {
+      color: var(--gold);
+      background: rgba(240, 197, 106, 0.1);
+    }
+
+    .pill.active {
+      color: var(--green);
+      background: rgba(99, 220, 147, 0.1);
+    }
+
+    .pill.revoked {
+      color: var(--red);
+      background: rgba(255, 104, 104, 0.1);
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 0 13px;
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.08);
+      cursor: pointer;
+      font-weight: 900;
+      text-decoration: none;
+    }
+
+    .button.primary {
+      color: #10120d;
+      background: linear-gradient(135deg, var(--gold), var(--coral));
+    }
+
+    .button.secondary {
+      border-color: rgba(66, 215, 202, 0.28);
+      background: rgba(66, 215, 202, 0.1);
+    }
+
+    .button.danger {
+      border-color: rgba(255, 104, 104, 0.28);
+      background: rgba(255, 104, 104, 0.1);
+    }
+
+    .button:disabled {
+      opacity: 0.54;
+      cursor: not-allowed;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 13px;
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      color: var(--ink);
+      background: rgba(0, 0, 0, 0.24);
+      outline: none;
+    }
+
+    textarea {
+      min-height: 112px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(66, 215, 202, 0.7);
+      box-shadow: 0 0 0 3px rgba(66, 215, 202, 0.14);
+    }
+
+    .login-panel {
+      max-width: 520px;
+      margin: 12vh auto 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 20;
+      max-width: min(420px, calc(100vw - 36px));
+      border: 1px solid rgba(66, 215, 202, 0.3);
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: var(--ink);
+      background: rgba(7, 16, 24, 0.96);
+      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
+    }
+
+    @media (max-width: 880px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="page">
-    <h1>Van Pips Admin</h1>
-    <div class="card">
-      <h2>Secure backend admin</h2>
-      <p>This page is served from the backend only. Access is restricted to administrators via HTTP Basic authentication or admin API credentials.</p>
-      <p>Use your admin email and password to access this page.</p>
-    </div>
-    <div class="card">
-      <h2>Administrator actions</h2>
-      <ul>
-        <li><code>POST /api/auth/login</code> — obtain an access token</li>
-        <li><code>GET /api/admin/users</code> — list all registered users</li>
-        <li><code>PATCH /api/admin/users/:id/subscription</code> — approve or revoke subscriptions</li>
-        <li><code>POST /api/signals</code> — publish a new trading signal</li>
-        <li><code>POST /api/videos</code> — upload a new video lesson</li>
-        <li><code>POST /api/free-content</code> — publish free market content</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h2>Notes</h2>
-      <p>Only authenticated admin users can open this page. If your access fails, refresh and re-enter your credentials.</p>
-      <p class="notice">This backend route is not linked to the public website and cannot be reached from the user-facing UI.</p>
-    </div>
-  </div>
+  <script>
+    window.__VANPIPS_ADMIN_BOOTSTRAP__ = null;
+  </script>
+
+  <main class="page">
+    <section class="panel login-panel hidden" id="login-panel">
+      <div class="panel-header">
+        <div>
+          <h1>Van Pips Admin</h1>
+          <p class="muted" style="margin:0;">Sign in with the backend administrator account.</p>
+        </div>
+      </div>
+      <form class="panel-body form-grid" id="login-form">
+        <div class="field">
+          <label for="admin-email">Email</label>
+          <input id="admin-email" type="email" autocomplete="username" value="admin@vanpips.com" required />
+        </div>
+        <div class="field">
+          <label for="admin-password">Password</label>
+          <input id="admin-password" type="password" autocomplete="current-password" required />
+        </div>
+        <button class="button primary" type="submit">Open admin panel</button>
+      </form>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <header class="topbar">
+        <div class="brand">
+          <div class="mark">VP</div>
+          <div>
+            <h1>Van Pips Admin</h1>
+            <p class="muted" id="admin-identity" style="margin:0;">Backend control panel</p>
+          </div>
+        </div>
+        <div class="actions">
+          <span class="status" id="status">Connected</span>
+          <button class="button secondary" id="refresh-btn" type="button">Refresh</button>
+          <button class="button danger" id="logout-btn" type="button">Lock</button>
+        </div>
+      </header>
+
+      <div class="metrics" aria-label="Admin metrics">
+        <div class="metric">
+          <span>Users</span>
+          <strong id="metric-users">0</strong>
+        </div>
+        <div class="metric">
+          <span>Pending</span>
+          <strong id="metric-pending">0</strong>
+        </div>
+        <div class="metric">
+          <span>Active</span>
+          <strong id="metric-active">0</strong>
+        </div>
+      </div>
+
+      <div class="layout">
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Users and payment approvals</h2>
+            <span class="pill pending" id="pending-label">0 pending</span>
+          </div>
+          <div class="panel-body">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Contact</th>
+                    <th>Plan</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="users-body">
+                  <tr><td colspan="5">Loading users...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <aside class="stack">
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Publish signal</h2>
+            </div>
+            <form class="panel-body form-grid" id="signal-form">
+              <div class="field">
+                <label for="signal-pair">Pair</label>
+                <input id="signal-pair" placeholder="EUR/USD" required />
+              </div>
+              <div class="field">
+                <label for="signal-direction">Direction</label>
+                <select id="signal-direction">
+                  <option value="buy">Buy</option>
+                  <option value="sell">Sell</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="signal-title">Title</label>
+                <input id="signal-title" placeholder="Wait for pullback" required />
+              </div>
+              <div class="field">
+                <label for="signal-entry">Entry</label>
+                <input id="signal-entry" placeholder="Confirm structure above..." />
+              </div>
+              <div class="field">
+                <label for="signal-stop">Stop loss</label>
+                <input id="signal-stop" placeholder="Below session low" />
+              </div>
+              <div class="field">
+                <label for="signal-tp">Take profit</label>
+                <input id="signal-tp" placeholder="Scale at next resistance" />
+              </div>
+              <button class="button primary" type="submit">Publish signal</button>
+            </form>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Free market content</h2>
+            </div>
+            <form class="panel-body form-grid" id="content-form">
+              <div class="field">
+                <label for="content-title">Title</label>
+                <input id="content-title" required />
+              </div>
+              <div class="field">
+                <label for="content-body">Message</label>
+                <textarea id="content-body" required></textarea>
+              </div>
+              <button class="button secondary" type="submit">Publish note</button>
+            </form>
+          </section>
+
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Video lesson</h2>
+            </div>
+            <form class="panel-body form-grid" id="video-form">
+              <div class="field">
+                <label for="video-title">Title</label>
+                <input id="video-title" required />
+              </div>
+              <div class="field">
+                <label for="video-url">Video URL</label>
+                <input id="video-url" type="url" placeholder="https://..." required />
+              </div>
+              <div class="field">
+                <label for="video-description">Description</label>
+                <textarea id="video-description"></textarea>
+              </div>
+              <button class="button secondary" type="submit">Publish video</button>
+            </form>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast hidden" id="toast"></div>
+
+  <script>
+    const tokenKey = 'vanPipsBackendAdminToken';
+    const bootstrap = window.__VANPIPS_ADMIN_BOOTSTRAP__;
+    let token = bootstrap && bootstrap.token ? bootstrap.token : localStorage.getItem(tokenKey);
+    let users = [];
+
+    const loginPanel = document.getElementById('login-panel');
+    const dashboard = document.getElementById('dashboard');
+    const statusNode = document.getElementById('status');
+    const toast = document.getElementById('toast');
+
+    if (bootstrap && bootstrap.token) {
+      localStorage.setItem(tokenKey, bootstrap.token);
+      document.getElementById('admin-identity').textContent = `Backend control panel - ${bootstrap.email}`;
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.remove('hidden');
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.add('hidden'), 3200);
+    }
+
+    function setStatus(message) {
+      statusNode.textContent = message;
+    }
+
+    function showLogin() {
+      loginPanel.classList.remove('hidden');
+      dashboard.classList.add('hidden');
+    }
+
+    function showDashboard() {
+      loginPanel.classList.add('hidden');
+      dashboard.classList.remove('hidden');
+    }
+
+    async function api(path, options = {}) {
+      const response = await fetch(path, {
+        ...options,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          ...(options.headers || {})
+        }
+      });
+      const text = await response.text();
+      const data = text ? JSON.parse(text) : null;
+      if (!response.ok) throw new Error(data && data.error ? data.error : 'Request failed');
+      return data;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function formatDate(value) {
+      if (!value) return '-';
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return '-';
+      return new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+    }
+
+    function subscriptionStatus(user) {
+      if (user.subscribed) return '<span class="pill active">Active</span>';
+      if (user.paymentStatus === 'pending_admin_approval') return '<span class="pill pending">Pending</span>';
+      if (user.paymentStatus === 'revoked') return '<span class="pill revoked">Revoked</span>';
+      return '<span class="pill">Not active</span>';
+    }
+
+    function planText(user) {
+      const plan = user.pendingPlan || user.subscriptionPlan || '-';
+      const local = user.pendingCurrency && user.pendingLocalAmount
+        ? `${user.pendingCurrency} ${Number(user.pendingLocalAmount).toLocaleString()}`
+        : '';
+      const usd = user.pendingUsdAmount ? `USD ${user.pendingUsdAmount}` : '';
+      const amount = [local, usd].filter(Boolean).join(' / ');
+      return amount ? `${escapeHtml(plan)}<br><span class="muted">${escapeHtml(amount)}</span>` : escapeHtml(plan);
+    }
+
+    function renderUsers() {
+      const pending = users.filter((user) => user.paymentStatus === 'pending_admin_approval');
+      const active = users.filter((user) => user.subscribed);
+      document.getElementById('metric-users').textContent = users.length;
+      document.getElementById('metric-pending').textContent = pending.length;
+      document.getElementById('metric-active').textContent = active.length;
+      document.getElementById('pending-label').textContent = `${pending.length} pending`;
+
+      const body = document.getElementById('users-body');
+      if (!users.length) {
+        body.innerHTML = '<tr><td colspan="5">No registered users yet.</td></tr>';
+        return;
+      }
+
+      body.innerHTML = users.map((user) => `
+        <tr>
+          <td>
+            <strong>${escapeHtml(user.name || 'Unnamed user')}</strong><br>
+            <span class="muted">${escapeHtml(user.email || '')}</span>
+          </td>
+          <td>
+            ${escapeHtml(user.phone || '-')}<br>
+            <span class="muted">${escapeHtml(user.whatsapp || user.whatsappFull || user.whatsappNumber || '')}</span>
+          </td>
+          <td>${planText(user)}</td>
+          <td>
+            ${subscriptionStatus(user)}<br>
+            <span class="muted">${user.paymentRequestedAt ? `Requested ${formatDate(user.paymentRequestedAt)}` : ''}</span>
+          </td>
+          <td>
+            <div class="actions">
+              <button class="button primary" data-action="approve" data-id="${escapeHtml(user.id)}">Approve</button>
+              <button class="button danger" data-action="revoke" data-id="${escapeHtml(user.id)}">Revoke</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadUsers() {
+      setStatus('Loading');
+      users = await api('/api/admin/users');
+      renderUsers();
+      setStatus('Connected');
+      showDashboard();
+    }
+
+    async function login(email, password) {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Login failed');
+      if (!data.user || data.user.role !== 'admin') throw new Error('Admin access required');
+      token = data.token;
+      localStorage.setItem(tokenKey, token);
+      document.getElementById('admin-identity').textContent = `Backend control panel - ${data.user.email}`;
+      await loadUsers();
+    }
+
+    async function updateSubscription(userId, subscribed) {
+      const user = users.find((item) => item.id === userId);
+      if (!user) return;
+      const plan = user.pendingPlan || user.subscriptionPlan || (subscribed ? 'Approved' : '');
+      const durationByPlan = {
+        Monthly: 30,
+        'Three-month': 90,
+        Yearly: 365,
+        Lifetime: 0
+      };
+      const duration = durationByPlan[plan] ?? 30;
+      const end = subscribed
+        ? duration > 0
+          ? new Date(Date.now() + duration * 24 * 60 * 60 * 1000).toISOString()
+          : 'Lifetime'
+        : null;
+      await api(`/api/admin/users/${encodeURIComponent(userId)}/subscription`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          subscribed,
+          plan,
+          start: subscribed ? new Date().toISOString() : user.subscriptionStart,
+          end
+        })
+      });
+      await loadUsers();
+      showToast(subscribed ? 'User approved.' : 'User access revoked.');
+    }
+
+    document.getElementById('login-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      try {
+        await login(document.getElementById('admin-email').value.trim(), document.getElementById('admin-password').value);
+      } catch (error) {
+        showToast(error.message);
+      }
+    });
+
+    document.getElementById('users-body').addEventListener('click', async (event) => {
+      const button = event.target.closest('button[data-action]');
+      if (!button) return;
+      button.disabled = true;
+      try {
+        await updateSubscription(button.dataset.id, button.dataset.action === 'approve');
+      } catch (error) {
+        showToast(error.message);
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    document.getElementById('signal-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      try {
+        await api('/api/signals', {
+          method: 'POST',
+          body: JSON.stringify({
+            pair: document.getElementById('signal-pair').value,
+            direction: document.getElementById('signal-direction').value,
+            title: document.getElementById('signal-title').value,
+            entry: document.getElementById('signal-entry').value,
+            stopLoss: document.getElementById('signal-stop').value,
+            takeProfit: document.getElementById('signal-tp').value
+          })
+        });
+        event.target.reset();
+        showToast('Signal published.');
+      } catch (error) {
+        showToast(error.message);
+      }
+    });
+
+    document.getElementById('content-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      try {
+        await api('/api/free-content', {
+          method: 'POST',
+          body: JSON.stringify({
+            title: document.getElementById('content-title').value,
+            body: document.getElementById('content-body').value
+          })
+        });
+        event.target.reset();
+        showToast('Market note published.');
+      } catch (error) {
+        showToast(error.message);
+      }
+    });
+
+    document.getElementById('video-form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      try {
+        await api('/api/videos', {
+          method: 'POST',
+          body: JSON.stringify({
+            title: document.getElementById('video-title').value,
+            url: document.getElementById('video-url').value,
+            description: document.getElementById('video-description').value
+          })
+        });
+        event.target.reset();
+        showToast('Video published.');
+      } catch (error) {
+        showToast(error.message);
+      }
+    });
+
+    document.getElementById('refresh-btn').addEventListener('click', () => {
+      loadUsers().catch((error) => showToast(error.message));
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', () => {
+      localStorage.removeItem(tokenKey);
+      token = null;
+      showLogin();
+    });
+
+    if (token) {
+      loadUsers().catch((error) => {
+        localStorage.removeItem(tokenKey);
+        token = null;
+        showLogin();
+        showToast(error.message);
+      });
+    } else {
+      showLogin();
+    }
+  </script>
 </body>
 </html>

@@ -46,12 +46,12 @@ const server = http.createServer(async (req, res) => {
     const url = new URL(req.url, `http://${req.headers.host}`);
     if (req.method === 'GET' && (url.pathname === '/admin' || url.pathname === '/admin/')) {
       const db = await readDb();
-      const authorized = await isAdminRouteAuthorized(req, db);
-      if (!authorized) {
+      const adminAccess = await getAdminRouteAccess(req, db);
+      if (!adminAccess) {
         res.setHeader('WWW-Authenticate', 'Basic realm="VanPips Admin"');
         return send(res, 401, { error: 'Admin authentication required' });
       }
-      return sendAdminPage(res);
+      return sendAdminPage(res, adminAccess);
     }
     if (!url.pathname.startsWith('/api/')) return send(res, 404, { error: 'Not found' });
 
@@ -347,16 +347,49 @@ function verifyAdminCredentials(email, password) {
   return String(email || '').trim().toLowerCase() === ADMIN_EMAIL && String(password || '') === ADMIN_PASSWORD;
 }
 
-async function isAdminRouteAuthorized(req, db) {
+async function getAdminRouteAccess(req, db) {
   const auth = authenticate(req, db);
-  if (auth.user && auth.user.role === 'admin') return true;
+  if (auth.user && auth.user.role === 'admin') {
+    return {
+      email: auth.user.email,
+      token: signToken({ sub: auth.user.id, role: auth.user.role })
+    };
+  }
   const basic = parseBasicAuth(req.headers.authorization);
-  if (basic && verifyAdminCredentials(basic.email, basic.password)) return true;
-  return false;
+  if (basic && verifyAdminCredentials(basic.email, basic.password)) {
+    let user = db.users.find((item) => item.email === ADMIN_EMAIL);
+    if (!user) {
+      user = {
+        id: crypto.randomUUID(),
+        name: 'Van Pips Admin',
+        email: ADMIN_EMAIL,
+        phone: '',
+        passwordHash: hashPassword(ADMIN_PASSWORD),
+        role: 'admin',
+        subscribed: true,
+        subscriptionPlan: 'Admin',
+        subscriptionStart: new Date().toISOString(),
+        subscriptionEnd: 'Lifetime',
+        createdAt: new Date().toISOString()
+      };
+      db.users.push(user);
+      await writeDb(db);
+    }
+    return {
+      email: user.email,
+      token: signToken({ sub: user.id, role: user.role })
+    };
+  }
+  return null;
 }
 
-async function sendAdminPage(res) {
-  const page = await fs.readFile(path.join(__dirname, 'admin.html'), 'utf8');
+async function sendAdminPage(res, adminAccess) {
+  const template = await fs.readFile(path.join(__dirname, 'admin.html'), 'utf8');
+  const bootstrap = JSON.stringify({
+    email: adminAccess.email,
+    token: adminAccess.token
+  }).replace(/</g, '\\u003c');
+  const page = template.replace('window.__VANPIPS_ADMIN_BOOTSTRAP__ = null;', `window.__VANPIPS_ADMIN_BOOTSTRAP__ = ${bootstrap};`);
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/html; charset=utf-8');
   res.end(page);
