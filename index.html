@@ -78,6 +78,500 @@
         overflow: hidden;
       }
 
+      /* Grand Opening Splash Screen */
+      .grand-opening-splash {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        min-height: 100svh;
+        background:
+          radial-gradient(circle at 50% 46%, rgba(66, 215, 202, 0.2) 0 9%, transparent 32%),
+          radial-gradient(circle at 68% 62%, rgba(240, 197, 106, 0.18) 0 12%, transparent 34%),
+          linear-gradient(145deg, #030508 0%, #091018 42%, #161207 100%);
+        display: grid;
+        grid-template-rows: 1fr auto;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        overflow: hidden;
+        isolation: isolate;
+        animation: splashFadeOut 0.9s cubic-bezier(0.65, 0, 0.35, 1) 5.7s forwards;
+      }
+
+      .grand-opening-splash::before {
+        content: "";
+        position: absolute;
+        inset: -18%;
+        z-index: -3;
+        background:
+          conic-gradient(from 218deg at 50% 50%, transparent 0 8%, rgba(66, 215, 202, 0.2) 14%, transparent 22% 44%, rgba(240, 197, 106, 0.22) 50%, transparent 62% 100%),
+          radial-gradient(circle at 50% 50%, transparent 0 24%, rgba(255, 255, 255, 0.04) 25% 25.5%, transparent 26% 100%);
+        animation: splashOrbit 5.8s cubic-bezier(0.2, 0.72, 0.18, 1) both;
+      }
+
+      .grand-opening-splash::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -2;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.075) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1px, transparent 1px),
+          linear-gradient(112deg, transparent 0 45%, rgba(255, 255, 255, 0.28) 49%, transparent 54% 100%);
+        background-size: 78px 78px, 78px 78px, 260% 100%;
+        opacity: 0.46;
+        mask-image: radial-gradient(circle at 50% 50%, #000 0 58%, transparent 82%);
+        animation: splashGridShift 5.8s linear both, splashLightSweep 5.8s cubic-bezier(0.34, 0.02, 0.18, 1) both;
+      }
+
+      .splash-market-film {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        opacity: 0.95;
+      }
+
+      .splash-market-film span {
+        position: absolute;
+        display: block;
+        border-radius: 999px;
+        opacity: 0;
+      }
+
+      .splash-candle {
+        bottom: 12%;
+        width: 10px;
+        height: var(--h);
+        left: var(--x);
+        color: var(--c);
+        background: currentColor;
+        box-shadow: 0 0 28px currentColor;
+        animation: splashCandleRise 4.8s cubic-bezier(0.16, 1, 0.3, 1) var(--d) both;
+      }
+
+      .splash-candle::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: calc((var(--wick) - var(--h)) / -2);
+        width: 2px;
+        height: var(--wick);
+        transform: translateX(-50%);
+        background: currentColor;
+        opacity: 0.58;
+      }
+
+      .splash-ticker {
+        left: -40%;
+        width: 38%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(66, 215, 202, 0.68), rgba(240, 197, 106, 0.54), transparent);
+        transform: translateY(var(--y)) rotate(var(--r));
+        animation: splashTicker 4.9s cubic-bezier(0.16, 1, 0.3, 1) var(--d) both;
+      }
+
+      .splash-signal-line {
+        position: absolute;
+        inset: 22% 8% auto;
+        height: min(34vh, 310px);
+        opacity: 0;
+        animation: splashSignalReveal 4.7s cubic-bezier(0.2, 0.72, 0.18, 1) 0.78s both;
+      }
+
+      .splash-signal-line svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      .splash-signal-line path {
+        stroke-dasharray: 920;
+        stroke-dashoffset: 920;
+        animation: splashPathDraw 3.2s cubic-bezier(0.16, 1, 0.3, 1) 1.02s forwards;
+      }
+
+      .splash-signal-line circle {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: splashDotPulse 1.45s ease-in-out 2.75s infinite;
+      }
+
+      .splash-content {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(18px, 3.5vh, 32px);
+        text-align: center;
+        width: min(760px, calc(100vw - 36px));
+        padding: clamp(18px, 4vw, 44px);
+        animation: splashFinalLift 5.8s cubic-bezier(0.2, 0.72, 0.18, 1) both;
+      }
+
+      .splash-logo-container {
+        width: clamp(168px, 24vw, 286px);
+        height: clamp(168px, 24vw, 286px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        perspective: 1200px;
+      }
+
+      .splash-logo-container::before,
+      .splash-logo-container::after {
+        content: "";
+        position: absolute;
+        inset: -14%;
+        border: 1px solid rgba(240, 197, 106, 0.32);
+        border-radius: 28%;
+        opacity: 0;
+        animation: splashFrameSpin 5.4s cubic-bezier(0.2, 0.72, 0.18, 1) 0.25s both;
+      }
+
+      .splash-logo-container::after {
+        inset: -6%;
+        border-color: rgba(66, 215, 202, 0.34);
+        animation-direction: reverse;
+      }
+
+      .splash-logo-wrapper {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: splashLogoScale 5.8s cubic-bezier(0.2, 0.72, 0.18, 1) both;
+      }
+
+      .splash-logo-wrapper svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        filter: drop-shadow(0 30px 70px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 42px rgba(66, 215, 202, 0.34)) drop-shadow(0 0 58px rgba(240, 197, 106, 0.22));
+      }
+
+      .splash-logo-wrapper .logo-orbit {
+        stroke-dasharray: 640;
+        stroke-dashoffset: 640;
+        animation: splashCircleStroke 2.65s cubic-bezier(0.16, 1, 0.3, 1) 0.32s forwards;
+      }
+
+      .splash-logo-wrapper .logo-inner-ring {
+        stroke-dasharray: 460;
+        stroke-dashoffset: 460;
+        animation: splashCircleStroke 2.15s cubic-bezier(0.16, 1, 0.3, 1) 0.68s forwards;
+      }
+
+      .splash-logo-wrapper .logo-accent-line,
+      .splash-logo-wrapper .logo-growth-line {
+        stroke-dasharray: 220;
+        stroke-dashoffset: 220;
+        animation: splashLineReveal 1.65s cubic-bezier(0.16, 1, 0.3, 1) 1.65s forwards;
+      }
+
+      .splash-logo-wrapper .logo-monogram,
+      .splash-logo-wrapper .logo-pips {
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: splashPipsReveal 1.15s cubic-bezier(0.16, 1, 0.3, 1) 1.18s forwards;
+      }
+
+      .splash-logo-wrapper .logo-pips {
+        animation-delay: 1.72s;
+      }
+
+      .splash-logo-wrapper .logo-spark {
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: splashSpark 1.8s ease-out var(--d) forwards;
+      }
+
+      .splash-tagline {
+        margin: 0;
+        font-size: clamp(2.6rem, 9vw, 6.8rem);
+        line-height: 0.84;
+        font-weight: 950;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        background: linear-gradient(94deg, #ffffff 0%, #42d7ca 31%, #f0c56a 63%, #ffffff 100%);
+        background-size: 220% 100%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        filter: drop-shadow(0 18px 42px rgba(0, 0, 0, 0.62));
+        animation: splashTitleReveal 5.8s cubic-bezier(0.2, 0.72, 0.18, 1) both;
+      }
+
+      .splash-subtitle {
+        margin: 0;
+        font-size: clamp(0.95rem, 2.3vw, 1.18rem);
+        color: rgba(232, 238, 244, 0.88);
+        max-width: 560px;
+        line-height: 1.62;
+        animation: splashTextFade 1.05s cubic-bezier(0.16, 1, 0.3, 1) 3.05s both;
+        letter-spacing: 0.03em;
+      }
+
+      .splash-progress {
+        position: absolute;
+        left: 50%;
+        bottom: clamp(24px, 6vh, 58px);
+        width: min(420px, calc(100vw - 52px));
+        height: 2px;
+        overflow: hidden;
+        transform: translateX(-50%);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .splash-progress::before {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        transform-origin: left center;
+        transform: scaleX(0);
+        background: linear-gradient(90deg, #42d7ca, #f0c56a, #ff846f);
+        box-shadow: 0 0 22px rgba(66, 215, 202, 0.55);
+        animation: splashProgress 5.45s cubic-bezier(0.2, 0.72, 0.18, 1) 0.18s forwards;
+      }
+
+      @keyframes splashLogoScale {
+        0% {
+          opacity: 0;
+          transform: translateY(34px) scale(0.64) rotateX(58deg) rotateZ(-18deg);
+        }
+        18% {
+          opacity: 1;
+          transform: translateY(0) scale(1.04) rotateX(0) rotateZ(0);
+        }
+        68% {
+          opacity: 1;
+          transform: translateY(0) scale(1) rotateX(0) rotateZ(0);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(-12px) scale(0.9);
+        }
+      }
+
+      @keyframes splashCircleStroke {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes splashFrameSpin {
+        0% {
+          opacity: 0;
+          transform: rotate(28deg) scale(0.68);
+        }
+        18%,
+        82% {
+          opacity: 0.72;
+        }
+        100% {
+          opacity: 0;
+          transform: rotate(118deg) scale(1.16);
+        }
+      }
+
+      @keyframes splashPipsReveal {
+        0% {
+          opacity: 0;
+          transform: translateY(20px) scale(0.82);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes splashLineReveal {
+        0% {
+          opacity: 0;
+        }
+        20%,
+        100% {
+          opacity: 1;
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes splashTitleReveal {
+        0% {
+          opacity: 0;
+          letter-spacing: 0.16em;
+          transform: translateY(26px) scale(0.9);
+          background-position: 0% center;
+        }
+        42% {
+          opacity: 0;
+        }
+        58% {
+          opacity: 1;
+          letter-spacing: 0;
+          transform: translateY(0) scale(1);
+          background-position: 100% center;
+        }
+        100% {
+          opacity: 1;
+          background-position: 200% center;
+        }
+      }
+
+      @keyframes splashTextFade {
+        0% {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes splashSpark {
+        0% {
+          opacity: 0;
+          transform: translateY(16px) scale(0.2);
+        }
+        50% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        100% {
+          opacity: 0.1;
+          transform: translateY(-8px) scale(0.78);
+        }
+      }
+
+      @keyframes splashOrbit {
+        0% {
+          opacity: 0;
+          transform: rotate(-30deg) scale(0.74);
+        }
+        18% {
+          opacity: 0.95;
+        }
+        100% {
+          opacity: 0.55;
+          transform: rotate(96deg) scale(1.1);
+        }
+      }
+
+      @keyframes splashGridShift {
+        0% {
+          transform: translate3d(0, -36px, 0) scale(1.05);
+        }
+        100% {
+          transform: translate3d(0, 42px, 0) scale(1.05);
+        }
+      }
+
+      @keyframes splashLightSweep {
+        0%,
+        32% {
+          background-position: 0 0, 0 0, 170% 0;
+        }
+        76%,
+        100% {
+          background-position: 0 78px, 78px 0, -80% 0;
+        }
+      }
+
+      @keyframes splashCandleRise {
+        0% {
+          opacity: 0;
+          transform: translateY(96px) scaleY(0.16);
+        }
+        22%,
+        76% {
+          opacity: 0.72;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-38px) scaleY(1);
+        }
+      }
+
+      @keyframes splashTicker {
+        0% {
+          opacity: 0;
+          transform: translate(-10vw, var(--y)) rotate(var(--r));
+        }
+        20%,
+        70% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(165vw, var(--y)) rotate(var(--r));
+        }
+      }
+
+      @keyframes splashSignalReveal {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        16%,
+        72% {
+          opacity: 0.95;
+        }
+      }
+
+      @keyframes splashPathDraw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes splashDotPulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.7;
+        }
+        50% {
+          transform: scale(1.8);
+          opacity: 1;
+        }
+      }
+
+      @keyframes splashFinalLift {
+        0%,
+        82% {
+          transform: translateY(0) scale(1);
+          filter: brightness(1);
+        }
+        100% {
+          transform: translateY(-4vh) scale(1.025);
+          filter: brightness(1.18);
+        }
+      }
+
+      @keyframes splashProgress {
+        to {
+          transform: scaleX(1);
+        }
+      }
+
+      @keyframes splashFadeOut {
+        from {
+          opacity: 1;
+          pointer-events: auto;
+        }
+        to {
+          opacity: 0;
+          pointer-events: none;
+        }
+      }
+
       .opening-screen {
         min-height: 100svh;
         position: relative;
@@ -625,7 +1119,7 @@
 
       .plans-grid {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
         gap: 18px;
       }
 
@@ -664,6 +1158,16 @@
         background: rgba(255, 255, 255, 0.04);
       }
 
+      .payment-card.payment-option {
+        cursor: pointer;
+        transition: border-color 0.2s ease, background 0.2s ease;
+      }
+
+      .payment-card.payment-option.selected {
+        border-color: rgba(66, 215, 202, 0.85);
+        background: rgba(66, 215, 202, 0.1);
+      }
+
       .payment-card span {
         display: block;
         color: var(--muted);
@@ -678,6 +1182,88 @@
         margin-top: 8px;
         color: var(--ink);
         font-size: 1.25rem;
+      }
+
+      .payment-details {
+        grid-column: 1 / -1;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 18px;
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .payment-detail-title {
+        margin: 0 0 10px;
+        font-weight: 700;
+        color: var(--gold);
+      }
+
+      .payment-detail-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 12px;
+        margin-bottom: 8px;
+        color: var(--muted);
+      }
+
+      .payment-detail-row strong {
+        color: var(--text);
+      }
+
+      .payment-detail-note {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.5;
+      }
+
+      .payment-detail-steps {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 0.93rem;
+        line-height: 1.6;
+      }
+
+      .payment-detail-steps strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text);
+      }
+
+      .payment-detail-steps ol {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .payment-detail-steps li {
+        margin-bottom: 8px;
+      }
+
+      .payment-detail-qr-container {
+        margin: 14px 0;
+        padding: 12px;
+        border: 1px solid rgba(66, 215, 202, 0.3);
+        border-radius: 6px;
+        background: rgba(66, 215, 202, 0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .payment-detail-qr-container strong {
+        color: var(--text);
+        font-size: 0.9rem;
+      }
+
+      .payment-qr-image {
+        max-width: 200px;
+        width: 100%;
+        height: auto;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        padding: 4px;
+        background: white;
       }
 
       .plan-card {
@@ -984,6 +1570,14 @@
 
       .policy-copy.active {
         display: block;
+      }
+
+      .policy-text {
+        white-space: pre-wrap;
+        font-size: 0.96rem;
+        line-height: 1.8;
+        color: var(--muted);
+        margin-top: 12px;
       }
 
       .profile-form-actions {
@@ -2645,6 +3239,96 @@
     </style>
   </head>
   <body>
+    <!-- Grand Opening Splash Screen -->
+    <div class="grand-opening-splash" id="grandOpeningSplash" role="status" aria-label="Opening VAN PIPS">
+      <div class="splash-market-film" aria-hidden="true">
+        <span class="splash-candle" style="--x: 7%; --h: 76px; --wick: 138px; --c: #63dc93; --d: 0.25s"></span>
+        <span class="splash-candle" style="--x: 15%; --h: 118px; --wick: 188px; --c: #ff6868; --d: 0.48s"></span>
+        <span class="splash-candle" style="--x: 24%; --h: 142px; --wick: 216px; --c: #63dc93; --d: 0.62s"></span>
+        <span class="splash-candle" style="--x: 34%; --h: 96px; --wick: 176px; --c: #42d7ca; --d: 0.78s"></span>
+        <span class="splash-candle" style="--x: 47%; --h: 184px; --wick: 264px; --c: #f0c56a; --d: 0.92s"></span>
+        <span class="splash-candle" style="--x: 61%; --h: 124px; --wick: 208px; --c: #63dc93; --d: 1.08s"></span>
+        <span class="splash-candle" style="--x: 74%; --h: 166px; --wick: 246px; --c: #ff846f; --d: 1.2s"></span>
+        <span class="splash-candle" style="--x: 87%; --h: 132px; --wick: 218px; --c: #42d7ca; --d: 1.36s"></span>
+        <span class="splash-ticker" style="--y: 24vh; --r: -7deg; --d: 0.3s"></span>
+        <span class="splash-ticker" style="--y: 44vh; --r: 4deg; --d: 1.05s"></span>
+        <span class="splash-ticker" style="--y: 64vh; --r: -3deg; --d: 1.65s"></span>
+      </div>
+      <div class="splash-signal-line" aria-hidden="true">
+        <svg viewBox="0 0 1200 320" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 246 C120 214 144 256 232 218 C315 182 352 228 434 164 C522 96 600 182 684 118 C772 52 818 82 890 52 C982 16 1066 62 1180 22" stroke="url(#splashSignalGradient)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="890" cy="52" r="10" fill="#f0c56a" />
+          <circle cx="1180" cy="22" r="12" fill="#42d7ca" />
+          <defs>
+            <linearGradient id="splashSignalGradient" x1="20" y1="246" x2="1180" y2="22" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#42d7ca" stop-opacity="0" />
+              <stop offset="0.22" stop-color="#42d7ca" />
+              <stop offset="0.62" stop-color="#f0c56a" />
+              <stop offset="1" stop-color="#ff846f" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div class="splash-content">
+        <div class="splash-logo-container">
+          <div class="splash-logo-wrapper">
+            <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="splashGradient1" x1="18" y1="18" x2="202" y2="202" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#42d7ca" />
+                  <stop offset="46%" stop-color="#f7f3ea" />
+                  <stop offset="100%" stop-color="#f0c56a" />
+                </linearGradient>
+                <linearGradient id="splashGradient2" x1="110" y1="22" x2="110" y2="194" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#42d7ca" />
+                  <stop offset="100%" stop-color="#ff846f" />
+                </linearGradient>
+                <radialGradient id="splashCore" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(110 110) rotate(90) scale(88)">
+                  <stop stop-color="#ffffff" stop-opacity="0.16" />
+                  <stop offset="0.52" stop-color="#42d7ca" stop-opacity="0.08" />
+                  <stop offset="1" stop-color="#030508" stop-opacity="0.92" />
+                </radialGradient>
+                <filter id="splashGlow" x="-35%" y="-35%" width="170%" height="170%">
+                  <feGaussianBlur stdDeviation="3.2" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+                <filter id="splashLogoShadow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#000000" flood-opacity="0.55"/>
+                  <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#42d7ca" flood-opacity="0.32"/>
+                </filter>
+              </defs>
+              <circle cx="110" cy="110" r="98" fill="url(#splashCore)" stroke="rgba(255,255,255,0.08)" stroke-width="1.4" />
+              <circle class="logo-orbit" cx="110" cy="110" r="94" stroke="url(#splashGradient1)" stroke-width="6" fill="none" filter="url(#splashGlow)" />
+              <circle class="logo-inner-ring" cx="110" cy="110" r="74" stroke="rgba(66, 215, 202, 0.48)" stroke-width="1.8" fill="none" />
+              <path class="logo-accent-line" d="M48 164 L92 58 L112 116 L136 78 L172 166" stroke="url(#splashGradient1)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#splashGlow)" />
+              <path class="logo-growth-line" d="M42 126 C66 118 76 142 98 118 C119 95 132 106 148 82 C160 64 171 61 184 52" stroke="#f0c56a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.92" />
+              <g class="logo-monogram" filter="url(#splashLogoShadow)">
+                <path d="M50 56 L86 156 L110 98 L135 156 L171 56" stroke="#f7f3ea" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                <path d="M96 57 H134 C155 57 169 70 169 90 C169 112 153 125 129 125 H108" stroke="url(#splashGradient2)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+              </g>
+              <g class="logo-pips" filter="url(#splashGlow)">
+                <line x1="67" y1="124" x2="67" y2="154" stroke="#42d7ca" stroke-width="5" stroke-linecap="round" />
+                <line x1="57" y1="138" x2="77" y2="138" stroke="#42d7ca" stroke-width="7" stroke-linecap="round" />
+                <line x1="108" y1="132" x2="108" y2="171" stroke="#f0c56a" stroke-width="5" stroke-linecap="round" />
+                <line x1="98" y1="151" x2="118" y2="151" stroke="#f0c56a" stroke-width="7" stroke-linecap="round" />
+                <line x1="149" y1="119" x2="149" y2="156" stroke="#ff846f" stroke-width="5" stroke-linecap="round" />
+                <line x1="139" y1="133" x2="159" y2="133" stroke="#ff846f" stroke-width="7" stroke-linecap="round" />
+              </g>
+              <circle class="logo-spark" style="--d: 2.1s" cx="184" cy="52" r="6" fill="#f0c56a" />
+              <circle class="logo-spark" style="--d: 2.32s" cx="48" cy="164" r="4" fill="#42d7ca" />
+              <circle class="logo-spark" style="--d: 2.54s" cx="172" cy="166" r="5" fill="#ff846f" />
+            </svg>
+          </div>
+        </div>
+        <h1 class="splash-tagline">VanPips</h1>
+        <p class="splash-subtitle">Precision signals, disciplined execution, and a premium trading experience built to feel unforgettable from the first second.</p>
+      </div>
+      <div class="splash-progress" aria-hidden="true"></div>
+    </div>
+
     <main class="page-shell" aria-label="VAN PIPS opening and registration page">
       <section class="opening-screen step" id="opening" aria-labelledby="vanPips-title">
         <div class="video-wrapper" aria-hidden="true">
@@ -2660,13 +3344,39 @@
               <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <linearGradient id="openGradient" x1="8" y1="12" x2="112" y2="108" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#f0c56a" />
-                    <stop offset="1" stop-color="#42d7ca" />
+                    <stop offset="0%" stop-color="#42d7ca" />
+                    <stop offset="100%" stop-color="#f0c56a" />
                   </linearGradient>
+                  <linearGradient id="openAccent" x1="60" y1="20" x2="60" y2="100" gradientUnits="userSpaceOnUse">
+                    <stop offset="0%" stop-color="#42d7ca" />
+                    <stop offset="100%" stop-color="#ff846f" />
+                  </linearGradient>
+                  <filter id="openGlow">
+                    <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
                 </defs>
-                <circle cx="60" cy="60" r="51" stroke="url(#openGradient)" stroke-width="10" />
-                <path d="M34 34L55 86L70 55L84 86L106 34" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M46 36L93 82" stroke="#f0c56a" stroke-width="10" stroke-linecap="round" />
+                <!-- Outer Circle -->
+                <circle cx="60" cy="60" r="54" stroke="url(#openGradient)" stroke-width="2" opacity="0.3" />
+                <!-- Main Circle -->
+                <circle cx="60" cy="60" r="50" stroke="url(#openGradient)" stroke-width="6" fill="none" filter="url(#openGlow)" />
+                <!-- Inner Accent -->
+                <circle cx="60" cy="60" r="45" stroke="rgba(66, 215, 202, 0.15)" stroke-width="1" />
+                <!-- PIPS Chart (simplified for small scale) -->
+                <g opacity="0.9">
+                  <line x1="35" y1="55" x2="35" y2="80" stroke="url(#openAccent)" stroke-width="4" stroke-linecap="round" />
+                  <line x1="48" y1="50" x2="48" y2="85" stroke="url(#openAccent)" stroke-width="4" stroke-linecap="round" opacity="0.8" />
+                  <line x1="61" y1="60" x2="61" y2="75" stroke="url(#openAccent)" stroke-width="4" stroke-linecap="round" opacity="0.7" />
+                  <line x1="74" y1="45" x2="74" y2="82" stroke="url(#openAccent)" stroke-width="4" stroke-linecap="round" opacity="0.8" />
+                  <line x1="87" y1="55" x2="87" y2="78" stroke="url(#openAccent)" stroke-width="4" stroke-linecap="round" />
+                </g>
+                <!-- Diagonal Energy Line -->
+                <line x1="30" y1="30" x2="90" y2="90" stroke="#f0c56a" stroke-width="2.5" stroke-linecap="round" opacity="0.6" />
+                <!-- Center Dot -->
+                <circle cx="60" cy="60" r="2.5" fill="url(#openGradient)" />
               </svg>
             </span>
             <span class="brand-name">VAN PIPS</span>
@@ -2929,6 +3639,25 @@
               <a class="button secondary plan-action" href="#plans" data-plan="Monthly" data-duration="30" data-usd="10">Choose monthly</a>
             </article>
 
+            <article class="plan-card" data-plan-card="Three-month">
+              <span class="plan-badge">Quarterly</span>
+              <div>
+                <h3>Three-month</h3>
+                <div class="plan-price">
+                  <strong>$20</strong>
+                  <span>one time</span>
+                </div>
+                <p class="small-note" id="plan-local-threemonth">Local price estimate loading...</p>
+              </div>
+              <p>Pay once for 90 days of Van Pips access at a single $20 USD rate.</p>
+              <ul class="plan-features">
+                <li>Everything in Monthly</li>
+                <li>90 days of access with no monthly charge</li>
+                <li>Quarterly access that stays active for 90 days</li>
+              </ul>
+              <a class="button secondary plan-action" href="#plans" data-plan="Three-month" data-duration="90" data-usd="20">Choose three-month</a>
+            </article>
+
             <article class="plan-card" data-plan-card="Yearly">
               <span class="plan-badge">Best value</span>
               <div>
@@ -2973,25 +3702,50 @@
               <p class="eyebrow">Payment methods</p>
               <h3 id="payment-heading">Pay for your selected Van Pips plan</h3>
               <p>
-                After choosing Monthly, Yearly, or Lifetime access, use one of the payment methods
+                After choosing Monthly, Three-month, Yearly, or Lifetime access, use one of the payment methods
                 below and keep your payment confirmation for account activation.
               </p>
               <div id="selected-plan-label" class="selected-plan-label">No plan selected yet.</div>
               <div id="local-payment-estimate" class="selected-plan-label" style="margin-top:10px;">Local currency will be detected from your phone country.</div>
             </div>
-            <div class="payment-list">
-              <div class="payment-card">
-                <span>CRDB Lipa</span>
-                <strong>10932516</strong>
+            <div class="payment-list" id="payment-options">
+              <div class="payment-card payment-option selected" data-method="card-worldwide">
+                <span>Card (Worldwide)</span>
+                <strong>Selcom account</strong>
+                <p class="small-note">Selcom account and Selcom Lipa till can receive money from all mobile networks and banks. Tap to view payment steps.</p>
               </div>
-              <div class="payment-card">
-                <span>Selcom MFB account</span>
-                <strong>0714904307</strong>
+              <div class="payment-card payment-option" data-method="mobile-money-tz">
+                <span>Mobile Money TZ</span>
+                <strong>Selcom Lipa</strong>
+                <p class="small-note">Selcom Lipa can receive money from all Tanzanian mobile networks and banks.</p>
               </div>
             </div>
-              <div style="margin-top:18px;">
-                <button id="confirm-payment" class="button primary">I have paid — Confirm</button>
+            <div class="payment-details" id="payment-details" style="margin-top:16px;">
+              <div class="payment-detail-title">Selected payment option</div>
+              <div class="payment-detail-row"><strong>Method:</strong> <span id="payment-detail-method">Card (Worldwide)</span></div>
+              <div class="payment-detail-row"><strong>Account / card name:</strong> <span id="payment-detail-name">Evans Michael Mgweno</span></div>
+              <div class="payment-detail-row"><strong>Account number:</strong> <span id="payment-detail-account">55-251-067-00215</span></div>
+              <div class="payment-detail-row"><strong>Selcom Lipa till:</strong> <span id="payment-detail-lipa">7003-4082</span></div>
+              <div class="payment-detail-qr-container">
+                <strong>Quick payment QR code:</strong>
+                <img src="./selcom-qr.jpeg" alt="Selcom Payment QR Code" class="payment-qr-image" />
               </div>
+              <div class="payment-detail-note">The selected payment option will display the account and mobile money details you need to complete your payment.</div>
+              <div class="payment-detail-steps">
+                <strong>Payment steps:</strong>
+                <ol>
+                  <li>Enter the menu of the respective mobile network: Mixx by Yas, M-Pesa, Airtel Money, Halotel, or Azam Pesa.</li>
+                  <li>Choose Pay by Phone.</li>
+                  <li>Choose TANQR.</li>
+                  <li>Enter the Lipa number.</li>
+                  <li>Enter the amount.</li>
+                  <li>Crosscheck the information then enter your PIN to complete the payment.</li>
+                </ol>
+              </div>
+            </div>
+            <div class="payment-confirm" style="margin-top:18px; grid-column: 1 / -1;">
+              <button id="confirm-payment" class="button primary">I have paid — Confirm</button>
+            </div>
           </section>
         </div>
       </section>
@@ -3243,21 +3997,365 @@
                 <p class="profile-label">Legal</p>
                 <div id="policy-links" class="policy-links" style="margin-top:0;">
                   <button id="privacy-btn" class="button ghost">Privacy Policy</button>
-                  <button id="terms-btn" class="button ghost">Terms of Service</button>
+                  <button id="terms-btn" class="button ghost">Terms &amp; Conditions</button>
+                  <button id="risk-btn" class="button ghost">Risk Disclosure</button>
+                  <button id="refund-btn" class="button ghost">Refund Policy</button>
                   <button id="legal-btn" class="button ghost">Legal Disclaimer</button>
                 </div>
                 <div id="policy-panel" class="policy-panel hidden">
                   <div id="privacy-panel" class="policy-copy hidden">
-                    <h3>Privacy policy</h3>
-                    <p>Van Pips collects only the account information you provide for registration, authentication, and subscription management. Your email and phone number are retained for service updates and support.</p>
+                    <h3>Privacy Policy</h3>
+                    <div class="policy-text">Privacy Policy
+Effective Date: June 10, 2026
+Last Updated: June 10, 2026
+Introduction
+VanPips ("we," "our," or "us") respects your privacy and is committed to protecting your personal information.
+This Privacy Policy explains how we collect, use, store, and protect information when you use our website,
+mobile applications, and related services.
+By using VanPips, you agree to the collection and use of information in accordance with this Privacy Policy.
+
+Information We Collect
+Information You Provide
+We may collect:
+• Full name
+• Email address
+• Phone number
+• Account credentials
+• Subscription information
+• Customer support communications
+
+Payment Information
+Payments are processed through authorized payment providers.
+VanPips does not store mobile money PINs, banking passwords, or payment authentication credentials.
+
+Technical Information
+We may automatically collect:
+• IP address
+• Device information
+• Browser type
+• Operating system
+• Application usage statistics
+• Login activity
+• Cookies and similar technologies
+
+How We Use Information
+We use collected information to:
+• Create and manage accounts
+• Provide trading signals and educational services
+• Process subscriptions
+• Improve platform performance
+• Respond to support requests
+• Prevent fraud and abuse
+• Comply with legal obligations
+• Send service-related notifications
+
+Marketing Communications
+We may send updates, newsletters, and promotional messages.
+You may unsubscribe from marketing communications at any time.
+Service-related notices may still be sent when necessary.
+
+Data Protection
+We implement reasonable technical and organizational safeguards to protect personal information,
+including:
+• Secure encrypted connections (HTTPS)
+• Access controls
+• Authentication systems
+• Monitoring and security measures
+However, no system can guarantee absolute security.
+
+Information Sharing
+We do not sell personal information.
+We may share information with:
+• Payment providers
+• Hosting providers
+• Analytics providers
+• Legal authorities when required by law
+Such sharing is limited to what is reasonably necessary.
+
+Data Retention
+We retain information only for as long as necessary to provide services, comply with legal obligations,
+resolve disputes, and enforce agreements.
+
+User Rights
+Subject to applicable law, users may request:
+• Access to personal information
+• Correction of inaccurate information
+• Deletion of eligible information
+• Restriction of certain processing activities
+
+Children's Privacy
+VanPips is not intended for individuals under 18 years of age.
+We do not knowingly collect information from minors.
+
+Changes to This Policy
+We may update this Privacy Policy periodically.
+Updated versions will be posted on our website and applications.
+
+Contact Us
+Email: admin@vanpips.com
+Phone: +255 743 992 207</div>
                   </div>
                   <div id="terms-panel" class="policy-copy hidden">
-                    <h3>Terms of service</h3>
-                    <p>By using Van Pips, you agree to the website terms, subscription billing rules, and the support model provided by the Van Pips team. Plans, renewals, and access rights are governed by the selected service plan.</p>
+                    <h3>Terms &amp; Conditions</h3>
+                    <div class="policy-text">Terms and Conditions
+Effective Date: [Insert Date]
+Last Updated: [Insert Date]
+
+Important Risk Warning
+Trading foreign exchange (Forex), cryptocurrencies, commodities, indices, and other financial instruments
+involves substantial risk and may not be suitable for all investors.
+Trading on margin carries a high level of risk and can result in losses exceeding your initial investment.
+Before engaging in any trading activity, you should carefully consider your investment objectives, financial
+situation, level of experience, and risk tolerance.
+You acknowledge that you may lose part or all of your invested capital and that you are solely responsible
+for your trading decisions.
+
+Acceptance of Terms
+By accessing or using VanPips, you agree to be bound by these Terms and Conditions.
+If you do not agree with any part of these Terms, you must discontinue use of the Service immediately.
+These Terms apply to all visitors, users, subscribers, and other persons who access or use the Service.
+
+Service Description
+VanPips provides educational and informational trading-related services, including but not limited to:
+• Real-time trading signals
+• Market analysis and insights
+• Trade entry and exit recommendations
+• Risk management guidance
+• Educational trading content
+
+Educational Resources
+• Trading tutorials and guides
+• Technical analysis education
+• Trading psychology content
+• Risk management strategies
+• Community discussions and support
+
+All information is provided for educational and informational purposes only.
+
+User Responsibilities
+Account Security
+You are responsible for maintaining the confidentiality of your account credentials.
+You accept responsibility for all activities conducted under your account and agree to notify VanPips
+immediately of any unauthorized use or suspected security breach.
+
+Compliance with Laws
+You agree to use the Service in accordance with all applicable laws and regulations.
+You must not use the Service for any unlawful, fraudulent, or unauthorized purpose.
+
+Trading Decisions
+All trading decisions are made solely by you.
+VanPips does not make investment decisions on your behalf and does not guarantee any trading outcome.
+
+Risk Management
+You are responsible for implementing appropriate risk management strategies.
+You should never risk funds that you cannot afford to lose.
+
+Subscription and Payments
+Certain features of the Service may require a paid subscription.
+By purchasing a subscription, you agree to pay all applicable fees associated with your selected plan.
+Subscription access remains active until the expiration date of the purchased subscription period.
+Failure to renew a subscription may result in suspension or loss of access to premium content and services.
+All fees are displayed before payment and are subject to change upon notice.
+
+Refund Policy
+Unless otherwise required by applicable law, subscription fees are non-refundable once access to the
+Service has been granted.
+
+Refund requests may be reviewed on a case-by-case basis at the sole discretion of VanPips.
+
+Prohibited Activities
+You agree not to:
+• Violate any applicable laws or regulations.
+• Share account credentials with third parties.
+• Copy, reproduce, distribute, or resell our content without authorization.
+• Attempt unauthorized access to our systems.
+• Interfere with the operation of the Service.
+• Upload harmful software, malware, or malicious code.
+• Use automated systems to scrape or access the Service.
+• Reverse engineer any software or technology associated with the Service.
+
+Disclaimer of Financial Advice
+The information provided through the Service is for educational and informational purposes only.
+Nothing contained within the Service constitutes financial, investment, legal, or tax advice.
+Users should seek advice from qualified professionals before making investment decisions.
+
+Past Performance Disclaimer
+Past performance is not indicative of future results.
+Historical performance, projected returns, or trading examples should not be relied upon as guarantees of
+future performance.
+
+Service Availability
+VanPips aims to provide reliable service but does not guarantee uninterrupted or error-free access.
+We reserve the right to modify, suspend, or discontinue any aspect of the Service at any time without prior
+notice.
+
+Third-Party Services
+The Service may contain links to third-party websites, products, or services.
+VanPips does not control and is not responsible for third-party content, policies, or practices.
+
+Limitation of Liability
+To the fullest extent permitted by law, VanPips shall not be liable for:
+• Loss of profits
+• Trading losses
+• Loss of capital
+• Business interruption
+• Loss of data
+• Indirect, incidental, special, punitive, or consequential damages
+Our total liability shall not exceed the amount paid by you to VanPips during the twelve (12) months
+preceding the event giving rise to the claim.
+
+Intellectual Property
+All content, software, designs, trademarks, logos, graphics, and materials provided through the Service are
+the exclusive property of VanPips or its licensors.
+No content may be copied, modified, distributed, or reproduced without prior written permission.
+
+Privacy
+By using the Service, you consent to the collection and processing of information in accordance with our
+Privacy Policy.
+
+Termination
+By You
+You may terminate your account at any time using available account management features or by contacting
+us.
+
+By Us
+We reserve the right to suspend or terminate accounts that violate these Terms or engage in harmful
+activities.
+
+Governing Law
+These Terms shall be governed by and construed in accordance with the laws of the United Republic of
+Tanzania.
+Any disputes arising from these Terms shall be subject to the exclusive jurisdiction of the courts of Tanzania.
+
+Changes to Terms
+We reserve the right to modify these Terms at any time.
+Material changes may be communicated through:
+• Website notices
+• In-app notifications
+• Email communications
+• Updated publication dates
+Continued use of the Service following such changes constitutes acceptance of the revised Terms.
+
+Contact Information
+For questions regarding these Terms, please contact us:
+Email: admin@vanpips.com
+Phone: +255 743 992 207
+We aim to respond to inquiries within 48 hours.</div>
+                  </div>
+                  <div id="risk-panel" class="policy-copy hidden">
+                    <h3>Risk Disclosure</h3>
+                    <div class="policy-text">Risk Disclosure Statement
+Effective Date: June 1, 2026
+
+Important Notice
+This Risk Disclosure Statement explains the risks associated with trading financial markets.
+You should carefully read and understand these risks before using VanPips services.
+
+No Guarantee of Profit
+VanPips does not guarantee profits, successful trades, account growth, or positive investment outcomes.
+Any examples, historical performance, analysis, or educational material should not be interpreted as
+guarantees of future results.
+
+Market Risk
+Financial markets are highly volatile.
+Prices may change rapidly due to economic events, political developments, market sentiment, liquidity
+conditions, or unexpected news.
+Losses can occur quickly.
+
+Leverage Risk
+Leveraged trading magnifies both profits and losses.
+Small market movements can have a significant impact on trading accounts.
+You may lose part or all of your investment.
+
+Signal Risk
+Trading signals provided by VanPips are educational and informational only.
+Signals may:
+• Fail to reach targets
+• Reach stop-loss levels
+• Produce losses
+• Become invalid due to changing market conditions
+Users are solely responsible for deciding whether to execute any trade.
+
+Technology Risk
+Internet outages, platform failures, software issues, mobile network interruptions, broker system failures,
+or technical errors may affect trading activity.
+VanPips is not responsible for losses resulting from such events.
+
+Psychological Risk
+Emotional decision-making, overtrading, lack of discipline, and poor risk management can significantly
+increase losses.
+Users are responsible for maintaining appropriate trading discipline.
+
+Independent Decision-Making
+You acknowledge that all trading decisions are made independently.
+VanPips does not act as a financial advisor, portfolio manager, broker, or fiduciary.
+
+Suitability
+Trading may not be appropriate for all individuals.
+You should assess your own financial circumstances and seek independent professional advice where
+appropriate.
+
+Acknowledgment
+By using VanPips, you acknowledge that:
+• Trading involves substantial risk.
+• Losses may exceed expectations.
+• Past performance does not guarantee future results.
+• You are solely responsible for your trading decisions and outcomes.</div>
+                  </div>
+                  <div id="refund-panel" class="policy-copy hidden">
+                    <h3>Refund Policy</h3>
+                    <div class="policy-text">Refund Policy
+Effective Date: June 10, 2026
+
+Overview
+This Refund Policy governs purchases of subscriptions and premium services offered by VanPips.
+By purchasing a subscription, you agree to this Refund Policy.
+
+Subscription Fees
+Subscription fees grant access to premium content, trading signals, educational resources, and related
+services for the selected subscription period.
+Access is provided immediately after successful payment.
+
+General Refund Policy
+Because digital services are delivered immediately upon activation, subscription payments are generally
+non-refundable.
+Once premium access has been granted, refunds will not normally be issued.
+
+Exceptional Circumstances
+Refund requests may be considered in limited circumstances, including:
+• Duplicate payments
+• Verified technical errors resulting in non-delivery of purchased services
+• Unauthorized transactions subject to investigation
+Approval of refunds remains at the sole discretion of VanPips where permitted by law.
+
+Incorrect Purchases
+Users are responsible for reviewing subscription plans and pricing before completing payment.
+Accidental purchases or failure to use the service generally do not qualify for refunds.
+
+Service Interruptions
+Temporary service interruptions, maintenance periods, market closures, internet connectivity issues, or
+third-party provider outages do not automatically qualify for refunds.
+
+Chargebacks
+Users are encouraged to contact VanPips before initiating chargebacks or payment disputes.
+Fraudulent or abusive chargeback activity may result in suspension or termination of accounts.
+
+Refund Processing
+If a refund is approved, processing times may vary depending on the payment provider and financial
+institution.
+VanPips is not responsible for delays caused by third-party payment processors.
+
+Contact Us
+For refund inquiries:
+Email: admin@vanpips.com
+Phone: +255 743 992 207
+We aim to respond within 48 hours.</div>
                   </div>
                   <div id="legal-panel" class="policy-copy hidden">
-                    <h3>Legal disclaimer</h3>
-                    <p>Van Pips provides educational trading support and signal guidance. The publisher and developer are not responsible for individual trading outcomes. Trade with proper risk management and verify all decisions independently.</p>
+                    <h3>Legal Disclaimer</h3>
+                    <div class="policy-text">Van Pips provides educational trading support and signal guidance.
+The publisher and developer are not responsible for individual trading outcomes.
+Trade with proper risk management and verify all decisions independently.</div>
                   </div>
                 </div>
               </section>
@@ -3267,123 +4365,6 @@
                 <button id="logout-btn" class="button secondary" style="width: 100%; max-width: none;">Logout</button>
               </section>
             </div>
-          </div>
-        </div>
-      </section>
-      <!-- Bottom navigation -->
-      <section class="step hidden" id="admin" aria-labelledby="admin-heading" aria-hidden="true">
-        <div class="panel">
-          <h2 id="admin-heading">Admin dashboard</h2>
-          <p class="intro-text">Only the admin can view registered customer details, upload video lessons, and manage site updates.</p>
-          <section id="admin-payment-requests" class="admin-users-list"></section>
-          <div id="admin-users-list" class="admin-users-list"></div>
-          <div id="admin-video-management" class="admin-video-management">
-            <div class="admin-upload-panel">
-              <h3>Upload new lesson</h3>
-              <div class="field">
-                <label for="upload-video-title">Video title</label>
-                <input id="upload-video-title" type="text" placeholder="Enter lesson title" />
-              </div>
-              <div class="field">
-                <label for="upload-video-description">Description</label>
-                <input id="upload-video-description" type="text" placeholder="Short description for learners" />
-              </div>
-              <div class="field">
-                <label for="upload-video-file">Select video</label>
-                <input id="upload-video-file" type="file" accept="video/*" />
-              </div>
-              <div class="form-actions">
-                <button type="button" id="upload-video-btn" class="button primary">Upload lesson</button>
-              </div>
-            </div>
-            <div id="admin-video-list" class="admin-video-list"></div>
-          </div>
-          <div class="admin-content-management">
-            <div class="admin-upload-panel">
-              <h3>Publish today's signal</h3>
-              <div class="field">
-                <label for="signal-pair">Currency pair</label>
-                <input id="signal-pair" type="text" placeholder="EUR/USD" />
-              </div>
-              <div class="field">
-                <label for="signal-direction">Signal direction</label>
-                <select id="signal-direction">
-                  <option value="Buy">Buy</option>
-                  <option value="Sell">Sell</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="signal-entry">Entry price</label>
-                <input id="signal-entry" type="text" placeholder="1.1045" />
-              </div>
-              <div class="field">
-                <label for="signal-take-profit">Take profit</label>
-                <input id="signal-take-profit" type="text" placeholder="1.1090" />
-              </div>
-              <div class="field">
-                <label for="signal-stop-loss">Stop loss</label>
-                <input id="signal-stop-loss" type="text" placeholder="1.1010" />
-              </div>
-              <div class="field">
-                <label for="signal-note">Note</label>
-                <textarea id="signal-note" rows="3" placeholder="Add a short guidance note for this signal"></textarea>
-              </div>
-              <div class="form-actions">
-                <button type="button" id="save-signal-btn" class="button primary">Save signal</button>
-              </div>
-            </div>
-            <div class="admin-upload-panel" style="margin-top:16px;">
-              <h3>Publish free content</h3>
-              <div class="field">
-                <label for="free-content-text">Message</label>
-                <textarea id="free-content-text" rows="4" placeholder="Share a trading tip, motivation, or market observation."></textarea>
-              </div>
-              <div class="form-actions">
-                <button type="button" id="save-free-content-btn" class="button primary">Save free content</button>
-              </div>
-            </div>
-            <div class="admin-upload-panel" style="margin-top:16px;">
-              <h3>Monthly history entry</h3>
-              <div class="field">
-                <label for="history-entry-year">Year</label>
-                <select id="history-entry-year"></select>
-              </div>
-              <div class="field">
-                <label for="history-entry-month">Month</label>
-                <select id="history-entry-month">
-                  <option value="1">January</option>
-                  <option value="2">February</option>
-                  <option value="3">March</option>
-                  <option value="4">April</option>
-                  <option value="5">May</option>
-                  <option value="6">June</option>
-                  <option value="7">July</option>
-                  <option value="8">August</option>
-                  <option value="9">September</option>
-                  <option value="10">October</option>
-                  <option value="11">November</option>
-                  <option value="12">December</option>
-                </select>
-              </div>
-              <div class="field">
-                <label for="history-entry-total">Total pips traded</label>
-                <input id="history-entry-total" type="number" placeholder="150" />
-              </div>
-              <div class="field">
-                <label for="history-entry-won">Pips won</label>
-                <input id="history-entry-won" type="number" placeholder="120" />
-              </div>
-              <div class="field">
-                <label for="history-entry-lost">Pips lost</label>
-                <input id="history-entry-lost" type="number" placeholder="30" />
-              </div>
-              <div class="form-actions">
-                <button type="button" id="save-history-entry" class="button primary">Save month</button>
-              </div>
-            </div>
-          </div>
-          <div style="margin-top:18px;">
-            <button id="admin-close" class="button secondary">Close admin</button>
           </div>
         </div>
       </section>
@@ -3538,8 +4519,6 @@
       const bottomNav = document.querySelector('.bottom-nav');
       const navItems = document.querySelectorAll('.nav-item');
       const PROTECTED_STEPS = new Set(['home', 'videos', 'history', 'profile']);
-      const ADMIN_SESSION_KEY = 'vanPipsAdminUnlocked';
-      const ADMIN_TOKEN_KEY = 'vanPipsAdminToken';
       const THEME_KEY = 'vanPipsTheme';
       const WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/BpEajUuuoHlEo3YjG06wt6?mode=gi_t';
 
@@ -3560,10 +4539,6 @@
 
       function showStep(id) {
         const user = getUser();
-        if (id === 'admin' && !isAdminUnlocked()) {
-          showStep('opening');
-          return;
-        }
         if (PROTECTED_STEPS.has(id) && !isSubscriptionActive(user)) {
           showStep(user ? 'plans' : 'start');
           return;
@@ -3590,10 +4565,6 @@
 
       function updateNavState(activeId) {
         navItems.forEach((n) => n.classList.toggle('active', n.dataset.target === activeId));
-      }
-
-      function isAdminUnlocked() {
-        return sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true';
       }
 
       function isSubscriptionActive(user) {
@@ -3750,21 +4721,41 @@
       let selectedDuration = 0;
       let selectedPlanUsd = 0;
       let selectedPlanQuote = null;
+      let selectedPaymentMethod = 'card-worldwide';
       let latestCurrencyRates = null;
       const PLAN_USD_PRICES = {
         Monthly: 10,
+        'Three-month': 20,
         Yearly: 50,
         Lifetime: 100,
       };
+      const PAYMENT_METHODS = {
+        'card-worldwide': {
+          label: 'Card (Worldwide)',
+          methodName: 'Selcom account',
+          accountNumber: '55-251-067-00215',
+          lipaNumber: '7003-4082',
+          accountName: 'Evans Michael Mgweno',
+          note: 'Use the Selcom account or Selcom Lipa till to complete payments from all mobile networks and banks.',
+        },
+        'mobile-money-tz': {
+          label: 'Mobile Money TZ',
+          methodName: 'Selcom Lipa',
+          accountNumber: '55-251-067-00215',
+          lipaNumber: '7003-4082',
+          accountName: 'Evans Michael Mgweno',
+          note: 'Use Selcom Lipa to complete payments from all Tanzanian mobile networks and banks.',
+        },
+      };
       const COUNTRY_PHONE_CODES = [
-        { code: '+255', label: 'Tanzania', currency: 'TZS', locale: 'sw-TZ' },
-        { code: '+254', label: 'Kenya', currency: 'KES', locale: 'en-KE' },
-        { code: '+256', label: 'Uganda', currency: 'UGX', locale: 'en-UG' },
-        { code: '+250', label: 'Rwanda', currency: 'RWF', locale: 'rw-RW' },
-        { code: '+257', label: 'Burundi', currency: 'BIF', locale: 'fr-BI' },
-        { code: '+211', label: 'South Sudan', currency: 'SSP', locale: 'en-SS' },
-        { code: '+251', label: 'Ethiopia', currency: 'ETB', locale: 'am-ET' },
-        { code: '+252', label: 'Somalia', currency: 'SOS', locale: 'so-SO' },
+        { code: '+255', flag: '🇹🇿', label: 'Tanzania', currency: 'TZS', locale: 'sw-TZ' },
+        { code: '+254', flag: '🇰🇪', label: 'Kenya', currency: 'KES', locale: 'en-KE' },
+        { code: '+256', flag: '🇺🇬', label: 'Uganda', currency: 'UGX', locale: 'en-UG' },
+        { code: '+250', flag: '🇷🇼', label: 'Rwanda', currency: 'RWF', locale: 'rw-RW' },
+        { code: '+257', flag: '🇧🇮', label: 'Burundi', currency: 'BIF', locale: 'fr-BI' },
+        { code: '+211', flag: '🇸🇸', label: 'South Sudan', currency: 'SSP', locale: 'en-SS' },
+        { code: '+251', flag: '🇪🇹', label: 'Ethiopia', currency: 'ETB', locale: 'am-ET' },
+        { code: '+252', flag: '🇸🇴', label: 'Somalia', currency: 'SOS', locale: 'so-SO' },
         { code: '+20', label: 'Egypt', currency: 'EGP', locale: 'ar-EG' },
         { code: '+27', label: 'South Africa', currency: 'ZAR', locale: 'en-ZA' },
         { code: '+234', label: 'Nigeria', currency: 'NGN', locale: 'en-NG' },
@@ -4284,30 +5275,6 @@
         return response.json();
       }
 
-      async function tryBackendAdminLogin(email, password) {
-        try {
-          const result = await fetchJson('/auth/login', {
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-          });
-          if (!result || !result.token || !result.user || result.user.role !== 'admin') return false;
-
-          localStorage.setItem(ADMIN_TOKEN_KEY, result.token);
-          sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
-          setCurrentUser({
-            ...result.user,
-            subscribed: true,
-            subscriptionPlan: result.user.subscriptionPlan || 'Admin',
-            subscriptionEnd: result.user.subscriptionEnd || 'Lifetime',
-          });
-          renderAdminPanel();
-          showStep('admin');
-          return true;
-        } catch {
-          return false;
-        }
-      }
-
       function escapeHtml(value) {
         return String(value ?? '').replace(/[&<>"']/g, (char) => ({
           '&': '&amp;',
@@ -4684,7 +5651,7 @@
 
       function populateCountryCodeSelects() {
         const optionHtml = COUNTRY_PHONE_CODES
-          .map((item) => `<option value="${item.code}">${item.code} ${item.label}</option>`)
+          .map((item) => `<option value="${item.code}">${item.flag ? `${item.flag} ` : ''}${item.code} ${item.label}</option>`)
           .join('');
         ['signup-phone-code', 'signup-whatsapp-code'].forEach((id) => {
           const select = document.getElementById(id);
@@ -4718,14 +5685,10 @@
       restoreRememberedLogin();
 
       if (loginForm) {
-        loginForm.addEventListener('submit', async (event) => {
+        loginForm.addEventListener('submit', (event) => {
           event.preventDefault();
           const email = document.getElementById('login-email').value.trim();
           const password = document.getElementById('login-password').value;
-          if (await tryBackendAdminLogin(email, password)) {
-            syncRememberedLogin(email);
-            return;
-          }
           const user = getUsers().find((u) => u.email === email && u.password === password);
           const warningDiv = document.getElementById('failed-attempts-warning');
           const forgotPasswordLink = document.getElementById('forgot-password-link-container');
@@ -5061,6 +6024,7 @@
       async function updateLocalPlanPrices() {
         const targets = {
           Monthly: document.getElementById('plan-local-monthly'),
+          'Three-month': document.getElementById('plan-local-threemonth'),
           Yearly: document.getElementById('plan-local-yearly'),
           Lifetime: document.getElementById('plan-local-lifetime'),
         };
@@ -5108,6 +6072,33 @@
         });
       }
 
+      function renderPaymentMethodState() {
+        document.querySelectorAll('.payment-option').forEach((card) => {
+          const isSelected = card.dataset.method === selectedPaymentMethod;
+          card.classList.toggle('selected', isSelected);
+        });
+
+        const paymentDetails = PAYMENT_METHODS[selectedPaymentMethod] || PAYMENT_METHODS['card-worldwide'];
+        const methodEl = document.getElementById('payment-detail-method');
+        const nameEl = document.getElementById('payment-detail-name');
+        const accountEl = document.getElementById('payment-detail-account');
+        const lipaEl = document.getElementById('payment-detail-lipa');
+        const noteEl = document.querySelector('.payment-detail-note');
+
+        if (methodEl) methodEl.textContent = paymentDetails.label;
+        if (nameEl) nameEl.textContent = paymentDetails.accountName;
+        if (accountEl) accountEl.textContent = paymentDetails.accountNumber;
+        if (lipaEl) lipaEl.textContent = paymentDetails.lipaNumber;
+        if (noteEl) noteEl.textContent = paymentDetails.note;
+      }
+
+      document.querySelectorAll('.payment-option').forEach((card) => {
+        card.addEventListener('click', () => {
+          selectedPaymentMethod = card.dataset.method || selectedPaymentMethod;
+          renderPaymentMethodState();
+        });
+      });
+
       document.querySelectorAll('.plan-action').forEach((btn) => {
         btn.addEventListener('click', async (e) => {
           e.preventDefault();
@@ -5130,6 +6121,7 @@
       }
       updateLocalPlanPrices();
       renderSelectedPlanState();
+      renderPaymentMethodState();
 
       const confirmBtn = document.getElementById('confirm-payment');
       if (confirmBtn) {
@@ -5149,6 +6141,8 @@
           u.pendingCurrency = selectedPlanQuote.currency;
           u.pendingCurrencyCountry = selectedPlanQuote.country;
           u.pendingExchangeRate = selectedPlanQuote.rate;
+          u.pendingPaymentMethod = selectedPaymentMethod;
+          u.pendingPaymentDetails = PAYMENT_METHODS[selectedPaymentMethod] || PAYMENT_METHODS['card-worldwide'];
           u.paymentRequestedAt = new Date().toISOString();
           u.subscriptionPlan = selectedPlan;
           u.subscriptionStart = null;
@@ -5167,6 +6161,8 @@
       const supportBtn = document.getElementById('support-contact');
       const privacyBtn = document.getElementById('privacy-btn');
       const termsBtn = document.getElementById('terms-btn');
+      const riskBtn = document.getElementById('risk-btn');
+      const refundBtn = document.getElementById('refund-btn');
       const legalBtn = document.getElementById('legal-btn');
       const themeToggleBtn = document.getElementById('theme-toggle');
       const editForm = document.getElementById('edit-account-form');
@@ -5338,27 +6334,14 @@
         alert(`${users[index].name || users[index].email}'s access has been revoked.`);
       }
 
-      const adminCloseBtn = document.getElementById('admin-close');
       const logoutBtn = document.getElementById('logout-btn');
-      if (adminCloseBtn) {
-        adminCloseBtn.addEventListener('click', () => {
-          sessionStorage.removeItem(ADMIN_SESSION_KEY);
-          localStorage.removeItem(ADMIN_TOKEN_KEY);
-          const user = getUser();
-          if (isSubscriptionActive(user)) {
-            showStep('home');
-          } else {
-            showStep('opening');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+          if (window.confirm('Are you sure you want to logout?')) {
+            logout();
           }
         });
       }
-      document.addEventListener('click', (event) => {
-        const actionBtn = event.target.closest('.admin-user-action');
-        if (!actionBtn || !isAdminUnlocked()) return;
-        const email = actionBtn.dataset.email;
-        if (actionBtn.dataset.action === 'approve') approveUserPayment(email);
-        if (actionBtn.dataset.action === 'revoke' && window.confirm('Revoke this user access?')) revokeUserAccess(email);
-      });
       if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
           if (window.confirm('Are you sure you want to logout?')) {
@@ -5437,13 +6420,15 @@
       function showPolicy(key) {
         if (!policyPanel) return;
         policyPanel.classList.remove('hidden');
-        ['privacy-panel', 'terms-panel', 'legal-panel'].forEach((id) => {
+        ['privacy-panel', 'terms-panel', 'risk-panel', 'refund-panel', 'legal-panel'].forEach((id) => {
           const el = document.getElementById(id);
           if (el) el.classList.toggle('active', id === `${key}-panel`);
         });
       }
       if (privacyBtn) privacyBtn.addEventListener('click', () => showPolicy('privacy'));
       if (termsBtn) termsBtn.addEventListener('click', () => showPolicy('terms'));
+      if (riskBtn) riskBtn.addEventListener('click', () => showPolicy('risk'));
+      if (refundBtn) refundBtn.addEventListener('click', () => showPolicy('refund'));
       if (legalBtn) legalBtn.addEventListener('click', () => showPolicy('legal'));
       const renewBtn = document.getElementById('renew-sub');
       if (renewBtn) {
@@ -5722,6 +6707,32 @@
         calendarModal.addEventListener('click', (e) => {
           if (e.target === calendarModal) closeCalendarModal();
         });
+      }
+
+      // Grand Opening Splash Screen Initialization
+      function initializeGrandOpening() {
+        const splash = document.getElementById('grandOpeningSplash');
+        if (!splash) return;
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          splash.style.display = 'none';
+          return;
+        }
+
+        splash.classList.add('is-playing');
+
+        // Splash automatically fades out after the cinematic sequence.
+        // Remove splash after animation completes
+        setTimeout(() => {
+          splash.style.display = 'none';
+        }, 6800);
+      }
+
+      // Initialize on document ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeGrandOpening);
+      } else {
+        initializeGrandOpening();
       }
 
       // On load, render alerts and update home/profile

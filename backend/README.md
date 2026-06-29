@@ -31,6 +31,7 @@ Copy `backend/.env.example` to `.env` and change the secrets before deployment.
 - `POST /api/subscriptions/request` accepts `plan`, optional `usdAmount`, `localAmount`, `currency`, `currencyCountry`, `exchangeRate`, and `paymentReference`
 - `GET /api/admin/users` admin only
 - `PATCH /api/admin/users/:id/subscription` admin only
+- `GET /admin` admin page (Basic Auth protected)
 
 Authenticated requests use:
 

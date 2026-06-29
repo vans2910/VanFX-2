@@ -1,0 +1,310 @@
+=== Terms and Conditions.pdf ===
+Terms and Conditions
+Effective Date: [Insert Date]
+Last Updated: [Insert Date]
+Important Risk Warning
+Trading foreign exchange (Forex), cryptocurrencies, commodities, indices, and other financial instruments
+involves substantial risk and may not be suitable for all investors.
+Trading on margin carries a high level of risk and can result in losses exceeding your initial investment.
+Before engaging in any trading activity, you should carefully consider your investment objectives, financial
+situation, level of experience, and risk tolerance.
+You acknowledge that you may lose part or all of your invested capital and that you are solely responsible
+for your trading decisions.
+Acceptance of Terms
+By accessing or using VanPips, you agree to be bound by these Terms and Conditions.
+If you do not agree with any part of these Terms, you must discontinue use of the Service immediately.
+These Terms apply to all visitors, users, subscribers, and other persons who access or use the Service.
+Service Description
+VanPips provides educational and informational trading-related services, including but not limited to:
+Trading Signals
+• Real-time trading signals
+• Market analysis and insights
+• Trade entry and exit recommendations
+• Risk management guidance
+• Educational trading content
+Educational Resources
+• Trading tutorials and guides
+• Technical analysis education
+• Trading psychology content
+• Risk management strategies
+• Community discussions and support
+1
+
+All information is provided for educational and informational purposes only.
+User Responsibilities
+Account Security
+You are responsible for maintaining the confidentiality of your account credentials.
+You accept responsibility for all activities conducted under your account and agree to notify VanPips
+immediately of any unauthorized use or suspected security breach.
+Compliance with Laws
+You agree to use the Service in accordance with all applicable laws and regulations.
+You must not use the Service for any unlawful, fraudulent, or unauthorized purpose.
+Trading Decisions
+All trading decisions are made solely by you.
+VanPips does not make investment decisions on your behalf and does not guarantee any trading outcome.
+Risk Management
+You are responsible for implementing appropriate risk management strategies.
+You should never risk funds that you cannot afford to lose.
+Subscription and Payments
+Certain features of the Service may require a paid subscription.
+By purchasing a subscription, you agree to pay all applicable fees associated with your selected plan.
+Subscription access remains active until the expiration date of the purchased subscription period.
+Failure to renew a subscription may result in suspension or loss of access to premium content and services.
+All fees are displayed before payment and are subject to change upon notice.
+Refund Policy
+Unless otherwise required by applicable law, subscription fees are non-refundable once access to the
+Service has been granted.
+2
+
+Refund requests may be reviewed on a case-by-case basis at the sole discretion of VanPips.
+Prohibited Activities
+You agree not to:
+• Violate any applicable laws or regulations.
+• Share account credentials with third parties.
+• Copy, reproduce, distribute, or resell our content without authorization.
+• Attempt unauthorized access to our systems.
+• Interfere with the operation of the Service.
+• Upload harmful software, malware, or malicious code.
+• Use automated systems to scrape or access the Service.
+• Reverse engineer any software or technology associated with the Service.
+Disclaimer of Financial Advice
+The information provided through the Service is for educational and informational purposes only.
+Nothing contained within the Service constitutes financial, investment, legal, or tax advice.
+Users should seek advice from qualified professionals before making investment decisions.
+Past Performance Disclaimer
+Past performance is not indicative of future results.
+Historical performance, projected returns, or trading examples should not be relied upon as guarantees of
+future performance.
+Service Availability
+VanPips aims to provide reliable service but does not guarantee uninterrupted or error-free access.
+We reserve the right to modify, suspend, or discontinue any aspect of the Service at any time without prior
+notice.
+Third-Party Services
+The Service may contain links to third-party websites, products, or services.
+VanPips does not control and is not responsible for third-party content, policies, or practices.
+3
+
+Limitation of Liability
+To the fullest extent permitted by law, VanPips shall not be liable for:
+• Loss of profits
+• Trading losses
+• Loss of capital
+• Business interruption
+• Loss of data
+• Indirect, incidental, special, punitive, or consequential damages
+Our total liability shall not exceed the amount paid by you to VanPips during the twelve (12) months
+preceding the event giving rise to the claim.
+Intellectual Property
+All content, software, designs, trademarks, logos, graphics, and materials provided through the Service are
+the exclusive property of VanPips or its licensors.
+No content may be copied, modified, distributed, or reproduced without prior written permission.
+Privacy
+By using the Service, you consent to the collection and processing of information in accordance with our
+Privacy Policy.
+Termination
+By You
+You may terminate your account at any time using available account management features or by contacting
+us.
+By Us
+We reserve the right to suspend or terminate accounts that violate these Terms or engage in harmful
+activities.
+Governing Law
+These Terms shall be governed by and construed in accordance with the laws of the United Republic of
+Tanzania.
+Any disputes arising from these Terms shall be subject to the exclusive jurisdiction of the courts of Tanzania.
+4
+
+Changes to Terms
+We reserve the right to modify these Terms at any time.
+Material changes may be communicated through:
+• Website notices
+• In-app notifications
+• Email communications
+• Updated publication dates
+Continued use of the Service following such changes constitutes acceptance of the revised Terms.
+Contact Information
+For questions regarding these Terms, please contact us:
+Email: admin@vanpips.com
+Phone: +255 743 992 207
+We aim to respond to inquiries within 48 hours.
+5
+
+=== Privacy Policy.pdf ===
+Privacy Policy
+Effective Date: June 10, 2026
+Last Updated: June 10, 2026
+Introduction
+VanPips ("we," "our," or "us") respects your privacy and is committed to protecting your personal
+information.
+This Privacy Policy explains how we collect, use, store, and protect information when you use our website,
+mobile applications, and related services.
+By using VanPips, you agree to the collection and use of information in accordance with this Privacy Policy.
+Information We Collect
+Information You Provide
+We may collect:
+• Full name
+• Email address
+• Phone number
+• Account credentials
+• Subscription information
+• Customer support communications
+Payment Information
+Payments are processed through authorized payment providers.
+VanPips does not store mobile money PINs, banking passwords, or payment authentication credentials.
+Technical Information
+We may automatically collect:
+• IP address
+• Device information
+• Browser type
+• Operating system
+• Application usage statistics
+• Login activity
+• Cookies and similar technologies
+1
+
+How We Use Information
+We use collected information to:
+• Create and manage accounts
+• Provide trading signals and educational services
+• Process subscriptions
+• Improve platform performance
+• Respond to support requests
+• Prevent fraud and abuse
+• Comply with legal obligations
+• Send service-related notifications
+Marketing Communications
+We may send updates, newsletters, and promotional messages.
+You may unsubscribe from marketing communications at any time.
+Service-related notices may still be sent when necessary.
+Data Protection
+We implement reasonable technical and organizational safeguards to protect personal information,
+including:
+• Secure encrypted connections (HTTPS)
+• Access controls
+• Authentication systems
+• Monitoring and security measures
+However, no system can guarantee absolute security.
+Information Sharing
+We do not sell personal information.
+We may share information with:
+• Payment providers
+• Hosting providers
+• Analytics providers
+• Legal authorities when required by law
+Such sharing is limited to what is reasonably necessary.
+2
+
+Data Retention
+We retain information only for as long as necessary to provide services, comply with legal obligations,
+resolve disputes, and enforce agreements.
+User Rights
+Subject to applicable law, users may request:
+• Access to personal information
+• Correction of inaccurate information
+• Deletion of eligible information
+• Restriction of certain processing activities
+Children's Privacy
+VanPips is not intended for individuals under 18 years of age.
+We do not knowingly collect information from minors.
+Changes to This Policy
+We may update this Privacy Policy periodically.
+Updated versions will be posted on our website and applications.
+Contact Us
+Email: admin@vanpips.com
+Phone: +255 743 992 207
+3
+
+=== Risk Disclosure Statement.pdf ===
+Risk Disclosure Statement
+Effective Date: June 1, 2026
+Important Notice
+This Risk Disclosure Statement explains the risks associated with trading financial markets.
+You should carefully read and understand these risks before using VanPips services.
+No Guarantee of Profit
+VanPips does not guarantee profits, successful trades, account growth, or positive investment outcomes.
+Any examples, historical performance, analysis, or educational material should not be interpreted as
+guarantees of future results.
+Market Risk
+Financial markets are highly volatile.
+Prices may change rapidly due to economic events, political developments, market sentiment, liquidity
+conditions, or unexpected news.
+Losses can occur quickly.
+Leverage Risk
+Leveraged trading magnifies both profits and losses.
+Small market movements can have a significant impact on trading accounts.
+You may lose part or all of your investment.
+Signal Risk
+Trading signals provided by VanPips are educational and informational only.
+Signals may:
+• Fail to reach targets
+• Reach stop-loss levels
+• Produce losses
+1
+
+• Become invalid due to changing market conditions
+Users are solely responsible for deciding whether to execute any trade.
+Technology Risk
+Internet outages, platform failures, software issues, mobile network interruptions, broker system failures,
+or technical errors may affect trading activity.
+VanPips is not responsible for losses resulting from such events.
+Psychological Risk
+Emotional decision-making, overtrading, lack of discipline, and poor risk management can significantly
+increase losses.
+Users are responsible for maintaining appropriate trading discipline.
+Independent Decision-Making
+You acknowledge that all trading decisions are made independently.
+VanPips does not act as a financial advisor, portfolio manager, broker, or fiduciary.
+Suitability
+Trading may not be appropriate for all individuals.
+You should assess your own financial circumstances and seek independent professional advice where
+appropriate.
+Acknowledgment
+By using VanPips, you acknowledge that:
+• Trading involves substantial risk.
+• Losses may exceed expectations.
+• Past performance does not guarantee future results.
+• You are solely responsible for your trading decisions and outcomes.
+2
+
+=== Refund Policy.pdf ===
+Refund Policy
+Effective Date: June 10, 2026
+Overview
+This Refund Policy governs purchases of subscriptions and premium services offered by VanPips.
+By purchasing a subscription, you agree to this Refund Policy.
+Subscription Fees
+Subscription fees grant access to premium content, trading signals, educational resources, and related
+services for the selected subscription period.
+Access is provided immediately after successful payment.
+General Refund Policy
+Because digital services are delivered immediately upon activation, subscription payments are generally
+non-refundable.
+Once premium access has been granted, refunds will not normally be issued.
+Exceptional Circumstances
+Refund requests may be considered in limited circumstances, including:
+• Duplicate payments
+• Verified technical errors resulting in non-delivery of purchased services
+• Unauthorized transactions subject to investigation
+Approval of refunds remains at the sole discretion of VanPips where permitted by law.
+Incorrect Purchases
+Users are responsible for reviewing subscription plans and pricing before completing payment.
+Accidental purchases or failure to use the service generally do not qualify for refunds.
+1
+
+Service Interruptions
+Temporary service interruptions, maintenance periods, market closures, internet connectivity issues, or
+third-party provider outages do not automatically qualify for refunds.
+Chargebacks
+Users are encouraged to contact VanPips before initiating chargebacks or payment disputes.
+Fraudulent or abusive chargeback activity may result in suspension or termination of accounts.
+Refund Processing
+If a refund is approved, processing times may vary depending on the payment provider and financial
+institution.
+VanPips is not responsible for delays caused by third-party payment processors.
+Contact Us
+For refund inquiries:
+Email: admin@vanpips.com
+Phone: +255 743 992 207
+We aim to respond within 48 hours.
+2
+
