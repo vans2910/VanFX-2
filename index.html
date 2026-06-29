@@ -81,39 +81,120 @@
       /* Grand Opening Splash Screen */
       .grand-opening-splash {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(145deg, rgba(9, 13, 18, 0.98) 0%, rgba(21, 19, 15, 0.98) 42%, rgba(17, 23, 31, 0.98) 100%);
-        display: flex;
+        inset: 0;
+        width: 100vw;
+        min-height: 100svh;
+        background:
+          radial-gradient(circle at 50% 46%, rgba(66, 215, 202, 0.2) 0 9%, transparent 32%),
+          radial-gradient(circle at 68% 62%, rgba(240, 197, 106, 0.18) 0 12%, transparent 34%),
+          linear-gradient(145deg, #030508 0%, #091018 42%, #161207 100%);
+        display: grid;
+        grid-template-rows: 1fr auto;
         align-items: center;
         justify-content: center;
         z-index: 9999;
         overflow: hidden;
-        animation: splashFadeOut 0.8s ease-out 3.2s forwards;
+        isolation: isolate;
+        animation: splashFadeOut 0.9s cubic-bezier(0.65, 0, 0.35, 1) 5.7s forwards;
       }
 
       .grand-opening-splash::before {
         content: "";
         position: absolute;
-        inset: 0;
-        background: 
-          radial-gradient(circle at 20% 50%, rgba(66, 215, 202, 0.15) 0%, transparent 50%),
-          radial-gradient(circle at 80% 80%, rgba(240, 197, 106, 0.15) 0%, transparent 50%);
-        animation: splashGlowShift 3s ease-in-out;
+        inset: -18%;
+        z-index: -3;
+        background:
+          conic-gradient(from 218deg at 50% 50%, transparent 0 8%, rgba(66, 215, 202, 0.2) 14%, transparent 22% 44%, rgba(240, 197, 106, 0.22) 50%, transparent 62% 100%),
+          radial-gradient(circle at 50% 50%, transparent 0 24%, rgba(255, 255, 255, 0.04) 25% 25.5%, transparent 26% 100%);
+        animation: splashOrbit 5.8s cubic-bezier(0.2, 0.72, 0.18, 1) both;
       }
 
       .grand-opening-splash::after {
         content: "";
         position: absolute;
         inset: 0;
+        z-index: -2;
         background:
-          linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-        background-size: 80px 80px;
-        opacity: 0.5;
-        animation: splashGridShift 8s linear infinite;
+          linear-gradient(rgba(255, 255, 255, 0.075) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.075) 1px, transparent 1px),
+          linear-gradient(112deg, transparent 0 45%, rgba(255, 255, 255, 0.28) 49%, transparent 54% 100%);
+        background-size: 78px 78px, 78px 78px, 260% 100%;
+        opacity: 0.46;
+        mask-image: radial-gradient(circle at 50% 50%, #000 0 58%, transparent 82%);
+        animation: splashGridShift 5.8s linear both, splashLightSweep 5.8s cubic-bezier(0.34, 0.02, 0.18, 1) both;
+      }
+
+      .splash-market-film {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        opacity: 0.95;
+      }
+
+      .splash-market-film span {
+        position: absolute;
+        display: block;
+        border-radius: 999px;
+        opacity: 0;
+      }
+
+      .splash-candle {
+        bottom: 12%;
+        width: 10px;
+        height: var(--h);
+        left: var(--x);
+        color: var(--c);
+        background: currentColor;
+        box-shadow: 0 0 28px currentColor;
+        animation: splashCandleRise 4.8s cubic-bezier(0.16, 1, 0.3, 1) var(--d) both;
+      }
+
+      .splash-candle::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: calc((var(--wick) - var(--h)) / -2);
+        width: 2px;
+        height: var(--wick);
+        transform: translateX(-50%);
+        background: currentColor;
+        opacity: 0.58;
+      }
+
+      .splash-ticker {
+        left: -40%;
+        width: 38%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(66, 215, 202, 0.68), rgba(240, 197, 106, 0.54), transparent);
+        transform: translateY(var(--y)) rotate(var(--r));
+        animation: splashTicker 4.9s cubic-bezier(0.16, 1, 0.3, 1) var(--d) both;
+      }
+
+      .splash-signal-line {
+        position: absolute;
+        inset: 22% 8% auto;
+        height: min(34vh, 310px);
+        opacity: 0;
+        animation: splashSignalReveal 4.7s cubic-bezier(0.2, 0.72, 0.18, 1) 0.78s both;
+      }
+
+      .splash-signal-line svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      .splash-signal-line path {
+        stroke-dasharray: 920;
+        stroke-dashoffset: 920;
+        animation: splashPathDraw 3.2s cubic-bezier(0.16, 1, 0.3, 1) 1.02s forwards;
+      }
+
+      .splash-signal-line circle {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: splashDotPulse 1.45s ease-in-out 2.75s infinite;
       }
 
       .splash-content {
@@ -122,154 +203,361 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 32px;
+        gap: clamp(18px, 3.5vh, 32px);
         text-align: center;
+        width: min(760px, calc(100vw - 36px));
+        padding: clamp(18px, 4vw, 44px);
+        animation: splashFinalLift 5.8s cubic-bezier(0.2, 0.72, 0.18, 1) both;
       }
 
       .splash-logo-container {
-        width: 140px;
-        height: 140px;
+        width: clamp(168px, 24vw, 286px);
+        height: clamp(168px, 24vw, 286px);
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
+        perspective: 1200px;
+      }
+
+      .splash-logo-container::before,
+      .splash-logo-container::after {
+        content: "";
+        position: absolute;
+        inset: -14%;
+        border: 1px solid rgba(240, 197, 106, 0.32);
+        border-radius: 28%;
+        opacity: 0;
+        animation: splashFrameSpin 5.4s cubic-bezier(0.2, 0.72, 0.18, 1) 0.25s both;
+      }
+
+      .splash-logo-container::after {
+        inset: -6%;
+        border-color: rgba(66, 215, 202, 0.34);
+        animation-direction: reverse;
       }
 
       .splash-logo-wrapper {
         width: 100%;
         height: 100%;
         position: relative;
-        animation: splashLogoScale 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0s;
+        transform-style: preserve-3d;
+        animation: splashLogoScale 5.8s cubic-bezier(0.2, 0.72, 0.18, 1) both;
       }
 
       .splash-logo-wrapper svg {
         width: 100%;
         height: 100%;
-        filter: drop-shadow(0 24px 64px rgba(66, 215, 202, 0.2)) drop-shadow(0 0 40px rgba(240, 197, 106, 0.15));
+        overflow: visible;
+        filter: drop-shadow(0 30px 70px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 42px rgba(66, 215, 202, 0.34)) drop-shadow(0 0 58px rgba(240, 197, 106, 0.22));
       }
 
-      .splash-logo-wrapper .logo-gradient-circle {
-        animation: splashCircleStroke 2.5s ease-in-out 0.3s;
+      .splash-logo-wrapper .logo-orbit {
+        stroke-dasharray: 640;
+        stroke-dashoffset: 640;
+        animation: splashCircleStroke 2.65s cubic-bezier(0.16, 1, 0.3, 1) 0.32s forwards;
       }
 
-      .splash-logo-wrapper .logo-accent-line {
-        animation: splashLineReveal 1.2s ease-out 1s;
+      .splash-logo-wrapper .logo-inner-ring {
+        stroke-dasharray: 460;
+        stroke-dashoffset: 460;
+        animation: splashCircleStroke 2.15s cubic-bezier(0.16, 1, 0.3, 1) 0.68s forwards;
+      }
+
+      .splash-logo-wrapper .logo-accent-line,
+      .splash-logo-wrapper .logo-growth-line {
+        stroke-dasharray: 220;
+        stroke-dashoffset: 220;
+        animation: splashLineReveal 1.65s cubic-bezier(0.16, 1, 0.3, 1) 1.65s forwards;
+      }
+
+      .splash-logo-wrapper .logo-monogram,
+      .splash-logo-wrapper .logo-pips {
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: splashPipsReveal 1.15s cubic-bezier(0.16, 1, 0.3, 1) 1.18s forwards;
       }
 
       .splash-logo-wrapper .logo-pips {
-        animation: splashPipsReveal 1.5s ease-out 1.2s;
+        animation-delay: 1.72s;
+      }
+
+      .splash-logo-wrapper .logo-spark {
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: splashSpark 1.8s ease-out var(--d) forwards;
       }
 
       .splash-tagline {
-        font-size: 0.95rem;
-        font-weight: 700;
-        letter-spacing: 0.15em;
+        margin: 0;
+        font-size: clamp(2.6rem, 9vw, 6.8rem);
+        line-height: 0.84;
+        font-weight: 950;
+        letter-spacing: 0;
         text-transform: uppercase;
-        background: linear-gradient(135deg, #42d7ca, #f0c56a, #42d7ca);
-        background-size: 300% 100%;
+        background: linear-gradient(94deg, #ffffff 0%, #42d7ca 31%, #f0c56a 63%, #ffffff 100%);
+        background-size: 220% 100%;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        animation: splashTaglineGlow 3s ease-in-out 0.6s, splashTextFade 0.6s ease-out 2.6s forwards;
+        filter: drop-shadow(0 18px 42px rgba(0, 0, 0, 0.62));
+        animation: splashTitleReveal 5.8s cubic-bezier(0.2, 0.72, 0.18, 1) both;
       }
 
       .splash-subtitle {
-        font-size: 0.85rem;
-        color: rgba(171, 180, 188, 0.8);
-        max-width: 260px;
-        line-height: 1.6;
-        animation: splashTextFade 0.8s ease-out 1.8s both;
+        margin: 0;
+        font-size: clamp(0.95rem, 2.3vw, 1.18rem);
+        color: rgba(232, 238, 244, 0.88);
+        max-width: 560px;
+        line-height: 1.62;
+        animation: splashTextFade 1.05s cubic-bezier(0.16, 1, 0.3, 1) 3.05s both;
         letter-spacing: 0.03em;
       }
 
+      .splash-progress {
+        position: absolute;
+        left: 50%;
+        bottom: clamp(24px, 6vh, 58px);
+        width: min(420px, calc(100vw - 52px));
+        height: 2px;
+        overflow: hidden;
+        transform: translateX(-50%);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .splash-progress::before {
+        content: "";
+        display: block;
+        width: 100%;
+        height: 100%;
+        transform-origin: left center;
+        transform: scaleX(0);
+        background: linear-gradient(90deg, #42d7ca, #f0c56a, #ff846f);
+        box-shadow: 0 0 22px rgba(66, 215, 202, 0.55);
+        animation: splashProgress 5.45s cubic-bezier(0.2, 0.72, 0.18, 1) 0.18s forwards;
+      }
+
       @keyframes splashLogoScale {
-        from {
+        0% {
           opacity: 0;
-          transform: scale(0.7) rotateZ(-15deg);
+          transform: translateY(34px) scale(0.64) rotateX(58deg) rotateZ(-18deg);
         }
-        to {
+        18% {
           opacity: 1;
-          transform: scale(1) rotateZ(0deg);
+          transform: translateY(0) scale(1.04) rotateX(0) rotateZ(0);
+        }
+        68% {
+          opacity: 1;
+          transform: translateY(0) scale(1) rotateX(0) rotateZ(0);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(-12px) scale(0.9);
         }
       }
 
       @keyframes splashCircleStroke {
-        from {
-          stroke-dasharray: 566;
-          stroke-dashoffset: 566;
-          opacity: 0;
-        }
         to {
-          stroke-dasharray: 566;
           stroke-dashoffset: 0;
-          opacity: 1;
+        }
+      }
+
+      @keyframes splashFrameSpin {
+        0% {
+          opacity: 0;
+          transform: rotate(28deg) scale(0.68);
+        }
+        18%,
+        82% {
+          opacity: 0.72;
+        }
+        100% {
+          opacity: 0;
+          transform: rotate(118deg) scale(1.16);
         }
       }
 
       @keyframes splashPipsReveal {
-        from {
+        0% {
           opacity: 0;
-          transform: translateY(16px);
+          transform: translateY(20px) scale(0.82);
         }
-        to {
+        100% {
           opacity: 1;
           transform: translateY(0);
         }
       }
 
       @keyframes splashLineReveal {
-        from {
+        0% {
           opacity: 0;
-          stroke-dasharray: 120;
-          stroke-dashoffset: 120;
         }
-        to {
+        20%,
+        100% {
           opacity: 1;
-          stroke-dasharray: 120;
           stroke-dashoffset: 0;
         }
       }
 
-      @keyframes splashTaglineGlow {
+      @keyframes splashTitleReveal {
         0% {
+          opacity: 0;
+          letter-spacing: 0.16em;
+          transform: translateY(26px) scale(0.9);
           background-position: 0% center;
+        }
+        42% {
           opacity: 0;
         }
-        50% {
+        58% {
+          opacity: 1;
+          letter-spacing: 0;
+          transform: translateY(0) scale(1);
           background-position: 100% center;
         }
         100% {
-          background-position: 200% center;
           opacity: 1;
+          background-position: 200% center;
         }
       }
 
       @keyframes splashTextFade {
-        from {
+        0% {
           opacity: 0;
           transform: translateY(12px);
         }
-        to {
+        100% {
           opacity: 1;
           transform: translateY(0);
         }
       }
 
-      @keyframes splashGlowShift {
-        0%, 100% {
-          opacity: 0.7;
+      @keyframes splashSpark {
+        0% {
+          opacity: 0;
+          transform: translateY(16px) scale(0.2);
         }
         50% {
           opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        100% {
+          opacity: 0.1;
+          transform: translateY(-8px) scale(0.78);
+        }
+      }
+
+      @keyframes splashOrbit {
+        0% {
+          opacity: 0;
+          transform: rotate(-30deg) scale(0.74);
+        }
+        18% {
+          opacity: 0.95;
+        }
+        100% {
+          opacity: 0.55;
+          transform: rotate(96deg) scale(1.1);
         }
       }
 
       @keyframes splashGridShift {
         0% {
-          transform: translateY(0);
+          transform: translate3d(0, -36px, 0) scale(1.05);
         }
         100% {
-          transform: translateY(80px);
+          transform: translate3d(0, 42px, 0) scale(1.05);
+        }
+      }
+
+      @keyframes splashLightSweep {
+        0%,
+        32% {
+          background-position: 0 0, 0 0, 170% 0;
+        }
+        76%,
+        100% {
+          background-position: 0 78px, 78px 0, -80% 0;
+        }
+      }
+
+      @keyframes splashCandleRise {
+        0% {
+          opacity: 0;
+          transform: translateY(96px) scaleY(0.16);
+        }
+        22%,
+        76% {
+          opacity: 0.72;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-38px) scaleY(1);
+        }
+      }
+
+      @keyframes splashTicker {
+        0% {
+          opacity: 0;
+          transform: translate(-10vw, var(--y)) rotate(var(--r));
+        }
+        20%,
+        70% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(165vw, var(--y)) rotate(var(--r));
+        }
+      }
+
+      @keyframes splashSignalReveal {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        16%,
+        72% {
+          opacity: 0.95;
+        }
+      }
+
+      @keyframes splashPathDraw {
+        to {
+          stroke-dashoffset: 0;
+        }
+      }
+
+      @keyframes splashDotPulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.7;
+        }
+        50% {
+          transform: scale(1.8);
+          opacity: 1;
+        }
+      }
+
+      @keyframes splashFinalLift {
+        0%,
+        82% {
+          transform: translateY(0) scale(1);
+          filter: brightness(1);
+        }
+        100% {
+          transform: translateY(-4vh) scale(1.025);
+          filter: brightness(1.18);
+        }
+      }
+
+      @keyframes splashProgress {
+        to {
+          transform: scaleX(1);
         }
       }
 
@@ -2952,57 +3240,93 @@
   </head>
   <body>
     <!-- Grand Opening Splash Screen -->
-    <div class="grand-opening-splash" id="grandOpeningSplash">
+    <div class="grand-opening-splash" id="grandOpeningSplash" role="status" aria-label="Opening VAN PIPS">
+      <div class="splash-market-film" aria-hidden="true">
+        <span class="splash-candle" style="--x: 7%; --h: 76px; --wick: 138px; --c: #63dc93; --d: 0.25s"></span>
+        <span class="splash-candle" style="--x: 15%; --h: 118px; --wick: 188px; --c: #ff6868; --d: 0.48s"></span>
+        <span class="splash-candle" style="--x: 24%; --h: 142px; --wick: 216px; --c: #63dc93; --d: 0.62s"></span>
+        <span class="splash-candle" style="--x: 34%; --h: 96px; --wick: 176px; --c: #42d7ca; --d: 0.78s"></span>
+        <span class="splash-candle" style="--x: 47%; --h: 184px; --wick: 264px; --c: #f0c56a; --d: 0.92s"></span>
+        <span class="splash-candle" style="--x: 61%; --h: 124px; --wick: 208px; --c: #63dc93; --d: 1.08s"></span>
+        <span class="splash-candle" style="--x: 74%; --h: 166px; --wick: 246px; --c: #ff846f; --d: 1.2s"></span>
+        <span class="splash-candle" style="--x: 87%; --h: 132px; --wick: 218px; --c: #42d7ca; --d: 1.36s"></span>
+        <span class="splash-ticker" style="--y: 24vh; --r: -7deg; --d: 0.3s"></span>
+        <span class="splash-ticker" style="--y: 44vh; --r: 4deg; --d: 1.05s"></span>
+        <span class="splash-ticker" style="--y: 64vh; --r: -3deg; --d: 1.65s"></span>
+      </div>
+      <div class="splash-signal-line" aria-hidden="true">
+        <svg viewBox="0 0 1200 320" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 246 C120 214 144 256 232 218 C315 182 352 228 434 164 C522 96 600 182 684 118 C772 52 818 82 890 52 C982 16 1066 62 1180 22" stroke="url(#splashSignalGradient)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="890" cy="52" r="10" fill="#f0c56a" />
+          <circle cx="1180" cy="22" r="12" fill="#42d7ca" />
+          <defs>
+            <linearGradient id="splashSignalGradient" x1="20" y1="246" x2="1180" y2="22" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#42d7ca" stop-opacity="0" />
+              <stop offset="0.22" stop-color="#42d7ca" />
+              <stop offset="0.62" stop-color="#f0c56a" />
+              <stop offset="1" stop-color="#ff846f" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
       <div class="splash-content">
         <div class="splash-logo-container">
           <div class="splash-logo-wrapper">
-            <svg viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
-                <linearGradient id="splashGradient1" x1="10" y1="10" x2="150" y2="150" gradientUnits="userSpaceOnUse">
+                <linearGradient id="splashGradient1" x1="18" y1="18" x2="202" y2="202" gradientUnits="userSpaceOnUse">
                   <stop offset="0%" stop-color="#42d7ca" />
+                  <stop offset="46%" stop-color="#f7f3ea" />
                   <stop offset="100%" stop-color="#f0c56a" />
                 </linearGradient>
-                <linearGradient id="splashGradient2" x1="80" y1="20" x2="80" y2="140" gradientUnits="userSpaceOnUse">
+                <linearGradient id="splashGradient2" x1="110" y1="22" x2="110" y2="194" gradientUnits="userSpaceOnUse">
                   <stop offset="0%" stop-color="#42d7ca" />
                   <stop offset="100%" stop-color="#ff846f" />
                 </linearGradient>
-                <filter id="splashGlow">
-                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                <radialGradient id="splashCore" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(110 110) rotate(90) scale(88)">
+                  <stop stop-color="#ffffff" stop-opacity="0.16" />
+                  <stop offset="0.52" stop-color="#42d7ca" stop-opacity="0.08" />
+                  <stop offset="1" stop-color="#030508" stop-opacity="0.92" />
+                </radialGradient>
+                <filter id="splashGlow" x="-35%" y="-35%" width="170%" height="170%">
+                  <feGaussianBlur stdDeviation="3.2" result="coloredBlur"/>
                   <feMerge>
                     <feMergeNode in="coloredBlur"/>
                     <feMergeNode in="SourceGraphic"/>
                   </feMerge>
                 </filter>
+                <filter id="splashLogoShadow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#000000" flood-opacity="0.55"/>
+                  <feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#42d7ca" flood-opacity="0.32"/>
+                </filter>
               </defs>
-              <!-- Outer Glow Circle -->
-              <circle cx="80" cy="80" r="72" stroke="url(#splashGradient1)" stroke-width="3" opacity="0.4" />
-              <!-- Main Circle -->
-              <circle class="logo-gradient-circle" cx="80" cy="80" r="65" stroke="url(#splashGradient1)" stroke-width="8" fill="none" filter="url(#splashGlow)" />
-              <!-- Inner Accent -->
-              <circle cx="80" cy="80" r="58" stroke="rgba(66, 215, 202, 0.2)" stroke-width="1" />
-              <!-- Dynamic PIPS Chart Lines (Candlesticks) -->
-              <g class="logo-pips">
-                <!-- P1 -->
-                <line x1="45" y1="65" x2="45" y2="105" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" />
-                <line x1="35" y1="85" x2="55" y2="85" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" opacity="0.8" />
-                <!-- I -->
-                <line x1="70" y1="50" x2="70" y2="110" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" opacity="0.7" />
-                <!-- P2 -->
-                <line x1="90" y1="70" x2="90" y2="100" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" />
-                <line x1="80" y1="88" x2="100" y2="88" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" opacity="0.8" />
-                <!-- S -->
-                <path d="M 115 75 Q 110 65 120 60 Q 130 65 125 75 Q 120 85 130 90 Q 120 95 115 100" stroke="url(#splashGradient2)" stroke-width="6" stroke-linecap="round" fill="none" />
+              <circle cx="110" cy="110" r="98" fill="url(#splashCore)" stroke="rgba(255,255,255,0.08)" stroke-width="1.4" />
+              <circle class="logo-orbit" cx="110" cy="110" r="94" stroke="url(#splashGradient1)" stroke-width="6" fill="none" filter="url(#splashGlow)" />
+              <circle class="logo-inner-ring" cx="110" cy="110" r="74" stroke="rgba(66, 215, 202, 0.48)" stroke-width="1.8" fill="none" />
+              <path class="logo-accent-line" d="M48 164 L92 58 L112 116 L136 78 L172 166" stroke="url(#splashGradient1)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#splashGlow)" />
+              <path class="logo-growth-line" d="M42 126 C66 118 76 142 98 118 C119 95 132 106 148 82 C160 64 171 61 184 52" stroke="#f0c56a" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.92" />
+              <g class="logo-monogram" filter="url(#splashLogoShadow)">
+                <path d="M50 56 L86 156 L110 98 L135 156 L171 56" stroke="#f7f3ea" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                <path d="M96 57 H134 C155 57 169 70 169 90 C169 112 153 125 129 125 H108" stroke="url(#splashGradient2)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" />
               </g>
-              <!-- Diagonal Energy Line -->
-              <line class="logo-accent-line" x1="35" y1="35" x2="125" y2="125" stroke="#f0c56a" stroke-width="4" stroke-linecap="round" opacity="0.7" />
-              <!-- Center Dot -->
-              <circle cx="80" cy="80" r="4" fill="url(#splashGradient1)" />
+              <g class="logo-pips" filter="url(#splashGlow)">
+                <line x1="67" y1="124" x2="67" y2="154" stroke="#42d7ca" stroke-width="5" stroke-linecap="round" />
+                <line x1="57" y1="138" x2="77" y2="138" stroke="#42d7ca" stroke-width="7" stroke-linecap="round" />
+                <line x1="108" y1="132" x2="108" y2="171" stroke="#f0c56a" stroke-width="5" stroke-linecap="round" />
+                <line x1="98" y1="151" x2="118" y2="151" stroke="#f0c56a" stroke-width="7" stroke-linecap="round" />
+                <line x1="149" y1="119" x2="149" y2="156" stroke="#ff846f" stroke-width="5" stroke-linecap="round" />
+                <line x1="139" y1="133" x2="159" y2="133" stroke="#ff846f" stroke-width="7" stroke-linecap="round" />
+              </g>
+              <circle class="logo-spark" style="--d: 2.1s" cx="184" cy="52" r="6" fill="#f0c56a" />
+              <circle class="logo-spark" style="--d: 2.32s" cx="48" cy="164" r="4" fill="#42d7ca" />
+              <circle class="logo-spark" style="--d: 2.54s" cx="172" cy="166" r="5" fill="#ff846f" />
             </svg>
           </div>
         </div>
-        <div class="splash-tagline">Trading Excellence</div>
-        <div class="splash-subtitle">Where discipline meets opportunity. Your path to consistent profits starts here.</div>
+        <h1 class="splash-tagline">VanPips</h1>
+        <p class="splash-subtitle">Precision signals, disciplined execution, and a premium trading experience built to feel unforgettable from the first second.</p>
       </div>
+      <div class="splash-progress" aria-hidden="true"></div>
     </div>
 
     <main class="page-shell" aria-label="VAN PIPS opening and registration page">
@@ -6389,24 +6713,19 @@ Trade with proper risk management and verify all decisions independently.</div>
       function initializeGrandOpening() {
         const splash = document.getElementById('grandOpeningSplash');
         if (!splash) return;
-        
-        // Check if splash has been seen before (stored in session)
-        const splashSeen = sessionStorage.getItem('vanPipsSplashSeen');
-        
-        if (splashSeen) {
-          // Hide splash immediately if already seen in this session
+
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
           splash.style.display = 'none';
           return;
         }
-        
-        // Mark splash as seen for this session
-        sessionStorage.setItem('vanPipsSplashSeen', 'true');
-        
-        // Splash will automatically fade out after 4 seconds due to CSS animation
+
+        splash.classList.add('is-playing');
+
+        // Splash automatically fades out after the cinematic sequence.
         // Remove splash after animation completes
         setTimeout(() => {
           splash.style.display = 'none';
-        }, 4000);
+        }, 6800);
       }
 
       // Initialize on document ready
